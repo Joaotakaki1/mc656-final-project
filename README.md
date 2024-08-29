@@ -1,5 +1,5 @@
 # Tema: 
-Aplicativo de Gamificação do Processo Sustentável
+Aplicativo de Gamificação do Processo Sustentável.
 # Integrantes:
 
   <ul>260545, João Yukio Takaki</ul>
