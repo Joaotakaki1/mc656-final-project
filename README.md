@@ -1,4 +1,4 @@
-Tema: Aplicativo de Gamificação do Processo Sustentável
+Tema: Aplicativo de Gamificação do Processo Sustentável\n
 Integrantes:
 260545, João Yukio Takaki
 246125, Lucas Cardoso
