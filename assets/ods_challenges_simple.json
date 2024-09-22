@@ -1,0 +1,297 @@
+[
+    {
+        "desafio": "Plante uma árvore.",
+        "tema": "Vida Terrestre",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Doe roupas para quem precisa.",
+        "tema": "Redução das Desigualdades",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Doe alimentos para uma instituição carente.",
+        "tema": "Fome Zero",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Ajude a limpar uma praia ou parque.",
+        "tema": "Vida na Água",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Economize água ao tomar banho.",
+        "tema": "Água Potável e Saneamento",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Utilize transporte público por um dia.",
+        "tema": "Cidades e Comunidades Sustentáveis",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Separe o lixo reciclável corretamente.",
+        "tema": "Consumo e Produção Responsáveis",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Apague as luzes ao sair de um cômodo.",
+        "tema": "Energia Limpa e Acessível",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Doe sangue.",
+        "tema": "Saúde e Bem-Estar",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Compartilhe nas redes sociais informações sobre os ODS.",
+        "tema": "Parcerias e Meios de Implementação",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Use sacolas reutilizáveis ao fazer compras.",
+        "tema": "Consumo e Produção Responsáveis",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Ensine uma criança a economizar água e energia.",
+        "tema": "Educação de Qualidade",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Ajude uma pessoa idosa com compras ou tarefas.",
+        "tema": "Redução das Desigualdades",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Faça uma campanha online para arrecadar fundos para uma ONG.",
+        "tema": "Parcerias e Meios de Implementação",
+        "dificuldade": "Médio"
+    },
+    {
+        "desafio": "Participe de uma campanha de doação de brinquedos.",
+        "tema": "Redução das Desigualdades",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Organize uma coleta de lixo no seu bairro.",
+        "tema": "Cidades e Comunidades Sustentáveis",
+        "dificuldade": "Médio"
+    },
+    {
+        "desafio": "Evite o uso de plásticos descartáveis por uma semana.",
+        "tema": "Consumo e Produção Responsáveis",
+        "dificuldade": "Médio"
+    },
+    {
+        "desafio": "Participe de uma palestra ou evento sobre sustentabilidade.",
+        "tema": "Educação de Qualidade",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Doe materiais escolares para uma criança em necessidade.",
+        "tema": "Educação de Qualidade",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Crie um grupo local para debater os ODS.",
+        "tema": "Paz, Justiça e Instituições Eficazes",
+        "dificuldade": "Médio"
+    },
+    {
+        "desafio": "Reduza o uso de água na lavagem de roupas.",
+        "tema": "Água Potável e Saneamento",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Plante flores em espaços públicos.",
+        "tema": "Vida Terrestre",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Organize uma arrecadação de alimentos para pessoas necessitadas.",
+        "tema": "Fome Zero",
+        "dificuldade": "Médio"
+    },
+    {
+        "desafio": "Compre produtos de pequenos produtores locais.",
+        "tema": "Trabalho Decente e Crescimento Econômico",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Promova um debate sobre igualdade de gênero na sua comunidade.",
+        "tema": "Igualdade de Gênero",
+        "dificuldade": "Médio"
+    },
+    {
+        "desafio": "Recicle equipamentos eletrônicos antigos.",
+        "tema": "Consumo e Produção Responsáveis",
+        "dificuldade": "Médio"
+    },
+    {
+        "desafio": "Evite o desperdício de alimentos em casa.",
+        "tema": "Fome Zero",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Doe livros para bibliotecas comunitárias.",
+        "tema": "Educação de Qualidade",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Organize um mutirão para consertar brinquedos quebrados.",
+        "tema": "Redução das Desigualdades",
+        "dificuldade": "Médio"
+    },
+    {
+        "desafio": "Evite comprar produtos com excesso de embalagens.",
+        "tema": "Consumo e Produção Responsáveis",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Participe de um projeto de reflorestamento.",
+        "tema": "Vida Terrestre",
+        "dificuldade": "Médio"
+    },
+    {
+        "desafio": "Compartilhe caronas para reduzir o consumo de combustível.",
+        "tema": "Energia Limpa e Acessível",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Promova a inclusão de pessoas com deficiência no trabalho.",
+        "tema": "Redução das Desigualdades",
+        "dificuldade": "Médio"
+    },
+    {
+        "desafio": "Ajude a divulgar iniciativas de preservação ambiental.",
+        "tema": "Ação Contra a Mudança Global do Clima",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Contribua para a preservação de áreas verdes em sua cidade.",
+        "tema": "Vida Terrestre",
+        "dificuldade": "Médio"
+    },
+    {
+        "desafio": "Organize uma feira de trocas de roupas usadas.",
+        "tema": "Consumo e Produção Responsáveis",
+        "dificuldade": "Médio"
+    },
+    {
+        "desafio": "Participe de uma campanha de conscientização sobre reciclagem.",
+        "tema": "Consumo e Produção Responsáveis",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Promova um evento de plantio de árvores em sua comunidade.",
+        "tema": "Vida Terrestre",
+        "dificuldade": "Médio"
+    },
+    {
+        "desafio": "Doe móveis usados para uma instituição de caridade.",
+        "tema": "Redução das Desigualdades",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Ensine crianças sobre a importância da reciclagem.",
+        "tema": "Educação de Qualidade",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Faça uma compostagem caseira com resíduos orgânicos.",
+        "tema": "Consumo e Produção Responsáveis",
+        "dificuldade": "Médio"
+    },
+    {
+        "desafio": "Participe de uma roda de conversa sobre mudanças climáticas.",
+        "tema": "Ação Contra a Mudança Global do Clima",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Ajude a proteger nascentes de rios em sua região.",
+        "tema": "Água Potável e Saneamento",
+        "dificuldade": "Médio"
+    },
+    {
+        "desafio": "Doe brinquedos usados para crianças em situação de vulnerabilidade.",
+        "tema": "Redução das Desigualdades",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Ajude a organizar uma feira de produtos orgânicos.",
+        "tema": "Fome Zero",
+        "dificuldade": "Médio"
+    },
+    {
+        "desafio": "Promova uma campanha de incentivo ao uso de bicicletas.",
+        "tema": "Cidades e Comunidades Sustentáveis",
+        "dificuldade": "Médio"
+    },
+    {
+        "desafio": "Reduza o uso de sacolas plásticas no dia a dia.",
+        "tema": "Consumo e Produção Responsáveis",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Promova uma oficina de reciclagem de papel.",
+        "tema": "Consumo e Produção Responsáveis",
+        "dificuldade": "Médio"
+    },
+    {
+        "desafio": "Doe alimentos não perecíveis para famílias necessitadas.",
+        "tema": "Fome Zero",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Organize um evento comunitário para promover a sustentabilidade.",
+        "tema": "Cidades e Comunidades Sustentáveis",
+        "dificuldade": "Difícil"
+    },
+    {
+        "desafio": "Desenvolva um projeto de energia renovável para sua comunidade.",
+        "tema": "Energia Limpa e Acessível",
+        "dificuldade": "Difícil"
+    },
+    {
+        "desafio": "Crie uma campanha de conscientização sobre a importância da biodiversidade.",
+        "tema": "Vida Terrestre",
+        "dificuldade": "Difícil"
+    },
+    {
+        "desafio": "Implemente um sistema de coleta seletiva em sua escola ou empresa.",
+        "tema": "Consumo e Produção Responsáveis",
+        "dificuldade": "Difícil"
+    },
+    {
+        "desafio": "Organize uma maratona de programação para desenvolver soluções para os ODS.",
+        "tema": "Parcerias e Meios de Implementação",
+        "dificuldade": "Difícil"
+    },
+    {
+        "desafio": "Crie um aplicativo para ajudar na reciclagem de resíduos eletrônicos.",
+        "tema": "Consumo e Produção Responsáveis",
+        "dificuldade": "Difícil"
+    },
+    {
+        "desafio": "Desenvolva um projeto de captação de água da chuva para uso doméstico.",
+        "tema": "Água Potável e Saneamento",
+        "dificuldade": "Difícil"
+    },
+    {
+        "desafio": "Organize uma feira de ciências sobre mudanças climáticas.",
+        "tema": "Ação Contra a Mudança Global do Clima",
+        "dificuldade": "Difícil"
+    },
+    {
+        "desafio": "Crie um programa de mentoria para jovens em situação de vulnerabilidade.",
+        "tema": "Redução das Desigualdades",
+        "dificuldade": "Difícil"
+    },
+    {
+        "desafio": "Desenvolva uma campanha de arrecadação de fundos para construir uma escola em uma área carente.",
+        "tema": "Educação de Qualidade",
+        "dificuldade": "Difícil"
+    }
+]
