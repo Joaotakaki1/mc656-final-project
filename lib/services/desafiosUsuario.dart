@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'desafio.dart';
+import '../models/desafio.dart';
 import 'dart:math';
 
 class DesafiosUsuario {
