@@ -18,7 +18,7 @@ class SignUp {
     }
 
     // Adicionar o usuário ao banco de dados (users.json)
-    final file = File('users.json');
+    final file = File('assets/users.json');
     List<dynamic> users = [];
 
     if (file.existsSync()) {
