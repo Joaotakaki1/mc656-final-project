@@ -1,5 +1,5 @@
 Lucas Cardoso  (RA246125)
-Nome do Fulano  (RAXXXXX)
+José Eduardo Santos Rabelo (RA260551)
 Nome do Fulano  (RAXXXXX)
 Nome do Fulano  (RAXXXXX)
 Nome do Fulano  (RAXXXXX)
