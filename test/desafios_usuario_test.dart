@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mc656finalproject/desafiosUsuario.dart';
+import 'package:mc656finalproject/services/desafiosUsuario.dart';
 
 void main() {
   group('DesafiosUsuario', () {
