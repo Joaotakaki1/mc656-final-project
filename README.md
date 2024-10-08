@@ -11,6 +11,9 @@ foi criado um aplicativo que, diariamente, proporciona diferentes desafios sobre
   <ul>260660, Rafael De Almeida Casonato</ul>
   <ul>RA 247277, Matheus Hencklein Ponte</ul>
 
+# Prototipação:
+[Figma](https://www.figma.com/design/tAOCrY6VNnqSlHbewg3db4/Untitled?node-id=25-24&t=vmKW9GMzskKzTwA8-1)
+
 # Repositório: 
-https://github.com/Joaotakaki1/mc656-final-project
+[GitHub](https://github.com/Joaotakaki1/mc656-final-project)
 
