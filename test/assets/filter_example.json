@@ -1,0 +1,45 @@
+[
+    {
+        "desafio": "Plante uma árvore.",
+        "tema": "Vida Terrestre",
+        "dificuldade": "Fácil"
+    },
+
+    {
+        "desafio": "Plante flores em espaços públicos.",
+        "tema": "Vida Terrestre",
+        "dificuldade": "Fácil"
+    },
+
+    {
+        "desafio": "Participe de um projeto de reflorestamento.",
+        "tema": "Vida Terrestre",
+        "dificuldade": "Médio"
+    },
+
+    {
+        "desafio": "Doe roupas para quem precisa.",
+        "tema": "Redução das Desigualdades",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Doe alimentos para uma instituição carente.",
+        "tema": "Fome Zero",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Economize água ao tomar banho.",
+        "tema": "Água Potável e Saneamento",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Utilize transporte público por um dia.",
+        "tema": "Cidades e Comunidades Sustentáveis",
+        "dificuldade": "Fácil"
+    },
+    {
+        "desafio": "Separe o lixo reciclável corretamente.",
+        "tema": "Consumo e Produção Responsáveis",
+        "dificuldade": "Fácil"
+    }
+]
