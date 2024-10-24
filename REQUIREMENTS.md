@@ -7,8 +7,7 @@ No benchmarking, avaliamos três aplicativos diferentes que tenham a temática d
 ## Storyboarding
 Para o Storyboarding, nos reunimos com o time para pensar um pouco em como seria a interação do usuário com a nossa solução. Para ilustrar o que foi pensado, utilizamos modelos de geração de imagens para gerar as imagens e o canva para editar o posicionamento das mesmas.  Nosso resultado foi o seguinte:
 
-![Storyboarding]()
-
+![Storyboarding]("images/Economize.png")
 
 # Resultados
 
