@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mc656finalproject/services/JsonFileHandler.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -9,6 +10,7 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
+  final _jsonFileHandler = JsonFileHandler('../../assets/users.json');
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =

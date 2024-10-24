@@ -1,35 +1,27 @@
 import 'dart:convert';
-import 'dart:io';
 import 'password_service.dart';
 import 'username_check.dart';
 
 class SignUp {
-  static Future<bool> register(String username, String password) async {
+  static Future<String> register(
+      String username, String password, String data) async {
     // Checagem da senha fornecida
     if (!PasswordService.isStrongPassword(password)) {
       print('Senha não é forte o suficiente.');
-      return false;
+      return data;
     }
 
     // Checagem da disponibilidade do username
     if (UsernameCheck.isSignedUp(username)) {
-      print('$username ja está em uso.');
-      return false;
+      print('$username já está em uso.');
+      return data;
     }
 
     // Adicionar o usuário ao banco de dados (users.json)
-    final file = File('assets/users.json');
-    List<dynamic> users = [];
+    List<dynamic> userMap = jsonDecode(data);
 
-    if (file.existsSync()) {
-      final jsonString = file.readAsStringSync();
-      users = jsonDecode(jsonString);
-    }
-
-    users.add({'username': username, 'password': password});
-    file.writeAsStringSync(jsonEncode(users));
-
-    print('Cadastro realizado com sucesso.');
-    return true;
+    userMap.add({'username': username, 'password': password});
+    String updatedData = jsonEncode(userMap);
+    return updatedData;
   }
 }
