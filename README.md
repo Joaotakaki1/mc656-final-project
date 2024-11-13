@@ -19,7 +19,7 @@ foi criado um aplicativo que, diariamente, proporciona diferentes desafios sobre
 
 # Arquitetura do Projeto
 ## Diagrama de componentes (Modelo C4)
-[Imagem](Caminho/para/imagem/)
+![Diagrama de componentes nivel 3 modelo C4](images/DiagramaC4.png)
 
 ## Estilo de arquitetura
 Escolhemos o estilo de arquitetura Objetos. Esse estilo combina dados e funções em uma única entidade, o objeto, visando decompor o problema, facilitar sua manutenção e o reuso. Pareceu-nos mais adequado utilizar esse estilo pois, dessa forma, modularizamos o nosso código para que cada classe realize uma porção da tarefa, como o login e autenticação de um usuário, cadastro de novo usuário, armazenamento e leitura de seus dados de um banco de dados, entre outras funções imprescindíveis ao funcionamento de nosso aplicativo.
