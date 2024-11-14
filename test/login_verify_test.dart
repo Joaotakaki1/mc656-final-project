@@ -6,13 +6,13 @@ void main() {
     test('Deve retornar false e "esse usuário não existe" se o username não existir', () async {
       final result = await LoginVerify('FulanoDeTal', 'Password123');
       expect(result['success'], false);
-      expect(result['message'], 'esse usuário não existe');
+      expect(result['message'], 'Usuário não cadastrado');
     });
 
     test('Deve retornar false e "senha incorreta" se o password estiver errado', () async {
       final result = await LoginVerify('matheusheusmat', 'senhaErrada');
       expect(result['success'], false);
-      expect(result['message'], 'senha incorreta');
+      expect(result['message'], 'Senha Incorreta');
     });
 
     test('Deve retornar true e "Login feito com sucesso" se o username e o password estiverem corretos', () async {
@@ -30,7 +30,7 @@ void main() {
     test('Teste com outro usuário: false e "senha incorreta"', () async {
       final result = await LoginVerify('JoaoTakaki', 'wrongPassword');
       expect(result['success'], false);
-      expect(result['message'], 'senha incorreta');
+      expect(result['message'], 'Senha Incorreta');
     });
   });
 }
