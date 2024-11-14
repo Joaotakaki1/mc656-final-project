@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/services.dart' show rootBundle;
 
 Future<Map<String, dynamic>> LoginVerify(String username, String password) async {
   // Caminho do arquivo JSON
   const String filePath = 'assets/users.json';
 
-  // Lê o arquivo JSON
-  final String jsonString = await File(filePath).readAsString();
+  // Lê o arquivo JSON usando rootBundle
+  final String jsonString = await rootBundle.loadString(filePath);
   final List<dynamic> users = jsonDecode(jsonString);
 
   // Verifica se o username existe
@@ -21,7 +22,7 @@ Future<Map<String, dynamic>> LoginVerify(String username, String password) async
       } else {
         return {
           'success': false,
-          'message': 'senha incorreta'
+          'message': 'Senha Incorreta'
         };
       }
     }
@@ -30,6 +31,6 @@ Future<Map<String, dynamic>> LoginVerify(String username, String password) async
   // Se o username não for encontrado
   return {
     'success': false,
-    'message': 'esse usuário não existe'
+    'message': 'Usuário não cadastrado'
   };
 }
