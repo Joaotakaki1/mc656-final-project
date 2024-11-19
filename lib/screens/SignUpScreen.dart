@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mc656finalproject/screens/HomeScreen.dart';
 import 'package:mc656finalproject/services/login_verify.dart';
+import 'package:mc656finalproject/components/AppTextField.dart';
 import 'package:mc656finalproject/utils/colors.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -57,60 +58,31 @@ class _SignUpScreen extends State<SignUpScreen> {
 
                   const SizedBox(height: 24.0),
                   // Campo de usuário
-                  TextField(
+                  AppTextField(
                     controller: _usernameController,
-                    decoration: InputDecoration(
-                      hintText: 'Usuário',
-                      contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: darkPink, width: 2.0),
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: darkPink, width: 2.0),
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                    ),
+                    text: 'Usuário', 
+                    vPadding: 10.0, 
+                    hPadding: 20.0, 
+                    bRadius: 30.0
                   ),
                   const SizedBox(height: 16.0),
                   // Campo de senha
-                  TextField(
-                    controller: _passwordController,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      hintText: 'Senha',
-                      contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: darkPink, width: 2.0),
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: darkPink, width: 2.0),
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                    ),
+                  AppTextField(
+                    controller: _usernameController,
+                    text: 'Senha', 
+                    vPadding: 10.0, 
+                    hPadding: 20.0, 
+                    bRadius: 30.0
                   ),
                   const SizedBox(height: 16.0),
-
-                  TextField(
-                    controller: _passwordController,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      hintText: 'Confirme a senha',
-                      contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: darkPink, width: 2.0),
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: darkPink, width: 2.0),
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                    ),
+                  AppTextField(
+                    controller: _usernameController,
+                    text: 'Confirme a senha', 
+                    vPadding: 10.0, 
+                    hPadding: 20.0, 
+                    bRadius: 30.0
                   ),
-                  
                   const SizedBox(height: 16.0),
-
                   // Botão de Cadastro
                   OutlinedButton(
                     onPressed: () {
@@ -133,7 +105,6 @@ class _SignUpScreen extends State<SignUpScreen> {
                       ),
                     ),
                   ),
-                  
                 ],
               ),
             ),

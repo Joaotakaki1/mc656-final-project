@@ -87,7 +87,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: 250, // Ajuste o tamanho da logo
                     height: 250,
                   ),
-
                   const SizedBox(height: 24.0),
                   // Campo de usuário
                   TextField(
