@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mc656finalproject/screens/HomeScreen.dart';
-import 'package:mc656finalproject/services/login_verify.dart';
 import 'package:mc656finalproject/utils/colors.dart';
+import 'package:mc656finalproject/services/signUp.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -22,6 +22,32 @@ class _SignUpScreen extends State<SignUpScreen> {
     final password = _passwordController.text;
     final confirmPassword = _confirmPasswordController.text;
 
+    if (username.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+      // Exemplo de lógica: mostrar um alerta se o usuário ou senha estiverem vazios
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Por favor, preencha todos os campos")),
+      );
+      return false;
+    }
+
+    if (password != confirmPassword) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("As senhas não coincidem")),
+      );
+      return false;
+    }
+
+    Map<String, dynamic> result = await SignUp.register(username, password);
+    if (result['success'] == false) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(result['message'])),
+      );
+      return false;
+    }
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => HomeScreen()),
+    );
     return true;
   }
 
@@ -93,7 +119,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                   const SizedBox(height: 16.0),
 
                   TextField(
-                    controller: _passwordController,
+                    controller: _confirmPasswordController,
                     obscureText: true,
                     decoration: InputDecoration(
                       hintText: 'Confirme a senha',
@@ -115,7 +141,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                   OutlinedButton(
                     onPressed: () {
                       // Ação de cadastro
-                      print("Volta para a tela de login");
+                      //_signUp();
                     },
                     style: OutlinedButton.styleFrom(
                       backgroundColor: Colors.white, // Cor do texto do botão
