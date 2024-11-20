@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mc656finalproject/screens/home_screen.dart';
+import 'package:mc656finalproject/services/login_verify.dart';
 import 'package:mc656finalproject/components/AppTextField.dart';
-import 'package:mc656finalproject/screens/HomeScreen.dart';
-import 'package:mc656finalproject/services/password_service.dart';
-import 'package:mc656finalproject/services/signUp.dart';
 import 'package:mc656finalproject/utils/colors.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -16,8 +15,16 @@ class _SignUpScreen extends State<SignUpScreen> {
   // Controladores para capturar o texto dos campos de usuário e senha
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
+
+  // Função de login
+  Future<bool> _signUp() async {
+    final username = _usernameController.text;
+    final password = _passwordController.text;
+    final confirmPassword = _confirmPasswordController.text;
+
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +37,7 @@ class _SignUpScreen extends State<SignUpScreen> {
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/images/background.png"),
-                fit: BoxFit
-                    .fitWidth, // Ajusta a imagem para a largura da tela, mantendo a proporção
+                fit: BoxFit.fitWidth, // Ajusta a imagem para a largura da tela, mantendo a proporção
                 alignment: Alignment.bottomCenter, // Alinha a imagem no topo
               ),
             ),
@@ -54,9 +60,9 @@ class _SignUpScreen extends State<SignUpScreen> {
                   // Campo de usuário
                   AppTextField(
                     controller: _usernameController,
-                    text: 'Usuário',
-                    vPadding: 10.0,
-                    hPadding: 20.0,
+                    text: 'Usuário', 
+                    vPadding: 10.0, 
+                    hPadding: 20.0, 
                     bRadius: 30.0,
                     password: false,
                   ),
@@ -64,57 +70,27 @@ class _SignUpScreen extends State<SignUpScreen> {
                   // Campo de senha
                   AppTextField(
                     controller: _passwordController,
-                    text: 'Senha',
-                    vPadding: 10.0,
-                    hPadding: 20.0,
+                    text: 'Senha', 
+                    vPadding: 10.0, 
+                    hPadding: 20.0, 
                     bRadius: 30.0,
                     password: true,
                   ),
                   const SizedBox(height: 16.0),
                   AppTextField(
                     controller: _confirmPasswordController,
-                    text: 'Confirme a senha',
-                    vPadding: 10.0,
-                    hPadding: 20.0,
+                    text: 'Confirme a senha', 
+                    vPadding: 10.0, 
+                    hPadding: 20.0, 
                     bRadius: 30.0,
                     password: true,
                   ),
                   const SizedBox(height: 16.0),
                   // Botão de Cadastro
                   OutlinedButton(
-                    onPressed: () async {
-                      if (_passwordController.text ==
-                          _confirmPasswordController.text) {
-                        if (PasswordService.isStrongPassword(
-                            _passwordController.text)) {
-                          SignUp signUp = SignUp();
-                          bool success = await signUp.registerWithEmailPassword(
-                              _usernameController.text,
-                              _passwordController.text);
-                          if (success) {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                              content: Text('Cadastro Realizado com sucesso'),
-                            ));
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const HomeScreen()),
-                            );
-                          }
-                        } else {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            content: Text('Erro ao cadastrar, tente novamente'),
-                          ));
-                        }
-                      } else {
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(
-                          content: Text(
-                              'As senhas devem ser iguais, tente novamente'),
-                        ));
-                      }
+                    onPressed: () {
+                      // Ação de cadastro
+                      print("Volta para a tela de login");
                     },
                     style: OutlinedButton.styleFrom(
                       backgroundColor: Colors.white, // Cor do texto do botão
@@ -122,8 +98,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12.0, horizontal: 24.0),
+                      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
                     ),
                     child: const Text(
                       'Cadastrar',
