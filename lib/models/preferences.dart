@@ -1,83 +1,53 @@
-import '../models/desafio.dart';
-import 'dart:convert';
-import 'dart:io';
+/// Classe que representa as preferências do usuário.
+class Preferences {
+  /// Lista de preferências (ex.: ['Nome da ODS']).
+  List<String> _preferences;
 
-/// Classe responsável pela coleção de preferencias e seleção dos desafios
+  /// Construtor padrão.
+  Preferences({List<String>? preferences})
+      : _preferences = preferences ?? [];
 
-/// Recebe como construtor uma lista de tipos de filtros.
-  class Preferences {
-  List<Desafio> possible_challenges = [];
-  List<Desafio> completed_challenges = [];
-  List<String> ods_preferences = [];
+  /// Getter para obter as preferências.
+  List<String> get preferences => _preferences;
 
-  Preferences(this.ods_preferences){
-    load_all_possible_challenges();
+  /// Setter para definir as preferências.
+  set preferences(List<String> preferences) {
+    _preferences = preferences;
   }
-  /// Adiciona todos os desafios possiveis
-  Future<void> load_all_possible_challenges() async {
-    for (var ods in ods_preferences) {
-      load_challenges(ods);
-    }
-  }
-  ///Verifica existencia de um desafio
-  bool check_existance(selectedChallenge){
-    if (possible_challenges.contains(selectedChallenge)){
-      return true;
-    }
-    else{
-      return false;
+
+  /// Adiciona uma nova preferência, caso ainda não esteja na lista.
+  void addPreference(String preference) {
+    if (!_preferences.contains(preference)) {
+      _preferences.add(preference);
     }
   }
 
-  /// Dado um desafio, adiciona a lista de desafios
-  void add_challenge(Desafio desafio){
-    if(check_existance(desafio)){
-      return;
-    }
-    possible_challenges.add(desafio);
-    return;
+  /// Remove uma preferência, caso ela exista.
+  void removePreference(String preference) {
+    _preferences.remove(preference);
   }
 
-  /// Dado um desafio, remove da lista de desafios
-  void remove_challenge(Desafio desafio){
-    if(!check_existance(desafio)){
-      return;
-    }
-    possible_challenges.remove(desafio);
-    return;
+  /// Verifica se uma preferência está presente na lista.
+  bool hasPreference(String preference) {
+    return _preferences.contains(preference);
   }
 
-  // Marca um desafio como completo
-  void finish_challenge(Desafio desafio){
-    if(!check_existance(desafio)){
-      return;
-    }
-    remove_challenge(desafio);
-    completed_challenges.add(desafio);
-    
-    //Check the size of the possible_challenges to reset
-    if(possible_challenges.isEmpty){
-      load_all_possible_challenges();
-    }
-
-    return;
+  /// Converte a instância [Preferences] para um mapa (para salvar no Firebase).
+  Map<String, dynamic> toMap() {
+    return {
+      'preferences': _preferences,
+    };
   }
 
-  /// Coleta os desafios, com base no filtro
-  Future<void> load_challenges(String choosenOds, {String path = 'assets/ods_challenges_simple.json'}) async {
-    var caminhoArquivo = path;
-    final file = File(caminhoArquivo);
-    final contents = await file.readAsString();
-    final List<dynamic> jsonData = json.decode(contents);
+  /// Cria uma instância [Preferences] a partir de um mapa (ex.: dados do Firebases).
+  factory Preferences.fromMap(Map<String, dynamic> map) {
+    return Preferences(
+      preferences: List<String>.from(map['preferences'] ?? []),
+    );
+  }
 
-    for (var jsonItem in jsonData) {
-      if (jsonItem['tema'] == choosenOds){
-        add_challenge(Desafio(
-          desafio: jsonItem['desafio'],
-          tema: jsonItem['tema'],
-        ));
-        }
-    }
-  return;
+  @override
+  String toString() {
+    return 'Preferences(preferences: $_preferences)';
   }
 }
