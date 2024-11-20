@@ -38,6 +38,7 @@ dependencies:
   firebase_core: ^3.4.0
   firebase_auth: ^5.2.0
   cloud_firestore: ^5.4.0
+  gradient_borders: ^1.0.1
 
 dev_dependencies:
   flutter_test:
@@ -96,5 +97,6 @@ flutter:
   assets:
     - assets/ods_challenges_simple.json
     - assets/images/
+    - assets/icons/
     - assets/users.json
     - assets/

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mc656finalproject/firebase_options.dart';
+import 'package:mc656finalproject/screens/HomeScreen.dart';
 import 'package:mc656finalproject/screens/LoginScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFED008C)),
         useMaterial3: true,
       ),
-      home: const LoginScreen(),
+      home: const HomeScreen(),
     );
   }
 }
