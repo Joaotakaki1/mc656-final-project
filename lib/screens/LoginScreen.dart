@@ -1,29 +1,69 @@
 import 'package:flutter/material.dart';
-import 'package:mc656finalproject/screens/home_screen.dart';
+import 'package:mc656finalproject/screens/HomeScreen.dart';
+import 'package:mc656finalproject/screens/SignUpScreen.dart';
 import 'package:mc656finalproject/services/login_verify.dart';
-import 'package:mc656finalproject/components/AppTextField.dart';
 import 'package:mc656finalproject/utils/colors.dart';
+import 'package:mc656finalproject/components/AppTextField.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  _SignUpScreen createState() => _SignUpScreen();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _SignUpScreen extends State<SignUpScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   // Controladores para capturar o texto dos campos de usuário e senha
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
 
-  // Função de login
-  Future<bool> _signUp() async {
-    final username = _usernameController.text;
-    final password = _passwordController.text;
-    final confirmPassword = _confirmPasswordController.text;
+  bool isEmpty() {
+    return (_usernameController.text.isEmpty || _passwordController.text.isEmpty);
+  }
+
+  Future<bool> resultadoLogin() async {
+    Map<String, dynamic> resultado = await LoginVerify(_usernameController.text, _passwordController.text);
+    return resultado['success'];
+  }
+
+  Future<String> mensagemLogin() async {
+    Map<String, dynamic> resultado = await LoginVerify(_usernameController.text, _passwordController.text);
+    return resultado['message'];
+  }
+
+  Future<bool> _login() async {
+    // Lógica para autenticação
+    if (isEmpty()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Por favor, preencha todos os campos")),
+      );
+      return false;
+    } 
+    if (!await resultadoLogin()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(await mensagemLogin())),
+      );
+      return false;
+    }
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => HomeScreen()),
+    );
 
     return true;
+  }
+
+
+  void _signUp() async {
+        Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SignUpScreen()),
+    );
+  }
+
+  void _forgotPassword() {
+    print("Forgot my password not developed yet");
   }
 
   @override
@@ -55,7 +95,6 @@ class _SignUpScreen extends State<SignUpScreen> {
                     width: 250, // Ajuste o tamanho da logo
                     height: 250,
                   ),
-
                   const SizedBox(height: 24.0),
                   // Campo de usuário
                   AppTextField(
@@ -77,23 +116,51 @@ class _SignUpScreen extends State<SignUpScreen> {
                     password: true,
                   ),
                   const SizedBox(height: 16.0),
-                  AppTextField(
-                    controller: _confirmPasswordController,
-                    text: 'Confirme a senha', 
-                    vPadding: 10.0, 
-                    hPadding: 20.0, 
-                    bRadius: 30.0,
-                    password: true,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+                    children: [
+                      // Botão Entrar alinhado à esquerda
+                      ElevatedButton(
+                        onPressed: _login, 
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: darkPink,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            side: const BorderSide(color: darkPink, width: 2.0),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+                        ),
+                        child: const Text(
+                        'Entrar',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                    ),
+                      ),
+                      // Texto "Esqueci minha senha" alinhado à direita
+                      GestureDetector(
+                        onTap: _forgotPassword,
+                        child: const Text(
+                          'Esqueci minha senha',
+                          style: TextStyle(
+                            color: lightPink,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 16.0),
                   // Botão de Cadastro
                   OutlinedButton(
                     onPressed: () {
                       // Ação de cadastro
-                      print("Volta para a tela de login");
+                      _signUp();
                     },
                     style: OutlinedButton.styleFrom(
-                      backgroundColor: Colors.white, // Cor do texto do botão
+                      backgroundColor: Colors.white, 
                       side: const BorderSide(color: darkPink, width: 2.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
