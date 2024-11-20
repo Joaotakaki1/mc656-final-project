@@ -2,7 +2,7 @@
   "project_info": {
     "project_number": "309461612025",
     "project_id": "mc656-final-project",
-    "storage_bucket": "mc656-final-project.appspot.com"
+    "storage_bucket": "mc656-final-project.firebasestorage.app"
   },
   "client": [
     {
