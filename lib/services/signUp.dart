@@ -37,6 +37,7 @@ class SignUp {
   }
 
   Future<bool> registerWithEmailPassword(String email, String password) async {
+    ///teste
     try {
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
