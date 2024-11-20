@@ -1,5 +1,4 @@
 import '../models/desafio.dart';
-import '../models/ods.dart';
 import 'dart:convert';
 import 'dart:io';
 
@@ -9,14 +8,15 @@ import 'dart:io';
   class Preferences {
   List<Desafio> possible_challenges = [];
   List<Desafio> completed_challenges = [];
-  List<TiposDeFiltros> filtros = [];
-  Preferences(this.filtros){
+  List<String> ods_preferences = [];
+
+  Preferences(this.ods_preferences){
     load_all_possible_challenges();
   }
   /// Adiciona todos os desafios possiveis
   Future<void> load_all_possible_challenges() async {
-    for (var filtro in filtros) {
-      load_challenges(filtro);
+    for (var ods in ods_preferences) {
+      load_challenges(ods);
     }
   }
   ///Verifica existencia de um desafio
@@ -64,14 +64,14 @@ import 'dart:io';
   }
 
   /// Coleta os desafios, com base no filtro
-  Future<void> load_challenges(TiposDeFiltros filtro, {String path = 'assets/ods_challenges_simple.json'}) async {
+  Future<void> load_challenges(String choosen_ods, {String path = 'assets/ods_challenges_simple.json'}) async {
     var caminhoArquivo = path;
     final file = File(caminhoArquivo);
     final contents = await file.readAsString();
     final List<dynamic> jsonData = json.decode(contents);
 
     for (var jsonItem in jsonData) {
-      if (ODS.getFiltro(jsonItem['tema']) == filtro){
+      if (jsonItem['tema'] == choosen_ods){
         add_challenge(Desafio(
           desafio: jsonItem['desafio'],
           tema: jsonItem['tema'],
