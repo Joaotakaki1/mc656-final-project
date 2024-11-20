@@ -38,7 +38,7 @@ class SignUp {
     return true;
   }
 
-  Future<bool> registerWithEmailPassword(String email, String password) async {
+  Future<bool> registerWithEmailPassword(String email, String password, String username) async {
     try {
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
@@ -47,6 +47,7 @@ class SignUp {
       );
       await _firestore.collection('users').doc(userCredential.user?.uid).set({
         'email': email,
+        'username': username,
         'createdAt': FieldValue.serverTimestamp(),
       });
       print('Cadastro realizado com sucesso: ${userCredential.user?.uid}');
