@@ -5,14 +5,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginCheck {
   static Future<Map<String, dynamic>> _dataBaseFetch() async {
-    FirebaseFirestore firestroe = FirebaseFirestore.instance;
-    CollectionReference usersCollection = firestroe.collection('users');
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    CollectionReference usersCollection = firestore.collection('users');
     QuerySnapshot querySnapshot = await usersCollection.get();
     Map<String, dynamic> users = {};
     for (var doc in querySnapshot.docs) {
       users[doc.id] = doc.data();
     }
-
     return users;
   }
 

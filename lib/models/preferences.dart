@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'dart:io';
 
 /// Classe responsável pela coleção de preferencias e seleção dos desafios
-/// 
-  /// Recebe como construtor uma lista de tipos de filtros.
+
+/// Recebe como construtor uma lista de tipos de filtros.
   class Preferences {
   List<Desafio> possible_challenges = [];
   List<Desafio> completed_challenges = [];
