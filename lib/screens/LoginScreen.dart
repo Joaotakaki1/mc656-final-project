@@ -3,7 +3,7 @@ import 'package:mc656finalproject/screens/HomeScreen.dart';
 import 'package:mc656finalproject/screens/SignUpScreen.dart';
 import 'package:mc656finalproject/services/login_verify.dart';
 import 'package:mc656finalproject/utils/colors.dart';
-import 'package:mc656finalproject/components/AppTextField.dart';
+import 'package:mc656finalproject/components/app_text_field.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -22,12 +22,12 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<bool> resultadoLogin() async {
-    Map<String, dynamic> resultado = await LoginVerify(_usernameController.text, _passwordController.text);
+    Map<String, dynamic> resultado = await LoginCheck.loginVerify(_usernameController.text, _passwordController.text);
     return resultado['success'];
   }
 
   Future<String> mensagemLogin() async {
-    Map<String, dynamic> resultado = await LoginVerify(_usernameController.text, _passwordController.text);
+    Map<String, dynamic> resultado = await LoginCheck.loginVerify(_usernameController.text, _passwordController.text);
     return resultado['message'];
   }
 
