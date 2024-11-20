@@ -3,6 +3,7 @@ import 'package:mc656finalproject/screens/HomeScreen.dart';
 import 'package:mc656finalproject/screens/SignUpScreen.dart';
 import 'package:mc656finalproject/services/login_verify.dart';
 import 'package:mc656finalproject/utils/colors.dart';
+import 'package:mc656finalproject/components/AppTextField.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,24 +17,31 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  // Função de login
-  Future<bool> _login() async {
-    final username = _usernameController.text;
-    final password = _passwordController.text;
+  bool isEmpty() {
+    return (_usernameController.text.isEmpty || _passwordController.text.isEmpty);
+  }
 
-    // Aqui você pode adicionar a lógica de autenticação
-    if (username.isEmpty || password.isEmpty) {
-      // Exemplo de lógica: mostrar um alerta se o usuário ou senha estiverem vazios
+  Future<bool> resultadoLogin() async {
+    Map<String, dynamic> resultado = await LoginVerify(_usernameController.text, _passwordController.text);
+    return resultado['success'];
+  }
+
+  Future<String> mensagemLogin() async {
+    Map<String, dynamic> resultado = await LoginVerify(_usernameController.text, _passwordController.text);
+    return resultado['message'];
+  }
+
+  Future<bool> _login() async {
+    // Lógica para autenticação
+    if (isEmpty()) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Por favor, preencha todos os campos")),
       );
       return false;
     } 
-    Map<String, dynamic> result = await LoginVerify(username, password);
-    if (result['success'] == false) {
+    if (!await resultadoLogin()) {
       ScaffoldMessenger.of(context).showSnackBar(
-        // puts the result['mesage
-        SnackBar(content: Text(result['message'])),
+        SnackBar(content: Text(await mensagemLogin())),
       );
       return false;
     }
@@ -87,52 +95,36 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: 250, // Ajuste o tamanho da logo
                     height: 250,
                   ),
-
                   const SizedBox(height: 24.0),
                   // Campo de usuário
-                  TextField(
+                  AppTextField(
                     controller: _usernameController,
-                    decoration: InputDecoration(
-                      hintText: 'Usuário',
-                      contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: darkPink, width: 2.0),
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: darkPink, width: 2.0),
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                    ),
+                    text: 'Usuário', 
+                    vPadding: 10.0, 
+                    hPadding: 20.0, 
+                    bRadius: 30.0,
+                    password: false,
                   ),
                   const SizedBox(height: 16.0),
                   // Campo de senha
-                  TextField(
+                  AppTextField(
                     controller: _passwordController,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      hintText: 'Senha',
-                      contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: darkPink, width: 2.0),
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: darkPink, width: 2.0),
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                    ),
+                    text: 'Senha', 
+                    vPadding: 10.0, 
+                    hPadding: 20.0, 
+                    bRadius: 30.0,
+                    password: true,
                   ),
                   const SizedBox(height: 16.0),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween, // Distribui os widgets para os cantos
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween, 
                     children: [
                       // Botão Entrar alinhado à esquerda
                       ElevatedButton(
-                        onPressed: _login, // Chama a função de login ao pressionar o botão
+                        onPressed: _login, 
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: darkPink, // Cor do fundo do botão
-                          foregroundColor: Colors.white, // Cor do texto do botão
+                          backgroundColor: darkPink,
+                          foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30.0),
                             side: const BorderSide(color: darkPink, width: 2.0),
@@ -147,15 +139,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                     ),
                       ),
-
                       // Texto "Esqueci minha senha" alinhado à direita
                       GestureDetector(
-                        onTap: _forgotPassword, // Função para o esqueci minha senha
+                        onTap: _forgotPassword,
                         child: const Text(
                           'Esqueci minha senha',
                           style: TextStyle(
                             color: lightPink,
-                            decoration: TextDecoration.underline, // Sublinhado no texto
+                            decoration: TextDecoration.underline,
                           ),
                         ),
                       ),
@@ -169,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       _signUp();
                     },
                     style: OutlinedButton.styleFrom(
-                      backgroundColor: Colors.white, // Cor do texto do botão
+                      backgroundColor: Colors.white, 
                       side: const BorderSide(color: darkPink, width: 2.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
