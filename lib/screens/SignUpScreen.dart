@@ -17,9 +17,11 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreen extends State<SignUpScreen> {
   // Controladores para capturar o texto dos campos de usuário e senha
   final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
+
+  bool _isLoading = false; // Variável para controlar a visibilidade do indicador de progresso
 
   @override
   Widget build(BuildContext context) {
@@ -51,12 +53,20 @@ class _SignUpScreen extends State<SignUpScreen> {
                     width: 250, // Ajuste o tamanho da logo
                     height: 250,
                   ),
-
                   const SizedBox(height: 24.0),
                   // Campo de usuário
                   AppTextField(
                     controller: _usernameController,
                     text: 'Usuário',
+                    vPadding: 10.0,
+                    hPadding: 20.0,
+                    bRadius: 30.0,
+                    password: false,
+                  ),
+                  const SizedBox(height: 16.0),
+                  AppTextField(
+                    controller: _emailController,
+                    text: 'Email',
                     vPadding: 10.0,
                     hPadding: 20.0,
                     bRadius: 30.0,
@@ -85,14 +95,16 @@ class _SignUpScreen extends State<SignUpScreen> {
                   // Botão de Cadastro
                   OutlinedButton(
                     onPressed: () async {
-                      if (_passwordController.text ==
-                          _confirmPasswordController.text) {
-                        if (PasswordService.isStrongPassword(
-                            _passwordController.text)) {
+                      setState(() {
+                        _isLoading = true; // Mostrar o indicador de progresso
+                      });
+
+                      if (_passwordController.text == _confirmPasswordController.text) {
+                        if (PasswordService.isStrongPassword(_passwordController.text)) {
                           SignUp signUp = SignUp();
                           UserCredential? success = await signUp.registerWithEmailPassword(
                               _usernameController.text,
-                              _passwordController.text);
+                              _passwordController.text, _usernameController.text,);
                           if (success != null) {
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(const SnackBar(
@@ -104,11 +116,14 @@ class _SignUpScreen extends State<SignUpScreen> {
                               MaterialPageRoute(
                                   builder: (context) => HomeScreen(currentUser: currentUser,)),
                             );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                              content: Text('Erro ao cadastrar, tente novamente'),
+                            ));
                           }
                         } else {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            content: Text('Erro ao cadastrar, tente novamente'),
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            content: Text('Senha fraca, tente novamente'),
                           ));
                         }
                       } else {
@@ -118,6 +133,10 @@ class _SignUpScreen extends State<SignUpScreen> {
                               'As senhas devem ser iguais, tente novamente'),
                         ));
                       }
+
+                      setState(() {
+                        _isLoading = false; // Ocultar o indicador de progresso
+                      });
                     },
                     style: OutlinedButton.styleFrom(
                       backgroundColor: Colors.white, // Cor do texto do botão
@@ -140,6 +159,14 @@ class _SignUpScreen extends State<SignUpScreen> {
               ),
             ),
           ),
+          // Indicador de progresso
+          if (_isLoading)
+            Container(
+              color: Colors.black.withOpacity(0.5), // Fundo escuro com opacidade
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
         ],
       ),
     );
