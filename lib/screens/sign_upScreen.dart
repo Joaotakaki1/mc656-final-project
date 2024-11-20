@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mc656finalproject/components/AppTextField.dart';
-import 'package:mc656finalproject/screens/HomeScreen.dart';
+import 'package:mc656finalproject/screens/home_screen.dart';
 import 'package:mc656finalproject/services/password_service.dart';
 import 'package:mc656finalproject/services/signUp.dart';
 import 'package:mc656finalproject/utils/colors.dart';
