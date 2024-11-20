@@ -9,6 +9,13 @@ class MasterController {
     FirebaseFirestore firestroe = FirebaseFirestore.instance;
     CollectionReference usersCollection = firestroe.collection('users');
     return usersCollection;
+  }
+  
+  static Future<DocumentSnapshot> fetchUserDataBaseUser(String uid) async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    DocumentReference userDoc = firestore.collection('users').doc(uid);
+    DocumentSnapshot userSnapshot = await userDoc.get();
+    return userSnapshot;
   } 
 
   static Future<CollectionReference> fetchDesafioDataBase() async {

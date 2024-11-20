@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mc656finalproject/models/user.dart';
 import 'package:mc656finalproject/screens/HomeScreen.dart';
 import 'package:mc656finalproject/screens/SignUpScreen.dart';
 import 'package:mc656finalproject/services/login_verify.dart';
@@ -23,10 +24,11 @@ class _LoginScreenState extends State<LoginScreen> {
         _passwordController.text.isEmpty);
   }
 
-  Future<bool> resultadoLogin() async {
+  Future<dynamic> resultadoLogin() async {
     Map<String, dynamic> resultado = await LoginCheck.loginWithEmailPassword(
         _usernameController.text, _passwordController.text);
-    return resultado['success'];
+
+    return resultado;
   }
 
   Future<String> mensagemLogin() async {
@@ -49,7 +51,8 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       return false;
     }
-    if (!await resultadoLogin()) {
+    var res = await resultadoLogin();
+    if (!res['success']) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(await mensagemLogin())),
       );
@@ -58,10 +61,10 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       return false;
     }
-
+    var currentUser = User(email: res['user'].email, uid: res['user'].uid, username: res['user'].email);
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const HomeScreen()),
+      MaterialPageRoute(builder: (context) => HomeScreen(currentUser: currentUser, )),
     );
 
     setState(() {
