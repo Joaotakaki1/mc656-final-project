@@ -1,5 +1,5 @@
 import 'dart:math';
-import '../services/master_controller.dart'.
+import '../services/master_controller.dart';
 import '../models/desafio.dart';
 import '../models/preferences.dart';
 
@@ -12,11 +12,12 @@ class ChallengeController {
   List<Desafio> current_challenges = [];
 
   ChallengeController(List<String> ods_preferences){
-    preferences = Preferences(ods_preferences);
+    preferences = Preferences();
+    preferences.preferences = ods_preferences;
     }
 
   void load_all_possible_challenges(){
-    for (var ods in preferences.ods_preferences) {
+    for (var ods in preferences.preferences) {
       List<Desafio> challenges_by_ods = MasterController.fetchDesafioTema(ods);
       for (var challenge in challenges_by_ods){
         possible_challenges.add(challenge);
