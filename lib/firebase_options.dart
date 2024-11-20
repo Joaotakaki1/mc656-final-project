@@ -46,7 +46,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '309461612025',
     projectId: 'mc656-final-project',
     authDomain: 'mc656-final-project.firebaseapp.com',
-    storageBucket: 'mc656-final-project.appspot.com',
+    storageBucket: 'mc656-final-project.firebasestorage.app',
     measurementId: 'G-9YM5LDCQ9Z',
   );
 
@@ -55,7 +55,7 @@ class DefaultFirebaseOptions {
     appId: '1:309461612025:android:bb9469cac5443614843928',
     messagingSenderId: '309461612025',
     projectId: 'mc656-final-project',
-    storageBucket: 'mc656-final-project.appspot.com',
+    storageBucket: 'mc656-final-project.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
@@ -63,7 +63,7 @@ class DefaultFirebaseOptions {
     appId: '1:309461612025:ios:fa028ab81c79b190843928',
     messagingSenderId: '309461612025',
     projectId: 'mc656-final-project',
-    storageBucket: 'mc656-final-project.appspot.com',
+    storageBucket: 'mc656-final-project.firebasestorage.app',
     iosBundleId: 'com.example.mc656finalproject',
   );
 
@@ -72,7 +72,7 @@ class DefaultFirebaseOptions {
     appId: '1:309461612025:ios:fa028ab81c79b190843928',
     messagingSenderId: '309461612025',
     projectId: 'mc656-final-project',
-    storageBucket: 'mc656-final-project.appspot.com',
+    storageBucket: 'mc656-final-project.firebasestorage.app',
     iosBundleId: 'com.example.mc656finalproject',
   );
 
@@ -82,7 +82,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '309461612025',
     projectId: 'mc656-final-project',
     authDomain: 'mc656-final-project.firebaseapp.com',
-    storageBucket: 'mc656-final-project.appspot.com',
+    storageBucket: 'mc656-final-project.firebasestorage.app',
     measurementId: 'G-J3GHGF668H',
   );
 }
