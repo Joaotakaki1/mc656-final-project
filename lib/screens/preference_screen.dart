@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mc656finalproject/models/ods.dart';
 import 'package:mc656finalproject/screens/ods_icon.dart';
 import 'package:mc656finalproject/utils/colors.dart';
 
