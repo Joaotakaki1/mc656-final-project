@@ -5,13 +5,7 @@ class MasterController {
 
   // fazer função para pegar o query e o documentsnapshot, ta usando em todas
 
-  static Future<CollectionReference> fetchUserDataBase() async {
-    FirebaseFirestore firestroe = FirebaseFirestore.instance;
-    CollectionReference usersCollection = firestroe.collection('users');
-    return usersCollection;
-  }
-  
-  static Future<DocumentSnapshot> fetchUserDataBaseUser(String uid) async {
+  static Future<DocumentSnapshot> fetchUserDataBase(String uid) async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     DocumentReference userDoc = firestore.collection('users').doc(uid);
     DocumentSnapshot userSnapshot = await userDoc.get();
@@ -46,43 +40,37 @@ class MasterController {
     return desafios;
   }
 
-  static Future<List<String>> fetchUserPreferences(String email) async {
-    CollectionReference users = await fetchUserDataBase();
-    QuerySnapshot querySnapshot = await users.where('email', isEqualTo: email).get();
+  static Future<List<String>> fetchUserPreferences(String uid) async {
+    DocumentSnapshot user = await fetchUserDataBase(uid);
     List<String> preferences = [];
-    if (querySnapshot.docs.isNotEmpty) {
-      DocumentSnapshot userDoc = querySnapshot.docs.first;
-      preferences = List<String>.from(userDoc['preferences']);
+    if (user.exists) {
+      preferences = List<String>.from(user['preferences']);
     }
     return preferences;
   }
 
-  static Future<List<int>> fetchUserStreak(String email) async {
-    CollectionReference users = await fetchUserDataBase();
-    QuerySnapshot querySnapshot = await users.where('email', isEqualTo: email).get();
+  static Future<List<int>> fetchUserStreak(String uid) async {
+    DocumentSnapshot user = await fetchUserDataBase(uid);
     List<int> streak = [];
-    if (querySnapshot.docs.isNotEmpty) {
-      DocumentSnapshot userDoc = querySnapshot.docs.first;
-      streak.add(userDoc['maxStreak']);
-      streak.add(userDoc['currentStreak']);
+    if (user.exists) {
+      streak.add(user['maxStreak']);
+      streak.add(user['currentStreak']);
     }
     return streak;
   }
 
-  static Future<void> updateUserPreferences(List<String> preferences, String email) async {
-    CollectionReference users = await fetchUserDataBase();
-    QuerySnapshot querySnapshot = await users.where('email', isEqualTo: email).get();
-    if (querySnapshot.docs.isNotEmpty) {
-      DocumentReference userDoc = querySnapshot.docs.first.reference;
-      await userDoc.update({'preferences': preferences});
+  static Future<void> updateUserPreferences(List<String> preferences, String uid) async {
+    DocumentSnapshot user = await fetchUserDataBase(uid);
+    if (user.exists) {
+      DocumentReference userRef = user.reference;
+      await userRef.update({'preferences': preferences});
     }
   }
 
-  static Future<void> updateUserStreak(int maxStreak, int currentStreak, String email) async {
-    CollectionReference users = await fetchUserDataBase();
-    QuerySnapshot querySnapshot = await users.where('email', isEqualTo: email).get();
-    if (querySnapshot.docs.isNotEmpty) {
-      DocumentReference userDoc = querySnapshot.docs.first.reference;
+  static Future<void> updateUserStreak(int maxStreak, int currentStreak, String uid) async {
+    DocumentSnapshot user = await fetchUserDataBase(uid);
+    if (user.exists) {
+      DocumentReference userDoc = user.reference;
       await userDoc.update({'maxStreak': maxStreak, 'currentStreak': currentStreak});
     }
   }
