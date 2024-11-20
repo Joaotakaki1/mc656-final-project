@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:mc656finalproject/utils/colors.dart';
-import 'package:mc656finalproject/models/ods.dart';
 
 class OdsIcon extends StatelessWidget {
   final Map<String, TiposDeFiltros> ods;

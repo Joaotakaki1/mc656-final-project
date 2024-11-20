@@ -5,7 +5,6 @@ class Desafio {
   Desafio({
     required String desafio, 
     required String tema, 
-    required String dificuldade
   })
     : _desafio = desafio,
       _tema = tema;
