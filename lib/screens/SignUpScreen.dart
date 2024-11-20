@@ -1,6 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mc656finalproject/models/user.dart' as UserClass;
 import 'package:mc656finalproject/screens/HomeScreen.dart';
-import 'package:mc656finalproject/services/login_verify.dart';
 import 'package:mc656finalproject/components/app_text_field.dart';
 import 'package:mc656finalproject/services/password_service.dart';
 import 'package:mc656finalproject/services/signUp.dart';
@@ -33,7 +34,8 @@ class _SignUpScreen extends State<SignUpScreen> {
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/images/background.png"),
-                fit: BoxFit.fitWidth, // Ajusta a imagem para a largura da tela, mantendo a proporção
+                fit: BoxFit
+                    .fitWidth, // Ajusta a imagem para a largura da tela, mantendo a proporção
                 alignment: Alignment.bottomCenter, // Alinha a imagem no topo
               ),
             ),
@@ -100,18 +102,19 @@ class _SignUpScreen extends State<SignUpScreen> {
                       if (_passwordController.text == _confirmPasswordController.text) {
                         if (PasswordService.isStrongPassword(_passwordController.text)) {
                           SignUp signUp = SignUp();
-                          bool success = await signUp.registerWithEmailPassword(
-                            _emailController.text,
-                            _passwordController.text,
-                            _usernameController.text,
-                          );
-                          if (success) {
-                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          UserCredential? success = await signUp.registerWithEmailPassword(
+                              _usernameController.text,
+                              _passwordController.text, _usernameController.text,);
+                          if (success != null) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
                               content: Text('Cadastro Realizado com sucesso'),
                             ));
+                            var currentUser = UserClass.User(email: success.user?.email ?? '', uid: success.user?.uid ?? '', username: success.user?.email ?? '');
                             Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (context) => const HomeScreen()),
+                              MaterialPageRoute(
+                                  builder: (context) => HomeScreen(currentUser: currentUser,)),
                             );
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -124,8 +127,10 @@ class _SignUpScreen extends State<SignUpScreen> {
                           ));
                         }
                       } else {
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text('As senhas devem ser iguais, tente novamente'),
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text(
+                              'As senhas devem ser iguais, tente novamente'),
                         ));
                       }
 
@@ -139,7 +144,8 @@ class _SignUpScreen extends State<SignUpScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
-                      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12.0, horizontal: 24.0),
                     ),
                     child: const Text(
                       'Cadastrar',

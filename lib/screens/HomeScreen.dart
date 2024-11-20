@@ -1,14 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/gradient_borders.dart';
+import 'package:mc656finalproject/models/user.dart';
+import 'package:mc656finalproject/services/master_controller.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final User currentUser;
+  const HomeScreen({super.key, required this.currentUser});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  Map<String, dynamic>? userData;
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
+  }
+
+  Future<void> _fetchUserData() async {
+    try {
+      var userSnapshot = await MasterController.fetchUserDataBaseUser(widget.currentUser.uid);
+      if (userSnapshot.exists) {
+        setState(() {
+          userData = userSnapshot.data() as Map<String, dynamic>?;
+        });
+      } 
+    } catch (error) {
+      print('Erro ao obter documentos: $error');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,9 +49,9 @@ class _HomeScreenState extends State<HomeScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Seja bem vindo, Lucas',
-                    style: TextStyle(
+                  Text(
+                    'Seja bem vindo ' + (userData?['email'] ?? ''),
+                    style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
                         color: Color.fromRGBO(254, 242, 0, 1)),
@@ -99,13 +121,26 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 50,
               ),
-              const OutlinedButton(
-                  onPressed: null,
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Color(0xFFED008C))
-                  ),
-                  child: Text('Iniciar Desafio', style: TextStyle(color: Colors.white),),
-                  )
+              OutlinedButton(
+                onPressed: () async {
+                  var collection = await MasterController.fetchUserDataBase();
+                  collection.get().then((querySnapshot) {
+                    for (var doc in querySnapshot.docs) {
+                      print('Document ID: ${doc.id}');
+                      print('Data: ${doc.data()}');
+                    }
+                  }).catchError((error) {
+                    print('Erro ao obter documentos: $error');
+                  });
+                },
+                style: const ButtonStyle(
+                    backgroundColor:
+                        MaterialStatePropertyAll(Color(0xFFED008C))),
+                child: const Text(
+                  'Iniciar Desafio',
+                  style: TextStyle(color: Colors.white),
+                ),
+              )
             ],
           ),
         )
