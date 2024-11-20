@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'Projeto MC656',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFED008C)),
         useMaterial3: true,
       ),
       home: const LoginScreen(),
