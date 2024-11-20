@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mc656finalproject/models/user.dart';
 import 'package:mc656finalproject/screens/HomeScreen.dart';
 import 'package:mc656finalproject/screens/SignUpScreen.dart';
 import 'package:mc656finalproject/services/login_verify.dart';
@@ -16,49 +17,67 @@ class _LoginScreenState extends State<LoginScreen> {
   // Controladores para capturar o texto dos campos de usuário e senha
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
 
   bool isEmpty() {
-    return (_usernameController.text.isEmpty || _passwordController.text.isEmpty);
+    return (_usernameController.text.isEmpty ||
+        _passwordController.text.isEmpty);
   }
 
-  Future<bool> resultadoLogin() async {
-    Map<String, dynamic> resultado = await LoginCheck.loginVerify(_usernameController.text, _passwordController.text);
-    return resultado['success'];
+  Future<dynamic> resultadoLogin() async {
+    Map<String, dynamic> resultado = await LoginCheck.loginWithEmailPassword(
+        _usernameController.text, _passwordController.text);
+
+    return resultado;
   }
 
   Future<String> mensagemLogin() async {
-    Map<String, dynamic> resultado = await LoginCheck.loginVerify(_usernameController.text, _passwordController.text);
+    Map<String, dynamic> resultado = await LoginCheck.loginVerify(
+        _usernameController.text, _passwordController.text);
     return resultado['message'];
   }
 
   Future<bool> _login() async {
+    setState(() {
+      _isLoading = true;
+    });
     // Lógica para autenticação
     if (isEmpty()) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Por favor, preencha todos os campos")),
       );
+      setState(() {
+        _isLoading = false;
+      });
       return false;
-    } 
-    if (!await resultadoLogin()) {
+    }
+    var res = await resultadoLogin();
+    if (!res['success']) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(await mensagemLogin())),
       );
+      setState(() {
+        _isLoading = false;
+      });
       return false;
     }
-
+    var currentUser = User(email: res['user'].email, uid: res['user'].uid, username: res['user'].email);
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => HomeScreen()),
+      MaterialPageRoute(builder: (context) => HomeScreen(currentUser: currentUser, )),
     );
+
+    setState(() {
+      _isLoading = false;
+    });
 
     return true;
   }
 
-
   void _signUp() async {
-        Navigator.push(
+    Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => SignUpScreen()),
+      MaterialPageRoute(builder: (context) => const SignUpScreen()),
     );
   }
 
@@ -77,7 +96,8 @@ class _LoginScreenState extends State<LoginScreen> {
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/images/background.png"),
-                fit: BoxFit.fitWidth, // Ajusta a imagem para a largura da tela, mantendo a proporção
+                fit: BoxFit
+                    .fitWidth, // Ajusta a imagem para a largura da tela, mantendo a proporção
                 alignment: Alignment.bottomCenter, // Alinha a imagem no topo
               ),
             ),
@@ -99,9 +119,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Campo de usuário
                   AppTextField(
                     controller: _usernameController,
-                    text: 'Usuário', 
-                    vPadding: 10.0, 
-                    hPadding: 20.0, 
+                    text: 'Usuário',
+                    vPadding: 10.0,
+                    hPadding: 20.0,
                     bRadius: 30.0,
                     password: false,
                   ),
@@ -109,19 +129,19 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Campo de senha
                   AppTextField(
                     controller: _passwordController,
-                    text: 'Senha', 
-                    vPadding: 10.0, 
-                    hPadding: 20.0, 
+                    text: 'Senha',
+                    vPadding: 10.0,
+                    hPadding: 20.0,
                     bRadius: 30.0,
                     password: true,
                   ),
                   const SizedBox(height: 16.0),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       // Botão Entrar alinhado à esquerda
                       ElevatedButton(
-                        onPressed: _login, 
+                        onPressed: _login,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: darkPink,
                           foregroundColor: Colors.white,
@@ -129,15 +149,16 @@ class _LoginScreenState extends State<LoginScreen> {
                             borderRadius: BorderRadius.circular(30.0),
                             side: const BorderSide(color: darkPink, width: 2.0),
                           ),
-                          padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 12.0, horizontal: 24.0),
                         ),
                         child: const Text(
-                        'Entrar',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                          'Entrar',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                    ),
                       ),
                       // Texto "Esqueci minha senha" alinhado à direita
                       GestureDetector(
@@ -160,12 +181,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       _signUp();
                     },
                     style: OutlinedButton.styleFrom(
-                      backgroundColor: Colors.white, 
+                      backgroundColor: Colors.white,
                       side: const BorderSide(color: darkPink, width: 2.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
-                      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12.0, horizontal: 24.0),
                     ),
                     child: const Text(
                       'Cadastrar',
@@ -179,6 +201,13 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
+          if (_isLoading)
+            Container(
+              color: Colors.black.withOpacity(0.5),
+              child: const Center(
+                child: CircularProgressIndicator(color: Color(0xFFED008C),),
+              ),
+            ),
         ],
       ),
     );

@@ -1,85 +1,93 @@
 import 'preferences.dart';
-/*
- Classe que representa um usuário no aplicativo.
- Contém informações essenciais como email, senha, sequência (streaks)
- e preferências personalizadas.
-*/
+
+/// Classe que representa um usuário no aplicativo.
 class User {
-  /// Email do usuário (utilizado como identificador único).
-  final String email;
+  /// Email do usuário (identificador único).
+  String _email;
 
   /// Nome de usuário (username).
-  final String username;
+  String _username;
 
   /// Senha do usuário.
-  final String password;
+  String _uid;
 
   /// Sequência atual de atividades do usuário (dias consecutivos).
-  int currentStreak;
+  int _currentStreak;
 
   /// Maior sequência alcançada pelo usuário.
-  int maxStreak;
+  int _maxStreak;
 
-  /// Preferências do usuário (inclui tipos e desafios).
-  Preferences preferences;
+  /// Preferências do usuário.
+  Preferences _preferences;
 
-  /* Construtor da classe [User].
-    Inicializa os campos obrigatórios e define valores padrão para
-    [currentStreak], [maxStreak] e [preferences].
-  */
+  /// Construtor padrão.
   User({
-    required this.email,
-    required this.username,
-    required this.password,
-    this.currentStreak = 0,
-    this.maxStreak = 0,
+    required String email,
+    required String username,
+    required String uid,
+    int currentStreak = 0,
+    int maxStreak = 0,
     Preferences? preferences,
-  }) : preferences = preferences ?? Preferences();
+  })  : _email = email,
+        _username = username,
+        _uid = uid,
+        _currentStreak = currentStreak,
+        _maxStreak = maxStreak,
+        _preferences = preferences ?? Preferences();
 
-  /* 
-    Converte o objeto [User] para um formato de mapa (Map<String, dynamic>).
-    Para salvar no firebase, se necessario.
-  */
+  /// Getters e Setters
+  String get email => _email;
+  set email(String email) => _email = email;
+
+  String get username => _username;
+  set username(String username) => _username = username;
+
+  String get uid => _uid;
+  set password(String password) => _uid = uid;
+
+  int get currentStreak => _currentStreak;
+  set currentStreak(int streak) => _currentStreak = streak;
+
+  int get maxStreak => _maxStreak;
+  set maxStreak(int streak) => _maxStreak = streak;
+
+  Preferences get preferences => _preferences;
+  set preferences(Preferences preferences) => _preferences = preferences;
+
+  /// Atualiza a sequência do usuário.
+  void updateStreak(int newStreak) {
+    _currentStreak = newStreak;
+    if (newStreak > _maxStreak) {
+      _maxStreak = newStreak;
+    }
+  }
+
+  /// Converte o objeto [User] para um mapa (para salvar no Firebase).
   Map<String, dynamic> toMap() {
     return {
-      'email': email,
-      'username': username,
-      'password': password,
-      'currentStreak': currentStreak,
-      'maxStreak': maxStreak,
-      'preferences': preferences.toMap(),
+      'email': _email,
+      'username': _username,
+      'uid': _uid,
+      'currentStreak': _currentStreak,
+      'maxStreak': _maxStreak,
+      'preferences': _preferences.toMap(),
     };
   }
 
-  
-  /*
-    Cria uma instância [User] a partir de um mapa (Map<String, dynamic>).
-    Se quiser recuperar os dados do firebase.
-  */
+  /// Cria uma instância [User] a partir de um mapa (ex.: dados do Firebase).
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
       email: map['email'] ?? '',
       username: map['username'] ?? '',
-      password: map['password'] ?? '',
+      uid: map['uid'] ?? '',
       currentStreak: map['currentStreak'] ?? 0,
       maxStreak: map['maxStreak'] ?? 0,
       preferences: Preferences.fromMap(map['preferences'] ?? {}),
     );
   }
-  /*
-    Atualiza a sequência atual do usuário.
-    Caso a sequência atual ultrapasse a maior sequência, o valor de
-    [maxStreak] será atualizado.
-  */
-  void updateStreak(int newStreak) {
-    currentStreak = newStreak;
-    if (newStreak > maxStreak) {
-      maxStreak = newStreak;
-    }
-  }
 
   @override
   String toString() {
-    return 'User(email: $email, username: $username, currentStreak: $currentStreak, maxStreak: $maxStreak, preferences: $preferences)';
+    return 'User(email: $_email, username: $_username, currentStreak: $_currentStreak, maxStreak: $_maxStreak, preferences: $_preferences)';
   }
 }
