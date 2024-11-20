@@ -7,7 +7,7 @@ class AppTextField extends StatefulWidget {
   final double vPadding;
   final double hPadding;
   final double bRadius;
-  
+  final bool password;
   const AppTextField({
     super.key,
     required this.controller,
@@ -15,6 +15,7 @@ class AppTextField extends StatefulWidget {
     required this.vPadding,
     required this.hPadding,
     required this.bRadius,
+    required this.password
     });
 
   @override
@@ -26,6 +27,7 @@ class _AppTextField extends State<AppTextField> {
   Widget build(BuildContext context) {
     return TextField(
       controller: widget.controller,
+      obscureText: widget.password,
       decoration: InputDecoration(
         hintText: widget.text,
         contentPadding: EdgeInsets.symmetric(vertical: widget.vPadding, horizontal: widget.hPadding),

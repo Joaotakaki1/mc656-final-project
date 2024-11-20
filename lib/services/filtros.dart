@@ -29,7 +29,7 @@ class Filtro {
     return;
   }
 
-  /// Dado um desafio, adiciona a lista de desafios
+  /// Dado um desafio, remove da lista de desafios
   void removeDesafio(Desafio desafio){
     if(!verificaExistencia(desafio)){
       return;

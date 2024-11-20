@@ -63,24 +63,27 @@ class _SignUpScreen extends State<SignUpScreen> {
                     text: 'Usuário', 
                     vPadding: 10.0, 
                     hPadding: 20.0, 
-                    bRadius: 30.0
+                    bRadius: 30.0,
+                    password: false,
                   ),
                   const SizedBox(height: 16.0),
                   // Campo de senha
                   AppTextField(
-                    controller: _usernameController,
+                    controller: _passwordController,
                     text: 'Senha', 
                     vPadding: 10.0, 
                     hPadding: 20.0, 
-                    bRadius: 30.0
+                    bRadius: 30.0,
+                    password: true,
                   ),
                   const SizedBox(height: 16.0),
                   AppTextField(
-                    controller: _usernameController,
+                    controller: _confirmPasswordController,
                     text: 'Confirme a senha', 
                     vPadding: 10.0, 
                     hPadding: 20.0, 
-                    bRadius: 30.0
+                    bRadius: 30.0,
+                    password: true,
                   ),
                   const SizedBox(height: 16.0),
                   // Botão de Cadastro
