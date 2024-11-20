@@ -1,36 +1,47 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-Future<Map<String, dynamic>> LoginVerify(String username, String password) async {
-  // Caminho do arquivo JSON
-  const String filePath = 'assets/users.json';
-
-  // Lê o arquivo JSON usando rootBundle
-  final String jsonString = await rootBundle.loadString(filePath);
-  final List<dynamic> users = jsonDecode(jsonString);
-
-  // Verifica se o username existe
-  for (var user in users) {
-    if (user['username'] == username) {
-      // Verifica se a senha está correta
-      if (user['password'] == password) {
-        return {
-          'success': true,
-          'message': 'Login feito com sucesso'
-        };
-      } else {
-        return {
-          'success': false,
-          'message': 'Senha Incorreta'
-        };
-      }
+class LoginCheck {
+  static Future<Map<String, dynamic>> _dataBaseFetch() async {
+    FirebaseFirestore firestroe = FirebaseFirestore.instance;
+    CollectionReference usersCollection = firestroe.collection('users');
+    QuerySnapshot querySnapshot = await usersCollection.get();
+    Map<String, dynamic> users = {};
+    for (var doc in querySnapshot.docs) {
+      users[doc.id] = doc.data();
     }
+
+    return users;
   }
 
-  // Se o username não for encontrado
-  return {
-    'success': false,
-    'message': 'Usuário não cadastrado'
-  };
+  static Future<Map<String, dynamic>> loginVerify(String username, String password) async {
+
+    Map<String, dynamic> users = await _dataBaseFetch();
+
+    // Verifica se o username existe
+    for (var user in users.values) {
+      if (user['username'] == username) {
+        // Verifica se a senha está correta
+        if (user['password'] == password) {
+          return {
+            'success': true,
+            'message': 'Login feito com sucesso'
+          };
+        } else {
+          return {
+            'success': false,
+            'message': 'Senha Incorreta'
+          };
+        }
+      }
+    }
+
+    // Se o username não for encontrado
+    return {
+      'success': false,
+      'message': 'Usuário não cadastrado'
+    };
+  }
 }
