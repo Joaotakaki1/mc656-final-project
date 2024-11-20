@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Seja bem vindo ' + (userData?['email'] ?? ''),
+                    'Seja bem vindo, ' + (userData?['username'] ?? ''),
                     style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -123,15 +123,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               OutlinedButton(
                 onPressed: () async {
-                  var collection = await MasterController.fetchUserDataBase();
-                  collection.get().then((querySnapshot) {
-                    for (var doc in querySnapshot.docs) {
-                      print('Document ID: ${doc.id}');
-                      print('Data: ${doc.data()}');
-                    }
-                  }).catchError((error) {
-                    print('Erro ao obter documentos: $error');
-                  });
                 },
                 style: const ButtonStyle(
                     backgroundColor:

@@ -27,14 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<dynamic> resultadoLogin() async {
     Map<String, dynamic> resultado = await LoginCheck.loginWithEmailPassword(
         _usernameController.text, _passwordController.text);
-
     return resultado;
-  }
-
-  Future<String> mensagemLogin() async {
-    Map<String, dynamic> resultado = await LoginCheck.loginVerify(
-        _usernameController.text, _passwordController.text);
-    return resultado['message'];
   }
 
   Future<bool> _login() async {
@@ -54,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
     var res = await resultadoLogin();
     if (!res['success']) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(await mensagemLogin())),
+        SnackBar(content: Text(res['message'])),
       );
       setState(() {
         _isLoading = false;
@@ -119,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Campo de usuário
                   AppTextField(
                     controller: _usernameController,
-                    text: 'Usuário',
+                    text: 'Email',
                     vPadding: 10.0,
                     hPadding: 20.0,
                     bRadius: 30.0,
