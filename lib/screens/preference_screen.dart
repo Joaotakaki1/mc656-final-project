@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mc656finalproject/models/ods.dart';
-import 'package:mc656finalproject/screens/ods_icon.dart';
+import 'package:mc656finalproject/components/ods_icon.dart';
+import 'package:mc656finalproject/services/ods.dart';
 import 'package:mc656finalproject/utils/colors.dart';
+import 'package:mc656finalproject/utils/ods.dart';
 
 class PreferenceScreen extends StatefulWidget {
   const PreferenceScreen({super.key});
@@ -11,8 +12,14 @@ class PreferenceScreen extends StatefulWidget {
 }
 
 class _PreferenceScreen extends State<PreferenceScreen>{
-  ODS ods = ODS();
-  List<Map<String, TiposDeFiltros>> odsList = [];
+  List<String> chosen_ods_components = [];
+  List<OdsIcon> available_ods_components = []
+  List<OdsIcon> available_ods = Ods.ods;
+
+  for(var ods in available_ods){
+    OdsIcon ods_icon = OdsIcon(ods: ods);
+    available_ods_components.add(ods_icon);
+  }
 
   @override
   Widget build(BuildContext context){
