@@ -1,8 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mc656finalproject/models/user.dart' as UserClass;
 import 'package:mc656finalproject/screens/HomeScreen.dart';
-import 'package:mc656finalproject/services/login_verify.dart';
 import 'package:mc656finalproject/components/app_text_field.dart';
-import 'package:mc656finalproject/screens/HomeScreen.dart';
 import 'package:mc656finalproject/services/password_service.dart';
 import 'package:mc656finalproject/services/signUp.dart';
 import 'package:mc656finalproject/utils/colors.dart';
@@ -90,18 +90,19 @@ class _SignUpScreen extends State<SignUpScreen> {
                         if (PasswordService.isStrongPassword(
                             _passwordController.text)) {
                           SignUp signUp = SignUp();
-                          bool success = await signUp.registerWithEmailPassword(
+                          UserCredential? success = await signUp.registerWithEmailPassword(
                               _usernameController.text,
                               _passwordController.text);
-                          if (success) {
+                          if (success != null) {
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(const SnackBar(
                               content: Text('Cadastro Realizado com sucesso'),
                             ));
+                            var currentUser = UserClass.User(email: success.user?.email ?? '', uid: success.user?.uid ?? '', username: success.user?.email ?? '');
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const HomeScreen()),
+                                  builder: (context) => HomeScreen(currentUser: currentUser,)),
                             );
                           }
                         } else {

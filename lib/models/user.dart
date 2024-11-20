@@ -9,7 +9,7 @@ class User {
   String _username;
 
   /// Senha do usuário.
-  String _password;
+  String _uid;
 
   /// Sequência atual de atividades do usuário (dias consecutivos).
   int _currentStreak;
@@ -24,13 +24,13 @@ class User {
   User({
     required String email,
     required String username,
-    required String password,
+    required String uid,
     int currentStreak = 0,
     int maxStreak = 0,
     Preferences? preferences,
   })  : _email = email,
         _username = username,
-        _password = password,
+        _uid = uid,
         _currentStreak = currentStreak,
         _maxStreak = maxStreak,
         _preferences = preferences ?? Preferences();
@@ -42,8 +42,8 @@ class User {
   String get username => _username;
   set username(String username) => _username = username;
 
-  String get password => _password;
-  set password(String password) => _password = password;
+  String get uid => _uid;
+  set password(String password) => _uid = uid;
 
   int get currentStreak => _currentStreak;
   set currentStreak(int streak) => _currentStreak = streak;
@@ -67,7 +67,7 @@ class User {
     return {
       'email': _email,
       'username': _username,
-      'password': _password,
+      'uid': _uid,
       'currentStreak': _currentStreak,
       'maxStreak': _maxStreak,
       'preferences': _preferences.toMap(),
@@ -79,7 +79,7 @@ class User {
     return User(
       email: map['email'] ?? '',
       username: map['username'] ?? '',
-      password: map['password'] ?? '',
+      uid: map['uid'] ?? '',
       currentStreak: map['currentStreak'] ?? 0,
       maxStreak: map['maxStreak'] ?? 0,
       preferences: Preferences.fromMap(map['preferences'] ?? {}),

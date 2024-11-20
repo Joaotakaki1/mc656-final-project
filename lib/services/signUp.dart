@@ -38,7 +38,7 @@ class SignUp {
     return true;
   }
 
-  Future<bool> registerWithEmailPassword(String email, String password) async {
+  Future<UserCredential?> registerWithEmailPassword(String email, String password) async {
     try {
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
@@ -50,7 +50,7 @@ class SignUp {
         'createdAt': FieldValue.serverTimestamp(),
       });
       print('Cadastro realizado com sucesso: ${userCredential.user?.uid}');
-      return true;
+      return userCredential;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('A senha fornecida é muito fraca.');
@@ -59,10 +59,10 @@ class SignUp {
       } else {
         print('Erro ao cadastrar usuário: $e');
       }
-      return false;
+      return null;
     } catch (e) {
       print('Erro inesperado: $e');
-      return false;
+      return null;
     }
   }
 }
