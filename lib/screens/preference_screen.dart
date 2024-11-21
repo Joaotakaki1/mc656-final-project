@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mc656finalproject/components/ods_icon.dart';
-import 'package:mc656finalproject/services/ods.dart';
 import 'package:mc656finalproject/utils/colors.dart';
 import 'package:mc656finalproject/utils/ods.dart';
+import '../models/user.dart';
 
 class PreferenceScreen extends StatefulWidget {
-  const PreferenceScreen({super.key});
+  final User currentUser;
+  const PreferenceScreen({super.key, required this.currentUser});
   
   @override
   _PreferenceScreen createState() => _PreferenceScreen();
@@ -34,63 +35,145 @@ class _PreferenceScreen extends State<PreferenceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Ajustes de Preferências"),
-        backgroundColor: Colors.white,
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Título
             const Text(
-              "Estamos quase lá... Selecione quais os tipos de desafio você deseja receber.",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              "Estamos quase lá... ",
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            
-            // Containers para OdsIcons
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Container de Ods selecionados
-                Container(
-                  width: 150,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    color: darkPink,
+            const Text(
+              "Mas antes disso, escolha quais ODS você deseja focar:",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+            ),
+            const SizedBox(height: 16),
+
+            // Container para ODS Selecionadas
+            Container(
+              height: 200,
+              constraints: const BoxConstraints(
+                minWidth: double.infinity
+              ),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: darkPink,
+                  width: 2,
+                ),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      "ODS Selecionadas:",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: darkPink,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Wrap(
+                        spacing: 2,
+                        runSpacing: 2,
+                        children: chosen_ods_components.map((odsIcon) {
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                available_ods_components.add(odsIcon);
+                                chosen_ods_components.remove(odsIcon);
+                              });
+                            },
+                            child: odsIcon,
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            // Container para ODS Não Selecionadas
+            Container(
+              height: 200,
+              constraints: const BoxConstraints(
+                minWidth: double.infinity
+              ),
+              color: lightPink,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: darkPink,
+                  width: 2,
+                ),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      "ODS Não Selecionadas:",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: darkPink,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Wrap(
+                        spacing: 2,
+                        runSpacing: 2,
+                        children: available_ods_components.map((odsIcon) {
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                chosen_ods_components.add(odsIcon);
+                                available_ods_components.remove(odsIcon);
+                              });
+                            },
+                            child: odsIcon,
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const Spacer(),
+
+            // Botão de "Confirmar"
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  // Lógica do botão
+                  print("ODS confirmadas!");
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: darkPink, // Cor darkPink
+                  shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: ListView(
-                    children: chosen_ods_components,
-                  ),
                 ),
-                const SizedBox(width: 16),
-                // Container de Ods disponíveis
-                Container(
-                  width: 150,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    color: lightPink,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: ListView(
-                    children: available_ods_components.map((odsIcon) {
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            // Adiciona o ícone na lista de selecionados
-                            chosen_ods_components.add(odsIcon);
-                            available_ods_components.remove(odsIcon);
-                          });
-                        },
-                        child: odsIcon,
-                      );
-                    }).toList(),
-                  ),
+                child: const Text(
+                  "Confirmar",
+                  style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
-              ],
+              ),
             ),
           ],
         ),
@@ -98,4 +181,3 @@ class _PreferenceScreen extends State<PreferenceScreen> {
     );
   }
 }
-

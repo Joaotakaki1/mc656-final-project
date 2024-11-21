@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mc656finalproject/models/user.dart';
-import 'package:mc656finalproject/screens/HomeScreen.dart';
-import 'package:mc656finalproject/screens/SignUpScreen.dart';
-import 'package:mc656finalproject/services/login_verify.dart';
+import 'package:mc656finalproject/screens/home_screen.dart';
+import 'package:mc656finalproject/screens/signUp_screen.dart';
+import 'package:mc656finalproject/services/login_controller.dart';
 import 'package:mc656finalproject/utils/colors.dart';
 import 'package:mc656finalproject/components/app_text_field.dart';
 
@@ -25,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<dynamic> resultadoLogin() async {
-    Map<String, dynamic> resultado = await LoginCheck.loginWithEmailPassword(
+    Map<String, dynamic> resultado = await LoginController.loginWithEmailPassword(
         _usernameController.text, _passwordController.text);
     return resultado;
   }

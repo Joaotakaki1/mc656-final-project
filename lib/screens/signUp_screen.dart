@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mc656finalproject/models/user.dart' as UserClass;
-import 'package:mc656finalproject/screens/HomeScreen.dart';
+import 'package:mc656finalproject/screens/home_screen.dart';
 import 'package:mc656finalproject/components/app_text_field.dart';
 import 'package:mc656finalproject/services/password_service.dart';
 import 'package:mc656finalproject/services/signUp.dart';
@@ -103,8 +103,9 @@ class _SignUpScreen extends State<SignUpScreen> {
                         if (PasswordService.isStrongPassword(_passwordController.text)) {
                           SignUp signUp = SignUp();
                           UserCredential? success = await signUp.registerWithEmailPassword(
-                              _usernameController.text,
-                              _passwordController.text, _usernameController.text,);
+                              _emailController.text,
+                              _passwordController.text, 
+                              _usernameController.text,);
                           if (success != null) {
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(const SnackBar(
