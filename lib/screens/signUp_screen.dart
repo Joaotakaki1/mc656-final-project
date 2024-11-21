@@ -103,8 +103,9 @@ class _SignUpScreen extends State<SignUpScreen> {
                         if (PasswordService.isStrongPassword(_passwordController.text)) {
                           SignUp signUp = SignUp();
                           UserCredential? success = await signUp.registerWithEmailPassword(
-                              _usernameController.text,
-                              _passwordController.text, _usernameController.text,);
+                              _emailController.text,
+                              _passwordController.text, 
+                              _usernameController.text,);
                           if (success != null) {
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(const SnackBar(
