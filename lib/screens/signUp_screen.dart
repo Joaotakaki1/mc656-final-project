@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mc656finalproject/models/user.dart' as UserClass;
@@ -19,9 +21,11 @@ class _SignUpScreen extends State<SignUpScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
-  bool _isLoading = false; // Variável para controlar a visibilidade do indicador de progresso
+  bool _isLoading =
+      false; // Variável para controlar a visibilidade do indicador de progresso
 
   @override
   Widget build(BuildContext context) {
@@ -99,31 +103,43 @@ class _SignUpScreen extends State<SignUpScreen> {
                         _isLoading = true; // Mostrar o indicador de progresso
                       });
 
-                      if (_passwordController.text == _confirmPasswordController.text) {
-                        if (PasswordService.isStrongPassword(_passwordController.text)) {
+                      if (_passwordController.text ==
+                          _confirmPasswordController.text) {
+                        if (PasswordService.isStrongPassword(
+                            _passwordController.text)) {
                           SignUp signUp = SignUp();
-                          UserCredential? success = await signUp.registerWithEmailPassword(
-                              _emailController.text,
-                              _passwordController.text, 
-                              _usernameController.text,);
+                          UserCredential? success =
+                              await signUp.registerWithEmailPassword(
+                            _emailController.text,
+                            _passwordController.text,
+                            _usernameController.text,
+                          );
                           if (success != null) {
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(const SnackBar(
                               content: Text('Cadastro Realizado com sucesso'),
                             ));
-                            var currentUser = UserClass.User(email: success.user?.email ?? '', uid: success.user?.uid ?? '', username: success.user?.email ?? '');
+                            var currentUser = UserClass.User(
+                                email: success.user?.email ?? '',
+                                uid: success.user?.uid ?? '',
+                                username: success.user?.email ?? '');
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => HomeScreen(currentUser: currentUser,)),
+                                  builder: (context) => HomeScreen(
+                                        currentUser: currentUser,
+                                      )),
                             );
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                              content: Text('Erro ao cadastrar, tente novamente'),
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content:
+                                  Text('Erro ao cadastrar, tente novamente'),
                             ));
                           }
                         } else {
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
                             content: Text('Senha fraca, tente novamente'),
                           ));
                         }
@@ -156,6 +172,30 @@ class _SignUpScreen extends State<SignUpScreen> {
                       ),
                     ),
                   ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  OutlinedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: Colors.white, // Cor do texto do botão
+                      side: const BorderSide(color: darkPink, width: 2.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12.0, horizontal: 24.0),
+                    ),
+                    child: const Text(
+                      'Voltar',
+                      style: TextStyle(
+                        color: darkPink,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
@@ -163,7 +203,8 @@ class _SignUpScreen extends State<SignUpScreen> {
           // Indicador de progresso
           if (_isLoading)
             Container(
-              color: Colors.black.withOpacity(0.5), // Fundo escuro com opacidade
+              color:
+                  Colors.black.withOpacity(0.5), // Fundo escuro com opacidade
               child: const Center(
                 child: CircularProgressIndicator(),
               ),
