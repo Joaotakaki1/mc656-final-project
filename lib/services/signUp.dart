@@ -48,6 +48,8 @@ class SignUp {
       await _firestore.collection('users').doc(userCredential.user?.uid).set({
         'email': email,
         'username': username,
+        'currentStreak': 0,
+        'maxStreak': 0,
         'createdAt': FieldValue.serverTimestamp(),
       });
       print('Cadastro realizado com sucesso: ${userCredential.user?.uid}');
