@@ -12,7 +12,11 @@ class GamificationController {
     return await MasterController.fetchUserStreak(user.uid);
   }
 
-  void updateUserStreak(User user) {
-    MasterController.updateUserStreakDataBase(user.maxStreak, user.currentStreak, user.uid);
+  void updateUserMaxStreak(User user) {
+    MasterController.updateUserMaxStreak(user.maxStreak, user.uid);
+  }
+
+  void updateUserCurrentStreak(User user) {
+    MasterController.updateUserCurrentStreak(user.currentStreak, user.uid);
   }
 }

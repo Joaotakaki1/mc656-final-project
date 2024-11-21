@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _fetchUserData() async {
     try {
-      var userSnapshot = await MasterController.fetchUserDataBaseUser(widget.currentUser.uid);
+      var userSnapshot = await MasterController.fetchUserDataBase(widget.currentUser.uid);
       if (userSnapshot.exists) {
         setState(() {
           userData = userSnapshot.data() as Map<String, dynamic>?;

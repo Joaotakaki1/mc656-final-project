@@ -67,11 +67,19 @@ class MasterController {
     }
   }
 
-  static Future<void> updateUserStreak(int maxStreak, int currentStreak, String uid) async {
+  static Future<void> updateUserMaxStreak(int maxStreak, String uid) async {
     DocumentSnapshot user = await fetchUserDataBase(uid);
     if (user.exists) {
       DocumentReference userDoc = user.reference;
-      await userDoc.update({'maxStreak': maxStreak, 'currentStreak': currentStreak});
+      await userDoc.update({'maxStreak': maxStreak});
+    }
+  }
+
+  static Future<void> updateUserCurrentStreak(int currentStreak, String uid) async {
+    DocumentSnapshot user = await fetchUserDataBase(uid);
+    if (user.exists) {
+      DocumentReference userDoc = user.reference;
+      await userDoc.update({'currentStreak': currentStreak});
     }
   }
 }

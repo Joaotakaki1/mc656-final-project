@@ -16,9 +16,9 @@ class ChallengeController {
     preferences.preferences = ods_preferences;
     }
 
-  void load_all_possible_challenges(){
+  void load_all_possible_challenges() async {
     for (var ods in preferences.preferences) {
-      List<Desafio> challenges_by_ods = MasterController.fetchDesafioTema(ods);
+      List<Desafio> challenges_by_ods = await MasterController.fetchDesafioTema(ods);
       for (var challenge in challenges_by_ods){
         possible_challenges.add(challenge);
       }

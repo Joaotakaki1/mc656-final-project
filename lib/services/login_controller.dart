@@ -1,10 +1,6 @@
-import 'dart:convert';
-import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:cloud_firestore/cloud_firestore.dart';
 
-class LoginCheck {
+class LoginController {
   static Future<Map<String, dynamic>> loginWithEmailPassword(String email, String password) async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     try {
