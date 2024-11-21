@@ -86,9 +86,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             const SizedBox(
                               width: 10,
                             ),
-                            const Text(
-                              'Você está a 17 dias transbordando!',
-                              style: TextStyle(
+                            Text(
+                              'Você está a ${userData?['currentStreak'] ?? '0'} dias transbordando!',
+                              style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.w700),
                             )
                           ],
@@ -106,9 +106,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             const SizedBox(
                               width: 10,
                             ),
-                            const Text(
-                              'Sua melhor sequencia foi 28 dias',
-                              style: TextStyle(
+                            Text(
+                              'Sua melhor sequencia foi ${userData?['maxStreak'] ?? '0'}  dias',
+                              style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.w700),
                             )
                           ],
