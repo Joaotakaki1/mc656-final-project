@@ -1,9 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mc656finalproject/models/desafio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class MasterController {
 
   // fazer função para pegar o query e o documentsnapshot, ta usando em todas
+
+  static FirebaseAuth fetchFireBaseAuth() {
+    return FirebaseAuth.instance;
+  }
+
+  static Future<CollectionReference> fetchUserCollection() async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    CollectionReference userCollection = firestore.collection('users');
+    return userCollection;
+  }
 
   static Future<DocumentSnapshot> fetchUserDataBase(String uid) async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -80,6 +91,36 @@ class MasterController {
     if (user.exists) {
       DocumentReference userDoc = user.reference;
       await userDoc.update({'currentStreak': currentStreak});
+    }
+  }
+
+  static Future<UserCredential?> registerWithEmailPassword(String email, String password, String username) async {
+    FirebaseAuth _auth = fetchFireBaseAuth();
+    CollectionReference _firestore = await fetchUserCollection();
+    try {
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      await _firestore.doc(userCredential.user?.uid).set({
+        'email': email,
+        'username': username,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+      print('Cadastro realizado com sucesso: ${userCredential.user?.uid}');
+      return userCredential;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('A senha fornecida é muito fraca.');
+      } else if (e.code == 'email-already-in-use') {
+        print('A conta já existe para esse email.');
+      } else {
+        print('Erro ao cadastrar usuário: $e');
+      }
+      return null;
+    } catch (e) {
+      print('Erro inesperado: $e');
+      return null;
     }
   }
 }

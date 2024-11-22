@@ -1,75 +1,52 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:mc656finalproject/services/master_controller.dart';
+import 'package:mc656finalproject/services/password_service.dart';
+import 'package:flutter/material.dart';
+import 'package:mc656finalproject/models/user.dart' as UserClass;
+import 'package:mc656finalproject/screens/home_screen.dart';
 
 class SignUpController {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // void signUpCheck(String password, String confirmPassword, String username) async {
-  //   if (password == confirmPassword) {
-  //     if (PasswordService.isStrongPassword(password)) {
-  //       SignUpController signUp = SignUpController();
-  //       UserCredential? success = await signUp.registerWithEmailPassword(
-  //           _usernameController,
-  //           password, _usernameController,);
-  //       if (success != null) {
-  //         ScaffoldMessenger.of(context)
-  //             .showSnackBar(const SnackBar(
-  //           content: Text('Cadastro Realizado com sucesso'),
-  //         ));
-  //         var currentUser = UserClass.User(email: success.user?.email ?? '', uid: success.user?.uid ?? '', username: success.user?.email ?? '');
-  //         Navigator.pushReplacement(
-  //           context,
-  //           MaterialPageRoute(
-  //               builder: (context) => HomeScreen(currentUser: currentUser,)),
-  //         );
-  //       } else {
-  //         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-  //           content: Text('Erro ao cadastrar, tente novamente'),
-  //         ));
-  //       }
-  //     } else {
-  //       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-  //         content: Text('Senha fraca, tente novamente'),
-  //       ));
-  //     }
-  //   } else {
-  //     ScaffoldMessenger.of(context)
-  //         .showSnackBar(const SnackBar(
-  //       content: Text(
-  //           'As senhas devem ser iguais, tente novamente'),
-  //     ));
-  //   }
-  // }
+  static void signUpNotice(BuildContext context, String text) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(
+      content: Text(text),
+    ));
+  }
 
-  Future<UserCredential?> registerWithEmailPassword(String email, String password, String username) async {
-    try {
-      UserCredential userCredential =
-          await _auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      await _firestore.collection('users').doc(userCredential.user?.uid).set({
-        'email': email,
-        'username': username,
-        'createdAt': FieldValue.serverTimestamp(),
-      });
-      print('Cadastro realizado com sucesso: ${userCredential.user?.uid}');
-      return userCredential;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('A senha fornecida é muito fraca.');
-      } else if (e.code == 'email-already-in-use') {
-        print('A conta já existe para esse email.');
+  static void goToHome(BuildContext context, var currentUser) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+          builder: (context) => HomeScreen(
+                currentUser: currentUser,
+              )),
+    );
+  }
+
+  static void signUpCheck(String password, String confirmPassword, String username, String email, BuildContext context) async {
+    if (password == confirmPassword) {
+      if (PasswordService.isStrongPassword(password)) {
+        UserCredential? success = await MasterController.registerWithEmailPassword(
+          email,
+          password,
+          username,
+        );
+        if (success != null) {
+          signUpNotice(context, 'Cadastro realizado com sucesso.');
+          var currentUser = UserClass.User(
+              email: success.user?.email ?? '',
+              uid: success.user?.uid ?? '',
+              username: success.user?.email ?? '');
+          goToHome(context, currentUser);
+        } else {
+          signUpNotice(context, 'Erro ao cadastrar, tente novamente');
+        }
       } else {
-        print('Erro ao cadastrar usuário: $e');
+        signUpNotice(context, 'Senha fraca, tente novamente.');
       }
-      return null;
-    } catch (e) {
-      print('Erro inesperado: $e');
-      return null;
+    } else {
+      signUpNotice(context, 'As senhas devem ser iguais, tente novamente.');
     }
   }
 }
