@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 import 'package:mc656finalproject/models/user.dart';
+import 'package:mc656finalproject/screens/preference_screen.dart';
 import 'package:mc656finalproject/services/master_controller.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -23,9 +24,18 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       var userSnapshot = await MasterController.fetchUserDataBase(widget.currentUser.uid);
       if (userSnapshot.exists) {
+        var aux = userSnapshot.data() as Map<String, dynamic>?;
         setState(() {
-          userData = userSnapshot.data() as Map<String, dynamic>?;
+          userData = aux;
         });
+        if (aux?['hasSetPreferences'] == false) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PreferenceScreen(currentUser: widget.currentUser),
+            ),
+          );
+        }
       } 
     } catch (error) {
       print('Erro ao obter documentos: $error');
