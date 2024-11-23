@@ -6,7 +6,7 @@ import 'package:mc656finalproject/models/user.dart' as UserClass;
 import 'package:mc656finalproject/screens/home_screen.dart';
 import 'package:mc656finalproject/components/app_text_field.dart';
 import 'package:mc656finalproject/services/password_service.dart';
-import 'package:mc656finalproject/services/signUp.dart';
+import 'package:mc656finalproject/services/signUp_controller.dart';
 import 'package:mc656finalproject/utils/colors.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -102,55 +102,13 @@ class _SignUpScreen extends State<SignUpScreen> {
                       setState(() {
                         _isLoading = true; // Mostrar o indicador de progresso
                       });
-
-                      if (_passwordController.text ==
-                          _confirmPasswordController.text) {
-                        if (PasswordService.isStrongPassword(
-                            _passwordController.text)) {
-                          SignUp signUp = SignUp();
-                          UserCredential? success =
-                              await signUp.registerWithEmailPassword(
-                            _emailController.text,
-                            _passwordController.text,
-                            _usernameController.text,
-                          );
-                          if (success != null) {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                              content: Text('Cadastro Realizado com sucesso'),
-                            ));
-                            var currentUser = UserClass.User(
-                                email: success.user?.email ?? '',
-                                uid: success.user?.uid ?? '',
-                                username: success.user?.email ?? '');
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomeScreen(
-                                        currentUser: currentUser,
-                                      )),
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                              content:
-                                  Text('Erro ao cadastrar, tente novamente'),
-                            ));
-                          }
-                        } else {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            content: Text('Senha fraca, tente novamente'),
-                          ));
-                        }
-                      } else {
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(
-                          content: Text(
-                              'As senhas devem ser iguais, tente novamente'),
-                        ));
-                      }
-
+                      SignUpController.signUpCheck(
+                        _passwordController.text,
+                        _confirmPasswordController.text,
+                        _usernameController.text,
+                        _emailController.text,
+                        context
+                      );
                       setState(() {
                         _isLoading = false; // Ocultar o indicador de progresso
                       });
