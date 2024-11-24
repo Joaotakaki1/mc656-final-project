@@ -1,21 +1,22 @@
 class Ods{
   static List<String> ods = [
-    "Erradicação da pobreza",
+    "Erradicação da Pobreza",
     "Erradicação da fome",
     "Saúde e Bem-Estar",
-    "Educação de qualidade",
-    "Igualdade de gênero",
+    "Educação de Qualidade",
+    "Igualdade de Gênero",
     "Água Potável e Saneamento",
-    "Energia acessível e limpa",
-    "Trabalho decente e crescimento econômico",
-    "Inovação e infraestrutura",
-    "Redução das desigualdades",
-    "Cidades e comunidades sustentáveis",
-    "Consumo e produção responsáveis",
-    "Ação contra a Mudança Global do Clima",
+    "Energia Acessível e Limpa",
+    "Trabalho Decente e Crescimento Econômico",
+    "Indústria, Inovação e Infraestrutura",
+    "Redução das Desigualdades",
+    "Cidades e Comunidades Sustentáveis",
+    "Consumo e Produção Responsáveis",
+    "Ação Contra a Mudança Global do Clima",
     "Vida na Água",
     "Vida Terrestre",
     "Paz, Justiça e Instituições Eficazes",
-    "Parcerias e Meios de Implementação"
+    "Parcerias e Meios de Implementação",
+    "Fome Zero e Agricultura Sustentável"
   ];
 }

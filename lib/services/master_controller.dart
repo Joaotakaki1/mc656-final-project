@@ -34,7 +34,6 @@ class MasterController {
 
     // Aplicar filtro para selecionar documentos onde o identificador é igual ao valor do parâmetro 'tema'
     DocumentSnapshot docSnapshot = await desafiosCollection.doc(tema).get();
-
     // Converter o documento retornado em uma lista de objetos Desafio
     List<Desafio> desafios = [];
     if (docSnapshot.exists) {
@@ -60,12 +59,12 @@ class MasterController {
     return preferences;
   }
 
-  static Future<List<int>> fetchUserStreak(String uid) async {
+  static Future<Map<String, int>> fetchUserStreak(String uid) async {
     DocumentSnapshot user = await fetchUserDataBase(uid);
-    List<int> streak = [];
+    Map<String, int> streak = {};
     if (user.exists) {
-      streak.add(user['maxStreak']);
-      streak.add(user['currentStreak']);
+      streak['maxStreak'] = user['maxStreak'];
+      streak['currentStreak'] = user['currentStreak'];
     }
     return streak;
   }
@@ -95,14 +94,14 @@ class MasterController {
   }
 
   static Future<UserCredential?> registerWithEmailPassword(String email, String password, String username) async {
-    FirebaseAuth _auth = fetchFireBaseAuth();
-    CollectionReference _firestore = await fetchUserCollection();
+    FirebaseAuth auth = fetchFireBaseAuth();
+    CollectionReference firestore = await fetchUserCollection();
     try {
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      await _firestore.doc(userCredential.user?.uid).set({
+      await firestore.doc(userCredential.user?.uid).set({
         'email': email,
         'username': username,
         'createdAt': FieldValue.serverTimestamp(),
