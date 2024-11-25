@@ -35,7 +35,6 @@ class MasterController {
 
     // Aplicar filtro para selecionar documentos onde o identificador é igual ao valor do parâmetro 'tema'
     DocumentSnapshot docSnapshot = await desafiosCollection.doc(tema).get();
-
     // Converter o documento retornado em uma lista de objetos Desafio
     List<Desafio> desafios = [];
     if (docSnapshot.exists) {
@@ -61,12 +60,12 @@ class MasterController {
     return preferences;
   }
 
-  static Future<List<int>> fetchUserStreak(String uid) async {
+  static Future<Map<String, int>> fetchUserStreak(String uid) async {
     DocumentSnapshot user = await fetchUserDataBase(uid);
-    List<int> streak = [];
+    Map<String, int> streak = {};
     if (user.exists) {
-      streak.add(user['maxStreak']);
-      streak.add(user['currentStreak']);
+      streak['maxStreak'] = user['maxStreak'];
+      streak['currentStreak'] = user['currentStreak'];
     }
     return streak;
   }

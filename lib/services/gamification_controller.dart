@@ -8,7 +8,7 @@ class GamificationController {
   GamificationController();
 
   /// Retorna a sequência atual do usuário, buscando do Firestore.
-  Future<List<int>> getUserStreak(User user) async {
+  Future<Map<String, int>> getUserStreak(User user) async {
     return await MasterController.fetchUserStreak(user.uid);
   }
 
