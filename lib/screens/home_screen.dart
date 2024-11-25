@@ -3,6 +3,7 @@ import 'package:gradient_borders/gradient_borders.dart';
 import 'package:mc656finalproject/models/desafio.dart';
 import 'package:mc656finalproject/models/user.dart';
 import 'package:mc656finalproject/services/challenge_controller.dart';
+import 'package:mc656finalproject/screens/preference_screen.dart';
 import 'package:mc656finalproject/services/master_controller.dart';
 import 'package:mc656finalproject/utils/colors.dart';
 
@@ -33,8 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
       // Fetch user data
       var userSnapshot = await MasterController.fetchUserDataBase(widget.currentUser.uid);
       if (userSnapshot.exists) {
+        var aux = userSnapshot.data() as Map<String, dynamic>?;
         setState(() {
-          userData = userSnapshot.data() as Map<String, dynamic>?;
+          userData = aux;
         });
       }
 
@@ -50,7 +52,15 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         userStreak = streak;
       });
-
+        if (aux?['hasSetPreferences'] == false) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PreferenceScreen(currentUser: widget.currentUser),
+            ),
+          );
+        }
+      } 
     } catch (error) {
       print('Erro ao obter documentos: $error');
     }

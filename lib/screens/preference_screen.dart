@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mc656finalproject/components/ods_icon.dart';
+import 'package:mc656finalproject/services/master_controller.dart';
 import 'package:mc656finalproject/utils/colors.dart';
 import 'package:mc656finalproject/utils/ods.dart';
 import '../models/user.dart';
@@ -7,7 +8,7 @@ import '../models/user.dart';
 class PreferenceScreen extends StatefulWidget {
   final User currentUser;
   const PreferenceScreen({super.key, required this.currentUser});
-  
+
   @override
   _PreferenceScreen createState() => _PreferenceScreen();
 }
@@ -21,8 +22,8 @@ class _PreferenceScreen extends State<PreferenceScreen> {
   void generateIcons() {
     available_ods_components.clear(); // Limpa a lista antes de gerar novamente
     for (String ods in available_ods) {
-      OdsIcon ods_icon = OdsIcon(ods: ods);
-      available_ods_components.add(ods_icon);
+      OdsIcon odsIcon = OdsIcon(ods: ods);
+      available_ods_components.add(odsIcon);
     }
   }
 
@@ -34,7 +35,13 @@ class _PreferenceScreen extends State<PreferenceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenWidth = screenSize.width;
+    final double screenHeight = screenSize.height;
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Preferências"),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -53,10 +60,8 @@ class _PreferenceScreen extends State<PreferenceScreen> {
 
             // Container para ODS Selecionadas
             Container(
-              height: 200,
-              constraints: const BoxConstraints(
-                minWidth: double.infinity
-              ),
+              height: screenHeight * 0.2,
+              constraints: const BoxConstraints(minWidth: double.infinity),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: darkPink,
@@ -101,14 +106,10 @@ class _PreferenceScreen extends State<PreferenceScreen> {
               ),
             ),
             const SizedBox(height: 16),
-
             // Container para ODS Não Selecionadas
             Container(
-              height: 200,
-              constraints: const BoxConstraints(
-                minWidth: double.infinity
-              ),
-              color: lightPink,
+              height: screenHeight * 0.5,
+              constraints: const BoxConstraints(minWidth: double.infinity),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: darkPink,
@@ -121,7 +122,7 @@ class _PreferenceScreen extends State<PreferenceScreen> {
                   const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
-                      "ODS Não Selecionadas:",
+                      "ODS Disponíveis:",
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -152,29 +153,32 @@ class _PreferenceScreen extends State<PreferenceScreen> {
                 ],
               ),
             ),
-
-            const Spacer(),
-
-            // Botão de "Confirmar"
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  // Lógica do botão
-                  print("ODS confirmadas!");
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: darkPink, // Cor darkPink
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: const Text(
-                  "Confirmar",
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
+            OutlinedButton(
+              onPressed: () async {
+                try {
+                  await MasterController.updateUserPreferences(
+                      chosen_ods_components, widget.currentUser.uid);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                        content: Text("Preferências setadas com sucesso!")),
+                  );
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                        content: Text(
+                            "Erro ao tentar setar as preferêncuas, tente novamente mais tarde")),
+                  );
+                  print(e);
+                }
+                Navigator.pop(context);
+              },
+              style: const ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(Color(0xFFED008C))),
+              child: const Text(
+                'Setar preferências',
+                style: TextStyle(color: Colors.white),
               ),
-            ),
+            )
           ],
         ),
       ),

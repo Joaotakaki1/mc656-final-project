@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mc656finalproject/components/ods_icon.dart';
 import 'package:mc656finalproject/models/desafio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -69,11 +70,12 @@ class MasterController {
     return streak;
   }
 
-  static Future<void> updateUserPreferences(List<String> preferences, String uid) async {
+  static Future<void> updateUserPreferences(List<OdsIcon> preferences, String uid) async {
     DocumentSnapshot user = await fetchUserDataBase(uid);
     if (user.exists) {
+      List<String> preferencesStrings = preferences.map((odsIcon) => odsIcon.ods).toList();
       DocumentReference userRef = user.reference;
-      await userRef.update({'preferences': preferences});
+      await userRef.update({'preferences': preferencesStrings, 'hasSetPreferences': true});
     }
   }
 
@@ -105,6 +107,7 @@ class MasterController {
         'email': email,
         'username': username,
         'createdAt': FieldValue.serverTimestamp(),
+        'hasSetPreferences': false,
       });
       print('Cadastro realizado com sucesso: ${userCredential.user?.uid}');
       return userCredential;
