@@ -33,8 +33,9 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       // Fetch user data
       var userSnapshot = await MasterController.fetchUserDataBase(widget.currentUser.uid);
+      Map<String, dynamic>? aux;
       if (userSnapshot.exists) {
-        var aux = userSnapshot.data() as Map<String, dynamic>?;
+        aux = userSnapshot.data() as Map<String, dynamic>?;
         setState(() {
           userData = aux;
         });
@@ -60,7 +61,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           );
         }
-      } 
     } catch (error) {
       print('Erro ao obter documentos: $error');
     }
