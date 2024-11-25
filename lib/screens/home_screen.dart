@@ -33,12 +33,21 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       // Fetch user data
       var userSnapshot = await MasterController.fetchUserDataBase(widget.currentUser.uid);
+      Map<String, dynamic>? aux;
       if (userSnapshot.exists) {
-        var aux = userSnapshot.data() as Map<String, dynamic>?;
+        aux = userSnapshot.data() as Map<String, dynamic>?;
         setState(() {
           userData = aux;
         });
       }
+      if (aux?['hasSetPreferences'] == false) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PreferenceScreen(currentUser: widget.currentUser),
+            ),
+          );
+        }
 
       // Fetch user preferences
       var preferences = await MasterController.fetchUserPreferences(widget.currentUser.uid);
@@ -60,7 +69,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           );
         }
-      } 
     } catch (error) {
       print('Erro ao obter documentos: $error');
     }
@@ -166,8 +174,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               color: Colors.white,
                               borderRadius: const BorderRadius.all(Radius.circular(10)),
                               border: current_challenges.isNotEmpty
-                                  ? Border.all(width: 2.0, color: darkPink)
-                                  : Border.all(width: 0, color: darkPink),
+                                  ? Border.all(width: 2.0, color: lightPink)
+                                  : Border.all(width: 0, color: lightPink),
                             ),
                             child: ListView(
                               shrinkWrap: true,
@@ -207,7 +215,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                   style: const ButtonStyle(
                       backgroundColor:
-                          MaterialStatePropertyAll(Color(0xFFED008C))),
+                          MaterialStatePropertyAll(darkPink)),
                   child: const Text(
                     'Iniciar Desafio',
                     style: TextStyle(color: Colors.white),
