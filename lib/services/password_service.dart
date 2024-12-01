@@ -7,7 +7,6 @@ class PasswordService {
     bool hasNumber = password.contains(RegExp(r'\d'));
 
     // Verifica se contém pelo menos 1 caractere especial
-    bool hasSpecialCharacter = password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
 
     // Verifica se contém pelo menos 1 letra
     bool hasLetter = password.contains(RegExp(r'[a-zA-Z]'));
