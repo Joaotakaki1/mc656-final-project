@@ -1,16 +1,12 @@
 /// Classe que representa as preferências do usuário.
 class Preferences {
-  /// Lista de preferências (ex.: ['Nome da ODS']).
   List<String> _preferences;
 
-  /// Construtor padrão.
   Preferences({List<String>? preferences})
       : _preferences = preferences ?? [];
 
-  /// Getter para obter as preferências.
   List<String> get preferences => _preferences;
 
-  /// Setter para definir as preferências.
   set preferences(List<String> preferences) {
     _preferences = preferences;
   }
@@ -39,7 +35,7 @@ class Preferences {
     };
   }
 
-  /// Cria uma instância [Preferences] a partir de um mapa (ex.: dados do Firebases).
+  /// Cria uma instância [Preferences] a partir de um mapa (ex.: dados do Firebase).
   factory Preferences.fromMap(Map<String, dynamic> map) {
     return Preferences(
       preferences: List<String>.from(map['preferences'] ?? []),

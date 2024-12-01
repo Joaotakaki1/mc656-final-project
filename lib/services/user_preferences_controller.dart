@@ -1,13 +1,13 @@
 import 'dart:developer';
 import '../models/preferences.dart';
-import 'master_controller.dart';
+import 'data_bank_controller.dart';
 
 class UserPreferencesController {
-  /// Recupera as preferências do usuário utilizando o MasterController.
+  /// Recupera as preferências do usuário utilizando o DataBankController.
   static Future<Preferences?> getUserPreferences(String email) async {
     try {
-      // Busca as preferências do usuário pelo MasterController.
-      var preferencesList = await MasterController.fetchUserPreferences(email);
+      // Busca as preferências do usuário pelo DataBankController.
+      var preferencesList = await DataBankController.fetchUserPreferences(email);
 
       if (preferencesList.isNotEmpty) {
         return Preferences(preferences: preferencesList);
@@ -21,10 +21,10 @@ class UserPreferencesController {
     }
   }
 
-  /// Atualiza as preferências do usuário utilizando o MasterController.
+  /// Atualiza as preferências do usuário utilizando o DataBankController.
   static Future<void> updateUserPreferences(String email, Preferences preferences) async {
     try {
-      await MasterController.updateUserPreferences(preferences.preferences, email);
+      await DataBankController.updateUserPreferences(preferences.preferences, email);
       log("Preferências atualizadas com sucesso!");
     } catch (e) {
       log("Erro ao atualizar preferências: $e", level: 1000);

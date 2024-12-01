@@ -1,15 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginController {
-  final FirebaseAuth firebaseAuth;
+  LoginController();
 
-  LoginController({required this.firebaseAuth});
-
-  Future<Map<String, dynamic>> loginWithEmailPassword(String email, String password) async {
+  static Future<Map<String, dynamic>> loginWithEmailPassword(String email, String password, {FirebaseAuth? mock}) async {
     try {
-      UserCredential userCredential = await firebaseAuth.signInWithEmailAndPassword(
+      UserCredential userCredential = (mock != null)
+      ? await mock.signInWithEmailAndPassword(
         email: email,
         password: password,
+      )
+      : await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password
       );
       return {
         'success': true,

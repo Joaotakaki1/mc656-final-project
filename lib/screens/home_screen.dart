@@ -4,7 +4,7 @@ import 'package:mc656finalproject/models/desafio.dart';
 import 'package:mc656finalproject/models/user.dart';
 import 'package:mc656finalproject/services/challenge_controller.dart';
 import 'package:mc656finalproject/screens/preference_screen.dart';
-import 'package:mc656finalproject/services/master_controller.dart';
+import 'package:mc656finalproject/services/data_bank_controller.dart';
 import 'package:mc656finalproject/utils/colors.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _fetchAllData() async {
     try {
       // Fetch user data
-      var userSnapshot = await MasterController.fetchUserDataBase(widget.currentUser.uid);
+      var userSnapshot = await DataBankController.fetchUserDataBase(widget.currentUser.uid);
       Map<String, dynamic>? aux;
       if (userSnapshot.exists) {
         aux = userSnapshot.data() as Map<String, dynamic>?;
@@ -50,14 +50,14 @@ class _HomeScreenState extends State<HomeScreen> {
         }
 
       // Fetch user preferences
-      var preferences = await MasterController.fetchUserPreferences(widget.currentUser.uid);
+      var preferences = await DataBankController.fetchUserPreferences(widget.currentUser.uid);
       setState(() {
         userPreferences = preferences;
       });
       challengeController.setPreferences(preferences);
 
       // Fetch user streak
-      var streak = await MasterController.fetchUserStreak(widget.currentUser.uid);
+      var streak = await DataBankController.fetchUserStreak(widget.currentUser.uid);
       setState(() {
         userStreak = streak;
       });
@@ -202,13 +202,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 OutlinedButton(
                   onPressed: () {
                     // Adicione a lógica para iniciar o desafio aqui
-                    if (challengeController.possible_challenges.isNotEmpty) {
-                      challengeController.randomize_challenges();
+                    if (challengeController.possibleChallenges.isNotEmpty) {
+                      challengeController.randomizeChallenges();
                       setState(() {
-                        current_challenges = challengeController.current_challenges;
+                        current_challenges = challengeController.currentChallenges;
                         challengeCompletionStatus = {for (var desafio in current_challenges) desafio: false};
                       });
-                      print(challengeController.current_challenges);
+                      print(challengeController.currentChallenges);
                     } else {
                       print('Nenhum desafio disponível.');
                     }

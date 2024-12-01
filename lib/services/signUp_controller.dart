@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mc656finalproject/services/master_controller.dart';
+import 'package:mc656finalproject/services/data_bank_controller.dart';
 import 'package:mc656finalproject/services/password_service.dart';
 import 'package:flutter/material.dart';
 import 'package:mc656finalproject/models/user.dart' as UserClass;
@@ -27,7 +27,7 @@ class SignUpController {
   static void signUpCheck(String password, String confirmPassword, String username, String email, BuildContext context) async {
     if (password == confirmPassword) {
       if (PasswordService.isStrongPassword(password)) {
-        UserCredential? success = await MasterController.registerWithEmailPassword(
+        UserCredential? success = await DataBankController.registerWithEmailPassword(
           email,
           password,
           username,
