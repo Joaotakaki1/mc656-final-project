@@ -40,6 +40,7 @@ dependencies:
   firebase_auth: ^5.2.0
   cloud_firestore: ^5.4.0
   gradient_borders: ^1.0.1
+  provider: ^6.0.0
 
 dev_dependencies:
   flutter_test:

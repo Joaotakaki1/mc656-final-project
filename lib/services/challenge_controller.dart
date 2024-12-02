@@ -1,9 +1,11 @@
 import 'dart:math';
+import 'package:flutter/foundation.dart';
+
 import 'data_base_controller.dart';
 import '../models/desafio.dart';
 import '../models/preferences.dart';
 
-class ChallengeController {
+class ChallengeController with ChangeNotifier {
   late Preferences preferences;
 
   List<Desafio> possibleChallenges = [];
@@ -23,6 +25,7 @@ class ChallengeController {
         possibleChallenges.add(challenge);
       }
     }
+    notifyListeners();
   }
 
   void randomizeChallenges() {
@@ -51,11 +54,13 @@ class ChallengeController {
     for (var i in indexes) {
       possibleChallenges.removeAt(i);
     }
+    notifyListeners();
   }
 
   void completedChallenge(Desafio desafio) {
     currentChallenges.remove(desafio);
     completedChallenges.add(desafio);
+    notifyListeners();
   }
 
   void setPreferences(List<String> newPreferences) {
