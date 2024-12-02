@@ -47,10 +47,10 @@ class DataBaseController {
     return desafios;
   }
 
-  static Future<String> fetchUserLastDate(String uid) async {
+  static Future<String> fetchUserLastLogin(String uid) async {
     DocumentSnapshot userDoc = await fetchUserDataBase(uid);
     if (userDoc.exists) {
-      return userDoc['lastDate'];
+      return userDoc['lastLogin'];
     } else { 
       return '';
     }

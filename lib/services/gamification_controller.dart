@@ -16,18 +16,18 @@ class GamificationController {
   int currentStreak = 0;
   int maxStreak = 0;
   String currentDate = '';
-  String lastDate = '';
+  String lastLogin = '';
 
   void getCurrentDate() {
     currentDate = DateTime.now().toIso8601String().split('T')[0];
   }
 
   Future<void> getLastDate() async {
-    lastDate = await DataBaseController.fetchUserLastDate(uid);
+    lastLogin = await DataBaseController.fetchUserLastLogin(uid);
   }
 
   void changeDailyChallenges() {
-    if (currentDate != lastDate) {
+    if (currentDate != lastLogin) {
       if (concluido) {
         currentStreak += 3;
         updateUserCurrentStreak();
