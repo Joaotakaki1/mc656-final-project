@@ -39,28 +39,28 @@ class _PreferenceScreen extends State<PreferenceScreen> {
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Preferências"),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             // Título
-            const Text(
-              "Estamos quase lá... ",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            const Align(
+              alignment: Alignment.centerLeft,
+                        child: Text(
+                        "Estamos quase lá...",
+                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 16),
             const Text(
               "Mas antes disso, escolha quais ODS você deseja focar:",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
 
             // Container para ODS Selecionadas
             Container(
-              height: screenHeight * 0.2,
+              height: screenHeight * 0.35,
               constraints: const BoxConstraints(minWidth: double.infinity),
               decoration: BoxDecoration(
                 border: Border.all(
@@ -105,10 +105,10 @@ class _PreferenceScreen extends State<PreferenceScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
             // Container para ODS Não Selecionadas
             Container(
-              height: screenHeight * 0.5,
+              height: screenHeight * 0.35,
               constraints: const BoxConstraints(minWidth: double.infinity),
               decoration: BoxDecoration(
                 border: Border.all(
@@ -153,6 +153,7 @@ class _PreferenceScreen extends State<PreferenceScreen> {
                 ],
               ),
             ),
+            const SizedBox(height: 8),
             OutlinedButton(
               onPressed: () async {
                 try {
