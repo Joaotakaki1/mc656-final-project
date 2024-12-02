@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:mc656finalproject/utils/colors.dart';
 import 'background_challenge_screen.dart';
 import 'success_screen.dart';
 import 'package:mc656finalproject/models/desafio.dart';
@@ -52,10 +54,6 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Desafios"),
-        backgroundColor: Colors.pink,
-      ),
       body: Stack(
         children: [
           // Fundo animado com base no progresso
@@ -74,13 +72,26 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                const Text(
-                  "Fill it up!",
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.pink,
-                  ),
+                Row(
+                  children: [
+                    GestureDetector(
+                      child: Image.asset('assets/icons/return.png', width: 40),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    const SizedBox(
+                      width: 45,
+                    ),
+                    const Text(
+                      "Fill it up!",
+                      style: TextStyle(
+                        fontSize: 45,
+                        fontWeight: FontWeight.bold,
+                        color: darkPink,
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 20),
                 Expanded(
@@ -89,9 +100,8 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                     itemBuilder: (context, index) {
                       final task = tasks[index];
                       return Card(
-                        color: task["completed"]
-                            ? Colors.grey[300]
-                            : Colors.white,
+                        color:
+                            task["completed"] ? Colors.grey[300] : Colors.white,
                         child: ListTile(
                           title: Text(task["name"]),
                           trailing: task["completed"]
