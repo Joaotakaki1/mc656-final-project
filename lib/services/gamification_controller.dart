@@ -1,4 +1,4 @@
-import 'package:mc656finalproject/services/data_bank_controller.dart';
+import 'package:mc656finalproject/services/data_base_controller.dart';
 import '../models/user.dart';
 
 /// Controlador responsável pela lógica de gamificação.
@@ -9,14 +9,14 @@ class GamificationController {
 
   /// Retorna a sequência atual do usuário, buscando do Firestore.
   Future<Map<String, int>> getUserStreak(User user) async {
-    return await DataBankController.fetchUserStreak(user.uid);
+    return await DataBaseController.fetchUserStreak(user.uid);
   }
 
   void updateUserMaxStreak(User user) {
-    DataBankController.updateUserMaxStreak(user.maxStreak, user.uid);
+    DataBaseController.updateUserMaxStreak(user.maxStreak, user.uid);
   }
 
   void updateUserCurrentStreak(User user) {
-    DataBankController.updateUserCurrentStreak(user.currentStreak, user.uid);
+    DataBaseController.updateUserCurrentStreak(user.currentStreak, user.uid);
   }
 }

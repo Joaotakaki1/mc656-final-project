@@ -1,7 +1,7 @@
 class Ods{
   static List<String> ods = [
     "Erradicação da Pobreza",
-    "Erradicação da fome",
+    "Fome Zero e Agricultura Sustentável",
     "Saúde e Bem-Estar",
     "Educação de Qualidade",
     "Igualdade de Gênero",
@@ -17,6 +17,5 @@ class Ods{
     "Vida Terrestre",
     "Paz, Justiça e Instituições Eficazes",
     "Parcerias e Meios de Implementação",
-    "Fome Zero e Agricultura Sustentável"
   ];
 }

@@ -11,43 +11,42 @@ class OdsIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Gera uma cor aleatória.
-    final Color randomColor = Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
+    String path = 'assets/icons/ods_icons/' + ods + '.png';
+
+    Image ods_image = Image.asset(
+                    path, // Coloque o caminho para a logo
+                    width: 50, // Ajuste o tamanho da logo
+                    height: 50,
+                  );
 
     return Container(
-      constraints: const BoxConstraints(
-        minWidth: 100, // Largura mínima para evitar "aperto" em textos pequenos
-        maxWidth: 200, // Largura máxima
-      ),
       margin: const EdgeInsets.all(8.0),
-      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+      width: 125,
+      height: 150,
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
       decoration: BoxDecoration(
-        color: randomColor,
+          border: Border.all(
+          color: lightPink,
+          width: 2,
+        ),
         borderRadius: BorderRadius.circular(12.0),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          ods_image,
           Text(
             ods,
             style: const TextStyle(
               color: blackText,
               fontWeight: FontWeight.bold,
-              fontSize: 16.0,
+              fontSize: 14.0,
             ),
             textAlign: TextAlign.center,
+            overflow: TextOverflow.visible, // Permite quebra de linha
+            softWrap: true, // Habilita quebra automática
           ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Text(
-                ods,
-                style: const TextStyle(
-                  color: Colors.white70,
-                  fontSize: 14.0,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
         ],
       ),
     );
