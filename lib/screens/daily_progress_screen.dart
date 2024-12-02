@@ -1,18 +1,30 @@
 import 'package:flutter/material.dart';
 import 'background_challenge_screen.dart';
 import 'success_screen.dart';
+import 'package:mc656finalproject/models/desafio.dart';
 
 class DailyProgressScreen extends StatefulWidget {
+  final List<Desafio> desafios;
+
+  const DailyProgressScreen({super.key, required this.desafios});
+
   @override
   _DailyProgressScreenState createState() => _DailyProgressScreenState();
 }
 
 class _DailyProgressScreenState extends State<DailyProgressScreen> {
-  List<Map<String, dynamic>> tasks = [
-    {"id": 1, "name": "Faça x, y, enquanto a, b, c.", "difficulty": "Fácil", "completed": false},
-    {"id": 2, "name": "Faça x, y, enquanto a, b, c.", "difficulty": "Fácil", "completed": false},
-    {"id": 3, "name": "Faça x, y, enquanto a, b, c.", "difficulty": "Fácil", "completed": false},
-  ];
+  late List<Map<String, dynamic>> tasks;
+
+  @override
+  void initState() {
+    super.initState();
+    tasks = widget.desafios.map((desafio) {
+      return {
+        "name": desafio.desafio,
+        "completed": false,
+      };
+    }).toList();
+  }
 
   // Função para marcar uma tarefa como concluída
   void markTaskAsCompleted(int index) {
@@ -21,7 +33,7 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
 
       // Verifica se todas as tarefas foram concluídas
       if (tasks.every((task) => task["completed"])) {
-        Future.delayed(Duration(milliseconds: 800), () {
+        Future.delayed(const Duration(milliseconds: 800), () {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => SuccessScreen()),
@@ -41,7 +53,7 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Desafios"),
+        title: const Text("Desafios"),
         backgroundColor: Colors.pink,
       ),
       body: Stack(
@@ -50,7 +62,7 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
           Align(
             alignment: Alignment.bottomCenter,
             child: AnimatedContainer(
-              duration: Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 500),
               curve: Curves.easeInOut,
               height: MediaQuery.of(context).size.height * progress,
               width: double.infinity,
@@ -62,7 +74,7 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                Text(
+                const Text(
                   "Fill it up!",
                   style: TextStyle(
                     fontSize: 24,
@@ -70,7 +82,7 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                     color: Colors.pink,
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Expanded(
                   child: ListView.builder(
                     itemCount: tasks.length,
@@ -82,12 +94,11 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                             : Colors.white,
                         child: ListTile(
                           title: Text(task["name"]),
-                          subtitle: Text("Dificuldade: ${task["difficulty"]}"),
                           trailing: task["completed"]
-                              ? Icon(Icons.check, color: Colors.green)
+                              ? const Icon(Icons.check, color: Colors.green)
                               : ElevatedButton(
                                   onPressed: () => markTaskAsCompleted(index),
-                                  child: Text("Concluir"),
+                                  child: const Text("Concluir"),
                                 ),
                         ),
                       );
