@@ -178,6 +178,12 @@ class DataBaseController {
         'username': username,
         'createdAt': FieldValue.serverTimestamp(),
         'hasSetPreferences': false,
+        'preferences': [],
+        'maxStreak': 0,
+        'currentStreak': 0,
+        'coposSalvos': 0,
+        'pessoasImpactadas': 0,
+
       });
       print('Cadastro realizado com sucesso: ${userCredential.user?.uid}');
       return userCredential;
