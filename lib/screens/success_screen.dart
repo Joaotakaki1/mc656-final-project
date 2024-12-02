@@ -1,36 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:mc656finalproject/models/user.dart';
+import 'package:mc656finalproject/screens/home_screen.dart';
+import 'package:mc656finalproject/utils/colors.dart';
 
 class SuccessScreen extends StatelessWidget {
+  final User currentUser;
+  const SuccessScreen({super.key, required this.currentUser});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  Scaffold(
+      backgroundColor: lightPink,
       appBar: AppBar(
+        backgroundColor: lightPink,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: Image.asset('assets/icons/return.png'),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen(currentUser: currentUser,)),
+          );
           },
         ),
-        backgroundColor: Colors.pink,
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.check_circle, size: 100, color: Colors.pink),
-            SizedBox(height: 20),
-            Text(
+            Image.asset('assets/icons/cup.png'),
+            const SizedBox(height: 20),
+            const Text(
               "Bom trabalho!",
               style: TextStyle(
-                fontSize: 36,
+                fontSize: 45,
                 fontWeight: FontWeight.bold,
-                color: Colors.pink,
+                color: darkPink,
               ),
             ),
-            SizedBox(height: 10),
-            Text(
+            const SizedBox(height: 10),
+            const Text(
               "Volte amanhã para mais desafios",
-              style: TextStyle(fontSize: 18, color: Colors.black54),
+              style: TextStyle(fontSize: 20, color: darkPink),
             ),
           ],
         ),

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:mc656finalproject/components/ods_icon.dart';
 import 'package:mc656finalproject/models/desafio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,10 +40,33 @@ class DataBaseController {
         // Acessar a lista de strings
         List<dynamic> listaDeStrings = data['desafios'] as List<dynamic>;
         for (var item in listaDeStrings) {
-          desafios.add(Desafio(desafio: item, tema: tema));
+          desafios.add(Desafio(desafio: item, tema: tema, descricaoCurta: '', descricao: '', pessoasAfetadas: 0, coposPlasticos: 0, impactoQualitativo: []));
         }
       }
     }
+
+    return desafios;
+  }
+
+  static Future<CollectionReference> fetchChallengeDataBase() async {
+      FirebaseFirestore firestroe = FirebaseFirestore.instance;
+      return firestroe.collection('desafios');
+  }
+
+  static Future<List<Desafio>> fetchChallengeTema(String tema) async{
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    // Buscar todos os documentos na coleção 'desafios'
+    QuerySnapshot querySnapshot = await firestore
+        .collection('challenges')
+        .where('desafio.ods', isEqualTo: tema)
+        .get();
+
+    // Mapear os documentos retornados para objetos Desafio
+    List<Desafio> desafios = querySnapshot.docs.map((doc) {
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      return Desafio.fromFirestore(data['desafio']);
+    }).toList();
 
     return desafios;
   }
@@ -81,6 +105,24 @@ class DataBaseController {
     return streak;
   }
 
+  static Future<int> fetchUserCoposSalvos(String uid) async {
+    DocumentSnapshot user = await fetchUserDataBase(uid);
+    if (user.exists) {
+      return user['coposSalvos'];
+    } else {
+      return 0;
+    }
+  }
+
+  static Future<int> fetchUserPessoasImpactadas(String uid) async {
+    DocumentSnapshot user = await fetchUserDataBase(uid);
+    if (user.exists) {
+      return user['pessoasImpactadas'];
+    } else {
+      return 0;
+    }
+  }
+
   static List<String> turnODSIconInString(List<OdsIcon> odsIcons) {
     return odsIcons.map((odsIcon) => odsIcon.ods).toList();
   }
@@ -113,6 +155,22 @@ class DataBaseController {
     }
   }
 
+  static Future<void> updateUserCoposSalvos(int coposSalvos, String uid) async {
+    DocumentSnapshot user = await fetchUserDataBase(uid);
+    if (user.exists) {
+      DocumentReference userDoc = user.reference;
+      await userDoc.update({'coposSalvos': coposSalvos});
+    }
+  }
+
+  static Future<void> updateUserPessoasImpactadas(int pessoasImpactadas, String uid) async {
+    DocumentSnapshot user = await fetchUserDataBase(uid);
+    if (user.exists) {
+      DocumentReference userDoc = user.reference;
+      await userDoc.update({'pessoasImpactadas': pessoasImpactadas});
+    }
+  }
+
   static Future<UserCredential?> registerWithEmailPassword(String email, String password, String username) async {
     FirebaseAuth auth = fetchFireBaseAuth();
     CollectionReference firestore = await fetchUserCollection();
@@ -126,8 +184,11 @@ class DataBaseController {
         'username': username,
         'createdAt': FieldValue.serverTimestamp(),
         'hasSetPreferences': false,
+        'preferences': [],
         'maxStreak': 0,
         'currentStreak': 0,
+        'coposSalvos': 0,
+        'pessoasImpactadas': 0,
         'lastLogin': DateTime.now().toIso8601String().split('T')[0]
       });
       print('Cadastro realizado com sucesso: ${userCredential.user?.uid}');
@@ -144,6 +205,20 @@ class DataBaseController {
     } catch (e) {
       print('Erro inesperado: $e');
       return null;
+    }
+  }
+  static Future<void> sendPasswordResetEmail(BuildContext context, String email) async {
+    FirebaseAuth auth = fetchFireBaseAuth();
+    try {
+      await auth.sendPasswordResetEmail(email: email);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Email de redefinição de senha enviado para $email')),
+      );
+    } catch (e) {
+      print('Erro ao enviar email de redefinição de senha: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erro ao enviar email de redefinição de senha: $e')),
+      );
     }
   }
 }
