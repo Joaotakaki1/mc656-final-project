@@ -56,6 +56,11 @@ class DataBaseController {
     }
   }
 
+  static Future<void> updateUserLastLogin(String? uid) async {
+    DocumentReference user = FirebaseFirestore.instance.collection('users').doc(uid);
+    await user.update({'lastLogin': DateTime.now().toIso8601String().split('T')[0]});
+  }
+
   static Future<List<String>> fetchUserPreferences(String email) async {
     DocumentSnapshot userDoc = await fetchUserDataBase(email);
     if (userDoc.exists) {
@@ -121,6 +126,9 @@ class DataBaseController {
         'username': username,
         'createdAt': FieldValue.serverTimestamp(),
         'hasSetPreferences': false,
+        'maxStreak': 0,
+        'currentStreak': 0,
+        'lastLogin': DateTime.now().toIso8601String().split('T')[0]
       });
       print('Cadastro realizado com sucesso: ${userCredential.user?.uid}');
       return userCredential;

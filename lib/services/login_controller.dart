@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:mc656finalproject/services/data_base_controller.dart';
 
 class LoginController {
   LoginController();
@@ -14,6 +15,9 @@ class LoginController {
         email: email,
         password: password
       );
+
+      // Guardar a data do login no banco de dados
+      DataBaseController.updateUserLastLogin(userCredential.user?.uid);
       return {
         'success': true,
         'message': 'Login feito com sucesso',
