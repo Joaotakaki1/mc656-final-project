@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mc656finalproject/components/ods_icon.dart';
+import 'package:mc656finalproject/screens/home_screen.dart';
 import 'package:mc656finalproject/services/data_base_controller.dart';
 import 'package:mc656finalproject/utils/colors.dart';
 import 'package:mc656finalproject/utils/ods.dart';
@@ -46,9 +47,9 @@ class _PreferenceScreen extends State<PreferenceScreen> {
             // Título
             const Align(
               alignment: Alignment.centerLeft,
-                        child: Text(
-                        "Estamos quase lá...",
-                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              child: Text(
+                "Estamos quase lá...",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(height: 16),
@@ -157,7 +158,9 @@ class _PreferenceScreen extends State<PreferenceScreen> {
             OutlinedButton(
               onPressed: () async {
                 try {
-                  List<String> stringPreferences = DataBaseController.turnODSIconInString(chosen_ods_components);
+                  List<String> stringPreferences =
+                      DataBaseController.turnODSIconInString(
+                          chosen_ods_components);
                   await DataBaseController.updateUserPreferences(
                       stringPreferences, widget.currentUser.uid);
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -172,7 +175,13 @@ class _PreferenceScreen extends State<PreferenceScreen> {
                   );
                   print(e);
                 }
-                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        HomeScreen(currentUser: widget.currentUser),
+                  ),
+                );
               },
               style: const ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(Color(0xFFED008C))),
