@@ -152,6 +152,9 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                                 child: const Text("Info"),
                               ),
                               const SizedBox(width: 8),
+                              task["completed"]
+                              ? const Icon(Icons.check, color: Colors.green)
+                              :
                               ElevatedButton(
                                 onPressed: () => markTaskAsCompleted(index),
                                 child: const Text("Concluir"),

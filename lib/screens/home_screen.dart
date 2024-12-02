@@ -10,6 +10,7 @@ import 'package:mc656finalproject/screens/preference_screen.dart';
 import 'package:mc656finalproject/services/data_base_controller.dart';
 import 'package:mc656finalproject/utils/colors.dart';
 import 'package:provider/provider.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 class HomeScreen extends StatefulWidget {
   final User currentUser;
@@ -115,13 +116,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Image.asset('assets/icons/config.png'),
                       onTap: () {
                         Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ConfigScreen(
-                                  currentUser: widget.currentUser,
-                                ),
-                              ),
-                            );
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ConfigScreen(
+                              currentUser: widget.currentUser,
+                            ),
+                          ),
+                        );
                       },
                     ),
                   ],
