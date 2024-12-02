@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mc656finalproject/components/ods_icon.dart';
 import 'package:mc656finalproject/models/desafio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../models/preferences.dart';
 
 class DataBaseController {
   static FirebaseAuth fetchFireBaseAuth() {
@@ -48,7 +49,9 @@ class DataBaseController {
     return desafios;
   }
 
-  Future<List<String>> fetchUserPreferences(String email) async {
+
+
+  static Future<List<String>> fetchUserPreferences(String email) async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     DocumentSnapshot userDoc = await firestore.collection('users').doc(email).get();
     if (userDoc.exists) {
@@ -69,12 +72,21 @@ class DataBaseController {
     return streak;
   }
 
-  static Future<void> updateUserPreferences(List<OdsIcon> preferences, String uid) async {
+  static List<String> turnODSIconInString(List<OdsIcon> odsIcons) {
+    List<String> preferences = odsIcons.map((odsIcon) => odsIcon.ods).toList();
+    return preferences;
+  }
+
+  static List<String> turnPreferencesInString(Preferences preferenceClass){
+    List<String> preferences = preferenceClass.preferences;
+    return preferences;
+  }
+
+  static Future<void> updateUserPreferences(List<String> preferences, String uid) async {
     DocumentSnapshot user = await fetchUserDataBase(uid);
     if (user.exists) {
-      List<String> preferencesStrings = preferences.map((odsIcon) => odsIcon.ods).toList();
       DocumentReference userRef = user.reference;
-      await userRef.update({'preferences': preferencesStrings, 'hasSetPreferences': true});
+      await userRef.update({'preferences': preferences, 'hasSetPreferences': true});
     }
   }
 

@@ -156,8 +156,9 @@ class _PreferenceScreen extends State<PreferenceScreen> {
             OutlinedButton(
               onPressed: () async {
                 try {
+                  List<String> stringPreferences = DataBaseController.turnODSIconInString(chosen_ods_components);
                   await DataBaseController.updateUserPreferences(
-                      chosen_ods_components, widget.currentUser.uid);
+                      stringPreferences, widget.currentUser.uid);
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                         content: Text("Preferências setadas com sucesso!")),
