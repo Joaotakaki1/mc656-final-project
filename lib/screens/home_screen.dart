@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 import 'package:mc656finalproject/models/desafio.dart';
 import 'package:mc656finalproject/models/user.dart';
+import 'package:mc656finalproject/screens/daily_progress_screen.dart';
 import 'package:mc656finalproject/services/challenge_controller.dart';
 import 'package:mc656finalproject/screens/preference_screen.dart';
 import 'package:mc656finalproject/services/data_base_controller.dart';
@@ -32,7 +33,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _fetchAllData() async {
     try {
       // Fetch user data
-      var userSnapshot = await DataBaseController.fetchUserDataBase(widget.currentUser.uid);
+      var userSnapshot =
+          await DataBaseController.fetchUserDataBase(widget.currentUser.uid);
       Map<String, dynamic>? aux;
       if (userSnapshot.exists) {
         aux = userSnapshot.data() as Map<String, dynamic>?;
@@ -41,34 +43,38 @@ class _HomeScreenState extends State<HomeScreen> {
         });
       }
       if (aux?['hasSetPreferences'] == false) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => PreferenceScreen(currentUser: widget.currentUser),
-            ),
-          );
-        }
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                PreferenceScreen(currentUser: widget.currentUser),
+          ),
+        );
+      }
 
       // Fetch user preferences
-      var preferences = await DataBaseController.fetchUserPreferences(widget.currentUser.uid);
+      var preferences =
+          await DataBaseController.fetchUserPreferences(widget.currentUser.uid);
       setState(() {
         userPreferences = preferences;
       });
       challengeController.setPreferences(preferences);
 
       // Fetch user streak
-      var streak = await DataBaseController.fetchUserStreak(widget.currentUser.uid);
+      var streak =
+          await DataBaseController.fetchUserStreak(widget.currentUser.uid);
       setState(() {
         userStreak = streak;
       });
-        if (aux?['hasSetPreferences'] == false) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => PreferenceScreen(currentUser: widget.currentUser),
-            ),
-          );
-        }
+      if (aux?['hasSetPreferences'] == false) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                PreferenceScreen(currentUser: widget.currentUser),
+          ),
+        );
+      }
     } catch (error) {
       print('Erro ao obter documentos: $error');
     }
@@ -165,57 +171,33 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 50,
                 ),
                 // Adicionar a coluna com os desafios atuais
-                current_challenges.isNotEmpty
-                    ? Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 10, left: 10),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: const BorderRadius.all(Radius.circular(10)),
-                              border: current_challenges.isNotEmpty
-                                  ? Border.all(width: 2.0, color: lightPink)
-                                  : Border.all(width: 0, color: lightPink),
-                            ),
-                            child: ListView(
-                              shrinkWrap: true,
-                              children: current_challenges.map((desafio) {
-                                return CheckboxListTile(
-                                  title: Text(desafio.desafio),
-                                  value: challengeCompletionStatus[desafio] ?? false,
-                                  onChanged: (bool? value) {
-                                    setState(() {
-                                      challengeCompletionStatus[desafio] = value ?? false;
-                                    });
-                                  },
-                                  controlAffinity: ListTileControlAffinity.leading, // Checkbox à esquerda
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ),
-                      )
-                    : Container(),
-                const SizedBox(
-                  height: 10,
-                ),
                 OutlinedButton(
                   onPressed: () {
                     // Adicione a lógica para iniciar o desafio aqui
-                    if (challengeController.possibleChallenges.isNotEmpty) {
+                    if (challengeController.possibleChallenges.isNotEmpty &&
+                        challengeController.currentChallenges.isEmpty) {
                       challengeController.randomizeChallenges();
                       setState(() {
-                        current_challenges = challengeController.currentChallenges;
-                        challengeCompletionStatus = {for (var desafio in current_challenges) desafio: false};
+                        current_challenges =
+                            challengeController.currentChallenges;
+                        challengeCompletionStatus = {
+                          for (var desafio in current_challenges) desafio: false
+                        };
                       });
-                      print(challengeController.currentChallenges);
-                    } else {
-                      print('Nenhum desafio disponível.');
+                    }
+                    if (challengeController.currentChallenges.isNotEmpty) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DailyProgressScreen(
+                            desafios: current_challenges,
+                          ),
+                        ),
+                      );
                     }
                   },
                   style: const ButtonStyle(
-                      backgroundColor:
-                          MaterialStatePropertyAll(darkPink)),
+                      backgroundColor: MaterialStatePropertyAll(darkPink)),
                   child: const Text(
                     'Iniciar Desafio',
                     style: TextStyle(color: Colors.white),
