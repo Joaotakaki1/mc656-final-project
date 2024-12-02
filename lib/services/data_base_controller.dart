@@ -18,14 +18,12 @@ class DataBaseController {
   static Future<DocumentSnapshot> fetchUserDataBase(String uid) async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     DocumentReference userDoc = firestore.collection('users').doc(uid);
-    DocumentSnapshot userSnapshot = await userDoc.get();
-    return userSnapshot;
+    return await userDoc.get();
   } 
 
   static Future<CollectionReference> fetchDesafioDataBase() async {
     FirebaseFirestore firestroe = FirebaseFirestore.instance;
-    CollectionReference desafiosCollection = firestroe.collection('desafios');
-    return desafiosCollection;
+    return firestroe.collection('desafios');
   }
 
   static Future<List<Desafio>> fetchDesafioTema(String tema) async {
@@ -49,11 +47,17 @@ class DataBaseController {
     return desafios;
   }
 
-
+  static Future<String> fetchUserLastDate(String uid) async {
+    DocumentSnapshot userDoc = await fetchUserDataBase(uid);
+    if (userDoc.exists) {
+      return userDoc['lastDate'];
+    } else { 
+      return '';
+    }
+  }
 
   static Future<List<String>> fetchUserPreferences(String email) async {
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    DocumentSnapshot userDoc = await firestore.collection('users').doc(email).get();
+    DocumentSnapshot userDoc = await fetchUserDataBase(email);
     if (userDoc.exists) {
       List<String> preferences = List<String>.from(userDoc['preferences']);
       return preferences;
@@ -73,13 +77,11 @@ class DataBaseController {
   }
 
   static List<String> turnODSIconInString(List<OdsIcon> odsIcons) {
-    List<String> preferences = odsIcons.map((odsIcon) => odsIcon.ods).toList();
-    return preferences;
+    return odsIcons.map((odsIcon) => odsIcon.ods).toList();
   }
 
   static List<String> turnPreferencesInString(Preferences preferenceClass){
-    List<String> preferences = preferenceClass.preferences;
-    return preferences;
+    return preferenceClass.preferences;
   }
 
   static Future<void> updateUserPreferences(List<String> preferences, String uid) async {
