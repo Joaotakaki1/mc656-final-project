@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mc656finalproject/services/challenge_controller.dart';
 import 'package:mc656finalproject/utils/colors.dart';
+import 'package:provider/provider.dart';
 import 'background_challenge_screen.dart';
 import 'success_screen.dart';
 import 'package:mc656finalproject/models/desafio.dart';
@@ -30,9 +32,11 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
 
   // Função para marcar uma tarefa como concluída
   void markTaskAsCompleted(int index) {
+    final challengeController = Provider.of<ChallengeController>(context, listen: false);
     setState(() {
       tasks[index]["completed"] = true;
-
+      final completedDesafio = widget.desafios.firstWhere((desafio) => desafio.desafio == tasks[index]["name"]);
+      challengeController.completedChallenge(completedDesafio);
       // Verifica se todas as tarefas foram concluídas
       if (tasks.every((task) => task["completed"])) {
         Future.delayed(const Duration(milliseconds: 800), () {
