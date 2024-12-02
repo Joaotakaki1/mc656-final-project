@@ -189,47 +189,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 50,
                 ),
-                BarChart(
-                  BarChartData(
-                      // read about it in the BarChartData section
-                      ),
-                  duration: const Duration(milliseconds: 150), // Optional
-                  curve: Curves.linear,
-                  titlesData: FlTitlesData(
-              show: true,
-              leftTitles: AxisTitles(
-                drawBelowEverything: true,
-                sideTitles: SideTitles(
-                  showTitles: true,
-                  reservedSize: 30,
-                  getTitlesWidget: (value, meta) {
-                    return Text(
-                      value.toInt().toString(),
-                      textAlign: TextAlign.left,
-                    );
-                  },
-                ),
-              ),
-              bottomTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: true,
-                  reservedSize: 36,
-                  getTitlesWidget: (value, meta) {
-                    final index = value.toInt();
-                    return SideTitleWidget(
-                      axisSide: meta.axisSide,
-                      child: _IconWidget(
-                        color: widget.dataList[index].color,
-                        isSelected: touchedGroupIndex == index,
-                      ),
-                    );
-                  },
-                ),
-              ),
-              rightTitles: const AxisTitles(),
-              topTitles: const AxisTitles(),
-            ), // Optional
-                ),
                 // Adicionar a coluna com os desafios atuais
                 (challengeController.completedChallenges.isNotEmpty)
                     ? Center(
