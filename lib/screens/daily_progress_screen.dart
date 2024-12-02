@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mc656finalproject/models/user.dart';
 import 'package:mc656finalproject/services/challenge_controller.dart';
 import 'package:mc656finalproject/utils/colors.dart';
 import 'package:provider/provider.dart';
@@ -9,8 +10,9 @@ import 'package:mc656finalproject/models/desafio.dart';
 
 class DailyProgressScreen extends StatefulWidget {
   final List<Desafio> desafios;
+  final User currentUser;
 
-  const DailyProgressScreen({super.key, required this.desafios});
+  const DailyProgressScreen({super.key, required this.desafios, required this.currentUser});
 
   @override
   _DailyProgressScreenState createState() => _DailyProgressScreenState();
@@ -39,10 +41,11 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
       challengeController.completedChallenge(completedDesafio);
       // Verifica se todas as tarefas foram concluídas
       if (tasks.every((task) => task["completed"])) {
+        //TODO: aumentar 1 
         Future.delayed(const Duration(milliseconds: 800), () {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => SuccessScreen()),
+            MaterialPageRoute(builder: (context) =>  SuccessScreen(currentUser: widget.currentUser,)),
           );
         });
       }

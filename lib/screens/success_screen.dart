@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:mc656finalproject/models/user.dart';
+import 'package:mc656finalproject/screens/home_screen.dart';
 import 'package:mc656finalproject/utils/colors.dart';
 
 class SuccessScreen extends StatelessWidget {
-  const SuccessScreen({super.key});
+  final User currentUser;
+  const SuccessScreen({super.key, required this.currentUser});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +17,10 @@ class SuccessScreen extends StatelessWidget {
         leading: IconButton(
           icon: Image.asset('assets/icons/return.png'),
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen(currentUser: currentUser,)),
+          );
           },
         ),
       ),

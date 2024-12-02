@@ -32,7 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _fetchAllData() async {
     try {
-      final challengeController = Provider.of<ChallengeController>(context, listen: false);
+      final challengeController =
+          Provider.of<ChallengeController>(context, listen: false);
       // Fetch user data
       var userSnapshot =
           await DataBaseController.fetchUserDataBase(widget.currentUser.uid);
@@ -83,6 +84,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final challengeController =
+        Provider.of<ChallengeController>(context, listen: false);
     return Scaffold(
       body: Stack(
         children: [
@@ -172,39 +175,68 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 50,
                 ),
                 // Adicionar a coluna com os desafios atuais
-                OutlinedButton(
-                  onPressed: () {
-                    final challengeController = Provider.of<ChallengeController>(context, listen: false);
-                    // Adicione a lógica para iniciar o desafio aqui
-                    if (challengeController.possibleChallenges.isNotEmpty &&
-                        challengeController.currentChallenges.isEmpty) {
-                      challengeController.randomizeChallenges();
-                      setState(() {
-                        current_challenges =
-                            challengeController.currentChallenges;
-                        challengeCompletionStatus = {
-                          for (var desafio in current_challenges) desafio: false
-                        };
-                      });
-                    }
-                    if (challengeController.currentChallenges.isNotEmpty) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DailyProgressScreen(
-                            desafios: current_challenges,
-                          ),
+                (challengeController.completedChallenges.isNotEmpty)
+                    ? Center(
+                        child: Column(
+                          children: [
+                            Image.asset('assets/icons/cup.png'),
+                            const SizedBox(height: 20),
+                            const Text(
+                              "Bom trabalho!",
+                              style: TextStyle(
+                                fontSize: 45,
+                                fontWeight: FontWeight.bold,
+                                color: darkPink,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            const Text(
+                              "Volte amanhã para mais desafios",
+                              style: TextStyle(fontSize: 20, color: darkPink),
+                            ),
+                          ],
                         ),
-                      );
-                    }
-                  },
-                  style: const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(darkPink)),
-                  child: const Text(
-                    'Iniciar Desafio',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
+                      )
+                    : OutlinedButton(
+                        onPressed: () {
+                          final challengeController =
+                              Provider.of<ChallengeController>(context,
+                                  listen: false);
+                          // Adicione a lógica para iniciar o desafio aqui
+                          if (challengeController
+                                  .possibleChallenges.isNotEmpty &&
+                              challengeController.currentChallenges.isEmpty) {
+                            challengeController.randomizeChallenges();
+                            setState(() {
+                              current_challenges =
+                                  challengeController.currentChallenges;
+                              challengeCompletionStatus = {
+                                for (var desafio in current_challenges)
+                                  desafio: false
+                              };
+                            });
+                          }
+                          if (challengeController
+                              .currentChallenges.isNotEmpty) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DailyProgressScreen(
+                                  desafios: current_challenges,
+                                  currentUser: widget.currentUser,
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        style: const ButtonStyle(
+                            backgroundColor:
+                                MaterialStatePropertyAll(darkPink)),
+                        child: const Text(
+                          'Iniciar Desafio',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
                 const SizedBox(
                   height: 20,
                 ),
