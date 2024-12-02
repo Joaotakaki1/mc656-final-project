@@ -39,10 +39,33 @@ class DataBaseController {
         // Acessar a lista de strings
         List<dynamic> listaDeStrings = data['desafios'] as List<dynamic>;
         for (var item in listaDeStrings) {
-          desafios.add(Desafio(desafio: item, tema: tema));
+          desafios.add(Desafio(desafio: item, tema: tema, descricaoCurta: '', descricao: '', pessoasAfetadas: 0, coposPlasticos: 0, impactoQualitativo: []));
         }
       }
     }
+
+    return desafios;
+  }
+
+  static Future<CollectionReference> fetchChallengeDataBase() async {
+      FirebaseFirestore firestroe = FirebaseFirestore.instance;
+      return firestroe.collection('desafios');
+  }
+
+  static Future<List<Desafio>> fetchChallengeTema(String tema) async{
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    // Buscar todos os documentos na coleção 'desafios'
+    QuerySnapshot querySnapshot = await firestore
+        .collection('challenges')
+        .where('desafio.ods', isEqualTo: tema)
+        .get();
+
+    // Mapear os documentos retornados para objetos Desafio
+    List<Desafio> desafios = querySnapshot.docs.map((doc) {
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      return Desafio.fromFirestore(data['desafio']);
+    }).toList();
 
     return desafios;
   }
