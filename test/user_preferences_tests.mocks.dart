@@ -3,7 +3,7 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:mc656finalproject/services/master_controller.dart' as _i2;
+import 'package:mc656finalproject/services/data_base_controller.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -22,8 +22,8 @@ import 'package:mockito/mockito.dart' as _i1;
 /// A class which mocks [MasterController].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockMasterController extends _i1.Mock implements _i2.MasterController {
-  MockMasterController() {
+class MockDataBaseController extends _i1.Mock implements _i2.DataBaseController {
+  MockDataBaseController() {
     _i1.throwOnMissingStub(this);
   }
 }

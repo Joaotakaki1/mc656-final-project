@@ -3,10 +3,7 @@ import 'package:mc656finalproject/components/ods_icon.dart';
 import 'package:mc656finalproject/models/desafio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class MasterController {
-
-  // fazer função para pegar o query e o documentsnapshot, ta usando em todas
-
+class DataBaseController {
   static FirebaseAuth fetchFireBaseAuth() {
     return FirebaseAuth.instance;
   }

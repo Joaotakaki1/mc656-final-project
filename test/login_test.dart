@@ -17,12 +17,10 @@ void main() {
   group('Login Tests', () {
     late MockFirebaseAuth mockAuth;
     late MockUserCredential mockUserCredential;
-    late LoginController loginController;
 
     setUp(() {
       mockAuth = MockFirebaseAuth();
       mockUserCredential = MockUserCredential();
-      loginController = LoginController(firebaseAuth: mockAuth);
     });
 
     test('E-mail cadastrado e senha correta -> Acesso permitido', () async {
@@ -33,9 +31,10 @@ void main() {
 
       when(mockUserCredential.user).thenReturn(MockFirebaseUser());
 
-      final result = await loginController.loginWithEmailPassword(
+      final result = await LoginController.loginWithEmailPassword(
         "teste@teste.com",
         "senha123",
+        mock: mockAuth
       );
 
       expect(result['success'], true);
@@ -48,9 +47,10 @@ void main() {
         password: "senhaerrada",
       )).thenThrow(FirebaseAuthException(code: 'wrong-password'));
 
-      final result = await loginController.loginWithEmailPassword(
+      final result = await LoginController.loginWithEmailPassword(
         "teste@teste.com",
         "senhaerrada",
+        mock: mockAuth
       );
 
       expect(result['success'], false);
@@ -63,9 +63,10 @@ void main() {
         password: "senha123",
       )).thenThrow(FirebaseAuthException(code: 'user-not-found'));
 
-      final result = await loginController.loginWithEmailPassword(
+      final result = await LoginController.loginWithEmailPassword(
         "naoexiste@teste.com",
         "senha123",
+        mock: mockAuth
       );
 
       expect(result['success'], false);

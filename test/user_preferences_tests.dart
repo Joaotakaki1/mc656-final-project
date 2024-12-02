@@ -2,23 +2,23 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mc656finalproject/services/user_preferences_controller.dart';
-import 'package:mc656finalproject/services/master_controller.dart';
+import 'package:mc656finalproject/services/data_base_controller.dart';
 
 // Gera os mocks para o MasterController
-@GenerateMocks([MasterController])
+@GenerateMocks([DataBaseController])
 import 'user_preferences_tests.mocks.dart';
 
 void main() {
   group('UserPreferencesController.getUserPreferences', () {
-    late MockMasterController mockMasterController;
+    late MockDataBaseController mockDataBaseController;
 
     setUp(() {
-      mockMasterController = MockMasterController();
+      mockDataBaseController = MockDataBaseController();
     });
 
     test('Usuário cadastrado -> Lista de preferências retornada', () async {
       // Mocka o comportamento para um usuário cadastrado
-      when(mockMasterController.fetchUserPreferences("valid_user@test.com"))
+      when(mockDataBaseController.fetchUserPreferences("valid_user@test.com"))
           .thenAnswer((_) async => ["ODS1", "ODS2"]);
 
       // Chama o método de teste
@@ -31,7 +31,7 @@ void main() {
 
     test('Usuário não cadastrado -> Retorna nulo', () async {
       // Mocka o comportamento para um usuário não cadastrado
-      when(mockMasterController.fetchUserPreferences("invalid_user@test.com"))
+      when(mockDataBaseController.fetchUserPreferences("invalid_user@test.com"))
           .thenAnswer((_) async => []);
 
       // Chama o método de teste

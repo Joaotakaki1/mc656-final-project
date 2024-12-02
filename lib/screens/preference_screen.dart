@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mc656finalproject/components/ods_icon.dart';
-import 'package:mc656finalproject/services/master_controller.dart';
+import 'package:mc656finalproject/services/data_base_controller.dart';
 import 'package:mc656finalproject/utils/colors.dart';
 import 'package:mc656finalproject/utils/ods.dart';
 import '../models/user.dart';
@@ -156,7 +156,7 @@ class _PreferenceScreen extends State<PreferenceScreen> {
             OutlinedButton(
               onPressed: () async {
                 try {
-                  await MasterController.updateUserPreferences(
+                  await DataBaseController.updateUserPreferences(
                       chosen_ods_components, widget.currentUser.uid);
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
