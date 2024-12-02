@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:mc656finalproject/components/ods_icon.dart';
 import 'package:mc656finalproject/models/desafio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -136,6 +137,20 @@ class DataBaseController {
     } catch (e) {
       print('Erro inesperado: $e');
       return null;
+    }
+  }
+  static Future<void> sendPasswordResetEmail(BuildContext context, String email) async {
+    FirebaseAuth auth = fetchFireBaseAuth();
+    try {
+      await auth.sendPasswordResetEmail(email: email);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Email de redefinição de senha enviado para $email')),
+      );
+    } catch (e) {
+      print('Erro ao enviar email de redefinição de senha: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erro ao enviar email de redefinição de senha: $e')),
+      );
     }
   }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 import 'package:mc656finalproject/models/desafio.dart';
 import 'package:mc656finalproject/models/user.dart';
+import 'package:mc656finalproject/screens/config_screen.dart';
 import 'package:mc656finalproject/screens/daily_progress_screen.dart';
 import 'package:mc656finalproject/services/challenge_controller.dart';
 import 'package:mc656finalproject/screens/preference_screen.dart';
@@ -109,7 +111,19 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontWeight: FontWeight.w700,
                           color: Color.fromRGBO(254, 242, 0, 1)),
                     ),
-                    Image.asset('assets/icons/config.png'),
+                    GestureDetector(
+                      child: Image.asset('assets/icons/config.png'),
+                      onTap: () {
+                        Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ConfigScreen(
+                                  currentUser: widget.currentUser,
+                                ),
+                              ),
+                            );
+                      },
+                    ),
                   ],
                 ),
                 Padding(
