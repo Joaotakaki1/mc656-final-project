@@ -22,7 +22,7 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.10.6' # Especifique uma versão estável explicitamente
+          flutter-version: '3.5.4' # Especifique uma versão estável explicitamente
 
       - name: Verify Flutter Installation
         run: flutter --version
