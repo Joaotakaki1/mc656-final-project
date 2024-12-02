@@ -24,7 +24,8 @@ class UserPreferencesController {
   /// Atualiza as preferências do usuário utilizando o DataBankController.
   static Future<void> updateUserPreferences(String email, Preferences preferences) async {
     try {
-      await DataBaseController.updateUserPreferences(Preferences.preferences, email);
+      List<String> stringPreferences = DataBaseController.turnPreferencesInString(preferences);
+      await DataBaseController.updateUserPreferences(stringPreferences, email);
       log("Preferências atualizadas com sucesso!");
     } catch (e) {
       log("Erro ao atualizar preferências: $e", level: 1000);
