@@ -100,6 +100,24 @@ class DataBaseController {
     return streak;
   }
 
+  static Future<int> fetchUserCoposSalvos(String uid) async {
+    DocumentSnapshot user = await fetchUserDataBase(uid);
+    if (user.exists) {
+      return user['coposSalvos'];
+    } else {
+      return 0;
+    }
+  }
+
+  static Future<int> fetchUserPessoasImpactadas(String uid) async {
+    DocumentSnapshot user = await fetchUserDataBase(uid);
+    if (user.exists) {
+      return user['pessoasImpactadas'];
+    } else {
+      return 0;
+    }
+  }
+
   static List<String> turnODSIconInString(List<OdsIcon> odsIcons) {
     return odsIcons.map((odsIcon) => odsIcon.ods).toList();
   }
@@ -132,6 +150,22 @@ class DataBaseController {
     }
   }
 
+  static Future<void> updateUserCoposSalvos(int coposSalvos, String uid) async {
+    DocumentSnapshot user = await fetchUserDataBase(uid);
+    if (user.exists) {
+      DocumentReference userDoc = user.reference;
+      await userDoc.update({'coposSalvos': coposSalvos});
+    }
+  }
+
+  static Future<void> updateUserPessoasImpactadas(int pessoasImpactadas, String uid) async {
+    DocumentSnapshot user = await fetchUserDataBase(uid);
+    if (user.exists) {
+      DocumentReference userDoc = user.reference;
+      await userDoc.update({'pessoasImpactadas': pessoasImpactadas});
+    }
+  }
+
   static Future<UserCredential?> registerWithEmailPassword(String email, String password, String username) async {
     FirebaseAuth auth = fetchFireBaseAuth();
     CollectionReference firestore = await fetchUserCollection();
@@ -145,6 +179,12 @@ class DataBaseController {
         'username': username,
         'createdAt': FieldValue.serverTimestamp(),
         'hasSetPreferences': false,
+        'preferences': [],
+        'maxStreak': 0,
+        'currentStreak': 0,
+        'coposSalvos': 0,
+        'pessoasImpactadas': 0,
+
       });
       print('Cadastro realizado com sucesso: ${userCredential.user?.uid}');
       return userCredential;

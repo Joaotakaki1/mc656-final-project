@@ -20,6 +20,10 @@ class User {
   /// Preferências do usuário.
   Preferences _preferences;
 
+  int _coposSalvos;
+
+  int _pessoasImpactadas;
+
   /// Construtor padrão.
   User({
     required String email,
@@ -27,14 +31,18 @@ class User {
     required String uid,
     int currentStreak = 0,
     int maxStreak = 0,
+    int coposSalvos = 0,
+    int pessoasImpactadas = 0,
     Preferences? preferences,
   })  : _email = email,
         _username = username,
         _uid = uid,
         _currentStreak = currentStreak,
         _maxStreak = maxStreak,
+        _coposSalvos = coposSalvos,
+        _pessoasImpactadas = pessoasImpactadas,
         _preferences = preferences ?? Preferences();
-
+        
   /// Getters e Setters
   String get email => _email;
   set email(String email) => _email = email;
@@ -50,6 +58,12 @@ class User {
 
   int get maxStreak => _maxStreak;
   set maxStreak(int streak) => _maxStreak = streak;
+
+  int get coposSalvos => _coposSalvos;
+  set coposSalvos(int coposSalvos) => _coposSalvos = coposSalvos;
+
+  int get pessoasImpactadas => _pessoasImpactadas;
+  set pessoasImpactadas(int pessoasImpactadas) => _pessoasImpactadas = pessoasImpactadas;
 
   Preferences get preferences => _preferences;
   set preferences(Preferences preferences) => _preferences = preferences;
@@ -71,6 +85,8 @@ class User {
       'currentStreak': _currentStreak,
       'maxStreak': _maxStreak,
       'preferences': _preferences.toMap(),
+      'coposSalvos': _coposSalvos,
+      'pessoasImpactadas': _pessoasImpactadas,
     };
   }
 
@@ -83,6 +99,8 @@ class User {
       currentStreak: map['currentStreak'] ?? 0,
       maxStreak: map['maxStreak'] ?? 0,
       preferences: Preferences.fromMap(map['preferences'] ?? {}),
+      coposSalvos: map['coposSalvos'] ?? 0,
+      pessoasImpactadas: map['pessoasImpactadas'] ?? 0,
     );
   }
 
