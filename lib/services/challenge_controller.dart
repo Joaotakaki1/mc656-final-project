@@ -20,7 +20,7 @@ class ChallengeController with ChangeNotifier {
   Future<void> loadAllPossibleChallenges() async {
     possibleChallenges.clear(); // Limpa a lista antes de carregar novos desafios
     for (var ods in preferences.preferences) {
-      List<Desafio> challengesByOds = await DataBaseController.fetchDesafioTema(ods);
+      List<Desafio> challengesByOds = await DataBaseController.fetchChallengeTema(ods);
       for (var challenge in challengesByOds) {
         possibleChallenges.add(challenge);
       }
