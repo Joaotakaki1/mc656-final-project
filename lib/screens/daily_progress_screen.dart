@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:mc656finalproject/models/user.dart';
 import 'package:mc656finalproject/services/challenge_controller.dart';
 import 'package:mc656finalproject/utils/colors.dart';
@@ -27,6 +26,10 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
     tasks = widget.desafios.map((desafio) {
       return {
         "name": desafio.desafio,
+        "ods": desafio.tema,
+        "desc": desafio.descricao,
+        "pessoas_afetadas": desafio.pessoasAfetadas,
+        "qnt_copos": desafio.coposPlasticos,
         "completed": false,
       };
     }).toList();
@@ -45,11 +48,41 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
         Future.delayed(const Duration(milliseconds: 800), () {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) =>  SuccessScreen(currentUser: widget.currentUser,)),
+            MaterialPageRoute(builder: (context) => SuccessScreen(currentUser: widget.currentUser)),
           );
         });
       }
     });
+  }
+
+  // Função para mostrar o Dialog com informações do ListTile
+  void showTaskInfoDialog(BuildContext context, Map<String, dynamic> task) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(task["name"]),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: [
+                Text("ODS: ${task["ods"]}"),
+                Text("Descrição: ${task["desc"]}"),
+                Text("Pessoas Afetadas: ${task["pessoas_afetadas"]}"),
+                Text("Quantidade de Copos: ${task["qnt_copos"]}"),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("Fechar"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   // Calcula o progresso com base nas tarefas concluídas
@@ -107,16 +140,24 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                     itemBuilder: (context, index) {
                       final task = tasks[index];
                       return Card(
-                        color:
-                            task["completed"] ? Colors.grey[300] : Colors.white,
+                        color: task["completed"] ? Colors.grey[300] : Colors.white,
                         child: ListTile(
+                          leading: Image.asset('${'assets/icons/ods_icons/' + task["ods"]}.png'), // Adiciona a imagem ao lado esquerdo do título
                           title: Text(task["name"]),
-                          trailing: task["completed"]
-                              ? const Icon(Icons.check, color: Colors.green)
-                              : ElevatedButton(
-                                  onPressed: () => markTaskAsCompleted(index),
-                                  child: const Text("Concluir"),
-                                ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () => showTaskInfoDialog(context, task),
+                                child: const Text("Info"),
+                              ),
+                              const SizedBox(width: 8),
+                              ElevatedButton(
+                                onPressed: () => markTaskAsCompleted(index),
+                                child: const Text("Concluir"),
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },

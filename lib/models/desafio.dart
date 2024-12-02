@@ -36,7 +36,12 @@ class Desafio {
 
   String get tema => _tema;
   set tema(String tema) => _tema = tema;
-
+  String get descricao => _descricao;
+  set descricao(String descricao) => _descricao = descricao;
+  int get pessoasAfetadas => _pessoasAfetadas;
+  set pessoasAfetadas(int pessoasAfetadas) => _pessoasAfetadas = pessoasAfetadas;
+  int get coposPlasticos => _coposPlasticos;
+  set coposPlasticos(int coposPlasticos) => _coposPlasticos = coposPlasticos;
   /// Converte a instância [Desafio] para um mapa (para salvar no Firebase).
   Map<String, dynamic> toMap() {
     return {

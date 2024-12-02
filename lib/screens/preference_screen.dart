@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mc656finalproject/components/ods_icon.dart';
 import 'package:mc656finalproject/screens/home_screen.dart';
+import 'package:mc656finalproject/services/challenge_controller.dart';
 import 'package:mc656finalproject/services/data_base_controller.dart';
 import 'package:mc656finalproject/utils/colors.dart';
 import 'package:mc656finalproject/utils/ods.dart';
+import 'package:provider/provider.dart';
 import '../models/user.dart';
 
 class PreferenceScreen extends StatefulWidget {
@@ -171,12 +173,16 @@ class _PreferenceScreen extends State<PreferenceScreen> {
             const SizedBox(height: 8),
             OutlinedButton(
               onPressed: () async {
+                final challengeController =
+                    Provider.of<ChallengeController>(context, listen: false);
                 try {
                   List<String> stringPreferences =
                       DataBaseController.turnODSIconInString(
                           chosen_ods_components);
                   await DataBaseController.updateUserPreferences(
                       stringPreferences, widget.currentUser.uid);
+                  challengeController.resetAllChallenges();
+                  challengeController.setPreferences(stringPreferences);
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                         content: Text("Preferências setadas com sucesso!")),
