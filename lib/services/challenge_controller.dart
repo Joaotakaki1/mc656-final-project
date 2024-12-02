@@ -63,6 +63,13 @@ class ChallengeController with ChangeNotifier {
     notifyListeners();
   }
 
+  void resetAllChallenges() {
+    possibleChallenges = [];
+    completedChallenges = [];
+    currentChallenges = [];
+    notifyListeners();
+  }
+
   void setPreferences(List<String> newPreferences) {
     preferences.preferences = newPreferences;
     loadAllPossibleChallenges(); // Opcional: recarregar desafios com base nas novas preferências
