@@ -7,6 +7,7 @@ import 'package:mc656finalproject/services/challenge_controller.dart';
 import 'package:mc656finalproject/screens/preference_screen.dart';
 import 'package:mc656finalproject/services/data_base_controller.dart';
 import 'package:mc656finalproject/utils/colors.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   final User currentUser;
@@ -21,7 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
   List<String>? userPreferences;
   Map<String, int>? userStreak;
   List<Desafio> current_challenges = [];
-  ChallengeController challengeController = ChallengeController([]);
   Map<Desafio, bool> challengeCompletionStatus = {};
 
   @override
@@ -32,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _fetchAllData() async {
     try {
+      final challengeController = Provider.of<ChallengeController>(context, listen: false);
       // Fetch user data
       var userSnapshot =
           await DataBaseController.fetchUserDataBase(widget.currentUser.uid);
@@ -173,6 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 // Adicionar a coluna com os desafios atuais
                 OutlinedButton(
                   onPressed: () {
+                    final challengeController = Provider.of<ChallengeController>(context, listen: false);
                     // Adicione a lógica para iniciar o desafio aqui
                     if (challengeController.possibleChallenges.isNotEmpty &&
                         challengeController.currentChallenges.isEmpty) {
