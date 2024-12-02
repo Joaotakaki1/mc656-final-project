@@ -57,7 +57,7 @@ class DataBaseController {
 
     // Buscar todos os documentos na coleção 'desafios'
     QuerySnapshot querySnapshot = await firestore
-        .collection('desafios')
+        .collection('challenges')
         .where('desafio.ods', isEqualTo: tema)
         .get();
 
