@@ -28,10 +28,24 @@ class _PreferenceScreen extends State<PreferenceScreen> {
     }
   }
 
+  Future<void> fetchUserPreferences() async {
+    List<String> userPreferences =
+        await DataBaseController.fetchUserPreferences(widget.currentUser.uid);
+    setState(() {
+      chosen_ods_components = available_ods_components
+          .where((icon) => userPreferences.contains(icon.ods))
+          .toList();
+      available_ods_components = available_ods_components
+          .where((icon) => !userPreferences.contains(icon.ods))
+          .toList();
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     generateIcons(); // Gera os ícones assim que a tela for criada
+    fetchUserPreferences();
   }
 
   @override
