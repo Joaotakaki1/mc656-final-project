@@ -3,7 +3,7 @@ import 'package:mc656finalproject/components/ods_icon.dart';
 import 'package:mc656finalproject/models/desafio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class DataBankController {
+class DataBaseController {
   static FirebaseAuth fetchFireBaseAuth() {
     return FirebaseAuth.instance;
   }
@@ -48,13 +48,15 @@ class DataBankController {
     return desafios;
   }
 
-  static Future<List<String>> fetchUserPreferences(String uid) async {
-    DocumentSnapshot user = await fetchUserDataBase(uid);
-    List<String> preferences = [];
-    if (user.exists) {
-      preferences = List<String>.from(user['preferences']);
+  Future<List<String>> fetchUserPreferences(String email) async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    DocumentSnapshot userDoc = await firestore.collection('users').doc(email).get();
+    if (userDoc.exists) {
+      List<String> preferences = List<String>.from(userDoc['preferences']);
+      return preferences;
+    } else {
+      return [];
     }
-    return preferences;
   }
 
   static Future<Map<String, int>> fetchUserStreak(String uid) async {

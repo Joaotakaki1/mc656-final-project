@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'data_bank_controller.dart';
+import 'data_base_controller.dart';
 import '../models/desafio.dart';
 import '../models/preferences.dart';
 
@@ -18,7 +18,7 @@ class ChallengeController {
   Future<void> loadAllPossibleChallenges() async {
     possibleChallenges.clear(); // Limpa a lista antes de carregar novos desafios
     for (var ods in preferences.preferences) {
-      List<Desafio> challengesByOds = await DataBankController.fetchDesafioTema(ods);
+      List<Desafio> challengesByOds = await DataBaseController.fetchDesafioTema(ods);
       for (var challenge in challengesByOds) {
         possibleChallenges.add(challenge);
       }
