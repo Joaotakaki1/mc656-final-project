@@ -1,5 +1,4 @@
 import 'dart:js';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mc656finalproject/models/user.dart' as UserClass;
@@ -17,48 +16,68 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreen extends State<SignUpScreen> {
-  // Controladores para capturar o texto dos campos de usuário e senha
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
-  bool _isLoading =
-      false; // Variável para controlar a visibilidade do indicador de progresso
+  bool _isLoading = false;
+
+  void _showPasswordRequirements(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Requisitos da Senha'),
+          content: const Text(
+            'A senha deve ter:\n'
+            '- No mínimo 8 caracteres;\n'
+            '- Ao menos 1 letra;\n'
+            '- Ao menos 1 número;\n'
+            '- Ao menos 1 caracter especial (por exemplo, .-@!?*#)',
+            style: TextStyle(fontSize: 16.0),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Fechar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          // Imagem de fundo
           Container(
-            width: double.infinity, // Define a largura para ocupar toda a tela
+            width: double.infinity,
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/images/background.png"),
-                fit: BoxFit
-                    .fitWidth, // Ajusta a imagem para a largura da tela, mantendo a proporção
-                alignment: Alignment.bottomCenter, // Alinha a imagem no topo
+                fit: BoxFit.fitWidth,
+                alignment: Alignment.bottomCenter,
               ),
             ),
           ),
-          // Conteúdo da tela
           Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32.0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Logo
                   Image.asset(
-                    'assets/images/logo.png', // Coloque o caminho para a logo
-                    width: 250, // Ajuste o tamanho da logo
+                    'assets/images/logo.png',
+                    width: 250,
                     height: 250,
                   ),
                   const SizedBox(height: 24.0),
-                  // Campo de usuário
                   AppTextField(
                     controller: _usernameController,
                     text: 'Usuário',
@@ -77,14 +96,26 @@ class _SignUpScreen extends State<SignUpScreen> {
                     password: false,
                   ),
                   const SizedBox(height: 16.0),
-                  // Campo de senha
-                  AppTextField(
-                    controller: _passwordController,
-                    text: 'Senha',
-                    vPadding: 10.0,
-                    hPadding: 20.0,
-                    bRadius: 30.0,
-                    password: true,
+                  // Campo de senha com botão de ajuda
+                  Stack(
+                    alignment: Alignment.centerRight,
+                    children: [
+                      AppTextField(
+                        controller: _passwordController,
+                        text: 'Senha',
+                        vPadding: 10.0,
+                        hPadding: 20.0,
+                        bRadius: 30.0,
+                        password: true,
+                      ),
+                      IconButton(
+                        onPressed: () => _showPasswordRequirements(context),
+                        icon: const Icon(
+                          Icons.help_outline,
+                          color: Colors.black54,
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 16.0),
                   AppTextField(
@@ -96,25 +127,24 @@ class _SignUpScreen extends State<SignUpScreen> {
                     password: true,
                   ),
                   const SizedBox(height: 16.0),
-                  // Botão de Cadastro
                   OutlinedButton(
                     onPressed: () async {
                       setState(() {
-                        _isLoading = true; // Mostrar o indicador de progresso
+                        _isLoading = true;
                       });
                       SignUpController.signUpCheck(
                         _passwordController.text,
                         _confirmPasswordController.text,
                         _usernameController.text,
                         _emailController.text,
-                        context
+                        context,
                       );
                       setState(() {
-                        _isLoading = false; // Ocultar o indicador de progresso
+                        _isLoading = false;
                       });
                     },
                     style: OutlinedButton.styleFrom(
-                      backgroundColor: Colors.white, // Cor do texto do botão
+                      backgroundColor: Colors.white,
                       side: const BorderSide(color: darkPink, width: 2.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
@@ -138,7 +168,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                       Navigator.of(context).pop();
                     },
                     style: OutlinedButton.styleFrom(
-                      backgroundColor: Colors.white, // Cor do texto do botão
+                      backgroundColor: Colors.white,
                       side: const BorderSide(color: darkPink, width: 2.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
@@ -158,11 +188,9 @@ class _SignUpScreen extends State<SignUpScreen> {
               ),
             ),
           ),
-          // Indicador de progresso
           if (_isLoading)
             Container(
-              color:
-                  Colors.black.withOpacity(0.5), // Fundo escuro com opacidade
+              color: Colors.black.withOpacity(0.5),
               child: const Center(
                 child: CircularProgressIndicator(),
               ),
