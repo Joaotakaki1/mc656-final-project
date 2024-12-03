@@ -71,22 +71,24 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
         return AlertDialog(
           title: Text(
             task["name"],
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           content: SingleChildScrollView(
             child: ListBody(
               children: [
                 Text(
                   "ODS: ${task["ods"]}",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+
                 ),
                 const SizedBox(height: 8),
                 Text(
                   task["desc"],
-                  style: TextStyle(fontWeight: FontWeight.normal),
+                  style: const TextStyle(fontWeight: FontWeight.normal),
                 ),
                 const SizedBox(height: 16),
-                Text(
+                const Text(
+
                   "Pessoas Afetadas:",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
@@ -99,10 +101,10 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                 const SizedBox(height: 8),
                 Text(
                   "${task["pessoas_afetadas"]} / 40",
-                  style: TextStyle(fontWeight: FontWeight.normal),
+                  style: const TextStyle(fontWeight: FontWeight.normal),
                 ),
                 const SizedBox(height: 16),
-                Text(
+                const Text(
                   "Quantidade de Copos:",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
@@ -115,7 +117,7 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                 const SizedBox(height: 8),
                 Text(
                   "${task["qnt_copos"]} / 40",
-                  style: TextStyle(fontWeight: FontWeight.normal),
+                  style: const TextStyle(fontWeight: FontWeight.normal),
                 ),
               ],
             ),
