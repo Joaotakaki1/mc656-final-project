@@ -7,7 +7,6 @@ import 'package:mc656finalproject/utils/colors.dart';
 import 'package:mc656finalproject/utils/ods.dart';
 import 'package:provider/provider.dart';
 import '../models/user.dart';
-import 'package:mc656finalproject/screens/home_screen.dart';
 
 class PreferenceScreen extends StatefulWidget {
   final User currentUser;
@@ -196,12 +195,12 @@ class _PreferenceScreen extends State<PreferenceScreen> {
                   );
                   print(e);
                 }
-                Navigator.pushReplacement(
+                Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => HomeScreen(
-                          currentUser: widget.currentUser,
-                          )),
+                    builder: (context) =>
+                        HomeScreen(currentUser: widget.currentUser),
+                  ),
                 );
               },
               style: const ButtonStyle(

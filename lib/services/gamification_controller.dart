@@ -1,60 +1,60 @@
-import 'package:flutter/material.dart';
-import 'package:mc656finalproject/screens/daily_progress_screen.dart';
-import 'package:mc656finalproject/services/challenge_controller.dart';
 import 'package:mc656finalproject/services/data_base_controller.dart';
-import '../models/desafio.dart';
-import 'package:provider/provider.dart';
-
-// fazer as coisas serem diarias, diferença de 1 dia, e nao qualquer diferença de dias
+import '../models/user.dart';
 
 /// Controlador responsável pela lógica de gamificação.
 class GamificationController {
-  int copos = 0;
-  int pessoas = 0;
+  String uid;
+  bool concluido;
 
-  static void milestoneStreak(bool concluiu, String user) async {
-    int currentStreak = await getCurrentStreak(user);
-    int maxStreak = await getMaxStreak(user);
-    if (concluiu) {
-      currentStreak += 1;
-      updateUserCurrentStreak(currentStreak, user);
-      if (currentStreak > maxStreak) {
-        maxStreak = currentStreak;
-        updateUserMaxStreak(maxStreak, user);
+  GamificationController({required this.uid, required this.concluido}) {
+    getCurrentDate();
+    getLastDate();
+    getStreaks();
+    changeDailyChallenges();
+  }
+
+  int currentStreak = 0;
+  int maxStreak = 0;
+  String currentDate = '';
+  String lastLogin = '';
+
+  void getCurrentDate() {
+    currentDate = DateTime.now().toIso8601String().split('T')[0];
+  }
+
+  Future<void> getLastDate() async {
+    lastLogin = await DataBaseController.fetchUserLastLogin(uid);
+  }
+
+  void changeDailyChallenges() {
+    if (currentDate != lastLogin) {
+      if (concluido) {
+        currentStreak += 3;
+        updateUserCurrentStreak();
+        if (currentStreak > maxStreak) {
+          maxStreak = currentStreak;
+          updateUserMaxStreak();
+        }
+      } else if (!concluido) {
+        currentStreak = 0;
+        updateUserCurrentStreak();
       }
-    } else if (!concluiu) {
-      currentStreak = 0;
-      updateUserCurrentStreak(currentStreak, user);
+    //pedir 3 novas challenges
     }
   }
 
-  void milestoneImpact(List<Desafio> completedChallenges) {
-    // fazer o cálculo dos impactos de acordo com os desafios concluidos
+  /// Retorna a sequência atual do usuário, buscando do Firestore.
+  void getStreaks() async {
+    Map<String, dynamic> streaks = await DataBaseController.fetchUserStreak(uid);
+    currentStreak = streaks['currentStreak'];
+    maxStreak = streaks['maxStreak'];
   }
 
-  static Future<int> getCurrentStreak(String user) async {
-    Map<String, dynamic> streaks = await DataBaseController.fetchUserStreak(user);
-    return streaks['currentStreak'];
-  }
-  
-  static Future<int> getMaxStreak(String user) async {
-    Map<String, dynamic> streaks = await DataBaseController.fetchUserStreak(user);
-    return streaks['maxStreak'];
+  void updateUserMaxStreak() {
+    DataBaseController.updateUserMaxStreak(maxStreak, uid);
   }
 
-  static void updateUserMaxStreak(int max, String user) {
-    DataBaseController.updateUserMaxStreak(max, user);
-  }
-
-  static void updateUserCurrentStreak(int current, String user) {
-    DataBaseController.updateUserCurrentStreak(current, user);
-  }
-
-  static Future<String> getCurrentDate(String uid) async {
-    return await DataBaseController.fetchUserCurrentLogin(uid);
-  }
-
-  static Future<String> getLastDate(String uid) async {
-    return await DataBaseController.fetchUserLastLogin(uid);
+  void updateUserCurrentStreak() {
+    DataBaseController.updateUserCurrentStreak(currentStreak, uid);
   }
 }

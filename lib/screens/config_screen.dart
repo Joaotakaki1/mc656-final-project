@@ -34,9 +34,16 @@ class ConfigScreen extends StatelessWidget {
                           color: Color.fromRGBO(254, 242, 0, 1)),
                     ),
                     GestureDetector(
-                      child: Image.asset('assets/icons/home.png'),
+                      child: Image.asset('assets/icons/config.png'),
                       onTap: () {
-                        Navigator.of(context).pop();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ConfigScreen(
+                              currentUser: currentUser,
+                            ),
+                          ),
+                        );
                       },
                     ),
                   ],

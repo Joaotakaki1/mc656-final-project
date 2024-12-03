@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 import 'package:mc656finalproject/models/desafio.dart';
 import 'package:mc656finalproject/models/user.dart';
@@ -7,7 +8,6 @@ import 'package:mc656finalproject/screens/daily_progress_screen.dart';
 import 'package:mc656finalproject/services/challenge_controller.dart';
 import 'package:mc656finalproject/screens/preference_screen.dart';
 import 'package:mc656finalproject/services/data_base_controller.dart';
-import 'package:mc656finalproject/services/gamification_controller.dart';
 import 'package:mc656finalproject/utils/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Map<String, int>? userStreak;
   List<Desafio> current_challenges = [];
   Map<Desafio, bool> challengeCompletionStatus = {};
-  bool concluiuDaily = false;
 
   @override
   void initState() {
@@ -80,12 +79,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         );
       }
-
-      var concluiu = await DataBaseController.fetchCompletedChallenges(widget.currentUser.uid);
-      setState(() {
-        concluiuDaily = concluiu;
-      });
-
     } catch (error) {
       print('Erro ao obter documentos: $error');
     }
@@ -122,13 +115,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Image.asset('assets/icons/config.png'),
                       onTap: () {
                         Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ConfigScreen(
-                              currentUser: widget.currentUser,
-                            ),
-                          ),
-                        );
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ConfigScreen(
+                                  currentUser: widget.currentUser,
+                                ),
+                              ),
+                            );
                       },
                     ),
                   ],
@@ -185,6 +178,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 style: const TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.w700),
                               )
+
+
                             ],
                           ),
                         ),
@@ -196,7 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 50,
                 ),
                 // Adicionar a coluna com os desafios atuais
-                (concluiuDaily) //challengeController.completedChallenges.isNotEmpty
+                (challengeController.completedChallenges.isNotEmpty)
                     ? Center(
                         child: Column(
                           children: [
@@ -227,7 +222,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           if (challengeController
                                   .possibleChallenges.isNotEmpty &&
                               challengeController.currentChallenges.isEmpty) {
-                                print('entrou no randomize');
                             challengeController.randomizeChallenges();
                             setState(() {
                               current_challenges =
@@ -244,7 +238,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => DailyProgressScreen(
-                                  desafios: challengeController.currentChallenges,
+                                  desafios: current_challenges,
                                   currentUser: widget.currentUser,
                                 ),
                               ),
