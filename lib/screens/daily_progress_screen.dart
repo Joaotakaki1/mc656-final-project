@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mc656finalproject/models/user.dart';
 import 'package:mc656finalproject/services/challenge_controller.dart';
+import 'package:mc656finalproject/services/gamification_controller.dart';
 import 'package:mc656finalproject/utils/colors.dart';
 import 'package:provider/provider.dart';
 import 'background_challenge_screen.dart';
 import 'success_screen.dart';
 import 'package:mc656finalproject/models/desafio.dart';
+import 'package:mc656finalproject/services/data_base_controller.dart';
 
 class DailyProgressScreen extends StatefulWidget {
   final List<Desafio> desafios;
@@ -44,7 +46,8 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
       challengeController.completedChallenge(completedDesafio);
       // Verifica se todas as tarefas foram concluídas
       if (tasks.every((task) => task["completed"])) {
-        //TODO: aumentar 1 
+        DataBaseController.updateCompletedChallenges(widget.currentUser.uid, true);
+        GamificationController.milestoneStreak(true, widget.currentUser.uid);
         Future.delayed(const Duration(milliseconds: 800), () {
           Navigator.pushReplacement(
             context,
