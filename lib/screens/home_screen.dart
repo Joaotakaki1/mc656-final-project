@@ -114,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       'Seja bem vindo, ' + (userData?['username'] ?? ''),
                       style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 18,
                           fontWeight: FontWeight.w700,
                           color: Color.fromRGBO(254, 242, 0, 1)),
                     ),
@@ -160,11 +160,23 @@ class _HomeScreenState extends State<HomeScreen> {
                               const SizedBox(
                                 width: 10,
                               ),
-                              Text(
-                                'Você está a ${userStreak?['currentStreak'] ?? '0'} dias transbordando!',
+                            RichText(
+                              text: TextSpan(
                                 style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w700),
-                              )
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.black, // Certifique-se de definir a cor do texto
+                                ),
+                                children: [
+                                  const TextSpan(text: 'Você está a '),
+                                  TextSpan(
+                                    text: '${userStreak?['currentStreak'] ?? '0'}',
+                                    style: const TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  const TextSpan(text: ' dias transbordando!'),
+                                ],
+                              ),
+                            )
                             ],
                           ),
                         ),
@@ -180,10 +192,22 @@ class _HomeScreenState extends State<HomeScreen> {
                               const SizedBox(
                                 width: 10,
                               ),
-                              Text(
-                                'Sua melhor sequencia foi ${userStreak?['maxStreak'] ?? '0'} dias',
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w700),
+                              RichText(
+                                text: TextSpan(
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.black, // Certifique-se de definir a cor do texto
+                                  ),
+                                  children: [
+                                    const TextSpan(text: 'Sua melhor sequencia foi '),
+                                    TextSpan(
+                                      text: '${userStreak?['currentStreak'] ?? '0'}',
+                                      style: const TextStyle(fontWeight: FontWeight.bold),
+                                    ),
+                                    const TextSpan(text: ' dias.'),
+                                  ],
+                                ),
                               )
                             ],
                           ),
