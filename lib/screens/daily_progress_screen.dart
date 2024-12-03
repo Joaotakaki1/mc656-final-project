@@ -178,7 +178,7 @@ Widget build(BuildContext context) {
                                 child: const Text("Info"),
                               ),
                               const SizedBox(width: 8),
-                              task["completed"]
+                              tasks[0]["completed"]
                               ? const Icon(Icons.check, color: Colors.green)
                               :
                               ElevatedButton(

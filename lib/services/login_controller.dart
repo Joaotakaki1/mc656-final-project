@@ -1,6 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mc656finalproject/services/data_base_controller.dart';
-import 'package:mc656finalproject/services/gamification_controller.dart';
 
 class LoginController {
   LoginController();
@@ -16,20 +14,6 @@ class LoginController {
         email: email,
         password: password
       );
-
-      // Guardar a data do login no banco de dados
-      await DataBaseController.updateUserLastLogin(userCredential.user?.uid);
-      await DataBaseController.updateUserCurrentLogin(userCredential.user?.uid);
-      final current = await DataBaseController.fetchUserCurrentLogin(userCredential.user?.uid);
-      final last = await DataBaseController.fetchUserLastLogin(userCredential.user?.uid);
-      if (current != last) {
-        bool concluiu = await DataBaseController.fetchCompletedChallenges((userCredential.user?.uid)!);
-        if (!concluiu) {
-          GamificationController.milestoneStreak(concluiu, (userCredential.user?.uid)!);
-        }
-        await DataBaseController.updateCompletedChallenges((userCredential.user?.uid)!, false);
-      }
-
       return {
         'success': true,
         'message': 'Login feito com sucesso',
