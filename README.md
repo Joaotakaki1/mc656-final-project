@@ -35,11 +35,11 @@ Responsável por acompanhar o progresso do usuário nos desafios, fornecer conqu
 Responsável por acessar o controlador de armazenamento com o objetivo de modificar as preferências do usuário, atualizando-as ou inicializando-as. Este controlador garante uma experiência personalizada, permitindo que as configurações individuais sejam mantidas e aplicadas de forma consistente em cada interação do usuário com o aplicativo.
 ### Controlador de Desafios:
 Responsável por gerar desafios de acordo com as preferências de cada usuário e utiliza dos desafios completos para atualizar o progresso do usuário. Esse controlador contribui para a gamificação do aplicativo, incentivando o usuário a completar os desafios e permitindo um acompanhamento detalhado do seu progresso.
-### Controlador Mestre:
+### Controlador de acesso ao Banco de Dados:
 Responsável por acessar o banco de dados com intuito de extrair, inserir e modificar informações de acordo com as necessidades de cada controlador. Ele atua como intermediário entre a camada de dados e os demais componentes do sistema, garantindo que todas as operações de armazenamento sejam realizadas de maneira eficiente e segura.
 
 ## Padrão de projeto
-Este projeto utiliza o padrão de projeto Facade para simplificar a comunicação entre o banco de dados e outros controladores, como login, cadastro, desafios e preferências do usuário. A implementação do Facade centraliza as operações de escrita e leitura do BD em uma única classe, chamada MasterController, que oferece métodos fáceis de usar para o código principal do aplicativo, promovendo uma arquitetura mais organizada e de fácil manutenção.
+Este projeto utiliza o padrão de projeto Facade para simplificar a comunicação entre o banco de dados e outros controladores, como login, cadastro, desafios e preferências do usuário. A implementação do Facade centraliza as operações de escrita e leitura do BD em uma única classe, chamada DataBankController, que oferece métodos fáceis de usar para o código principal do aplicativo, promovendo uma arquitetura mais organizada e de fácil manutenção.
 
 O uso do Facade traz vários benefícios ao projeto: centraliza as funcionalidades principais (como login, cadastro, obtenção de desafios e atualização de preferências), reduz o acoplamento entre o código da interface do usuário e os controladores específicos e as alterações nos controladores não afetam diretamente o código que usa o Facade. Esse padrão também contribui para a escalabilidade: novos serviços e controladores podem ser adicionados ao projeto sem impactar o código principal, bastando atualizar o MasterController para integrar novas funcionalidades de maneira consistente e simplificada.
 

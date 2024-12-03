@@ -153,17 +153,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                      // Texto "Esqueci minha senha" alinhado à direita
-                      GestureDetector(
-                        onTap: _forgotPassword,
-                        child: const Text(
-                          'Esqueci minha senha',
-                          style: TextStyle(
-                            color: lightPink,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                   const SizedBox(height: 16.0),
