@@ -64,14 +64,54 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(task["name"]),
+          title: Text(
+            task["name"],
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
           content: SingleChildScrollView(
             child: ListBody(
               children: [
-                Text("ODS: ${task["ods"]}"),
-                Text("Descrição: ${task["desc"]}"),
-                Text("Pessoas Afetadas: ${task["pessoas_afetadas"]}"),
-                Text("Quantidade de Copos: ${task["qnt_copos"]}"),
+                Text(
+                  "ODS: ${task["ods"]}",
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  task["desc"],
+                  style: const TextStyle(fontWeight: FontWeight.normal),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  "Pessoas Afetadas:",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 4),
+                LinearProgressIndicator(
+                  value: task["pessoas_afetadas"] / 40,
+                  backgroundColor: Colors.grey[300],
+                  color: Colors.blue,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  "${task["pessoas_afetadas"]} / 40",
+                  style: const TextStyle(fontWeight: FontWeight.normal),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  "Quantidade de Copos:",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 4),
+                LinearProgressIndicator(
+                  value: task["qnt_copos"] / 40,
+                  backgroundColor: Colors.grey[300],
+                  color: Colors.green,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  "${task["qnt_copos"]} / 40",
+                  style: const TextStyle(fontWeight: FontWeight.normal),
+                ),
               ],
             ),
           ),
