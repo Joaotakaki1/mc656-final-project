@@ -1,13 +1,17 @@
 import 'dart:developer';
-import '../models/preferences.dart';
-import 'data_base_controller.dart';
+import 'package:mc656finalproject/models/preferences.dart';
+import 'data_base_proxy.dart';
 
-class UserPreferencesController {
+class UserPreferencesProxy {
+  final DataBaseProxy dbProxy;
+
+  UserPreferencesProxy(this.dbProxy);
+
   /// Recupera as preferências do usuário utilizando o DataBankController.
-  static Future<Preferences?> getUserPreferences(String email) async {
+  Future<Preferences?> getUserPreferences(String email) async {
     try {
       // Busca as preferências do usuário pelo DataBankController.
-      var preferencesList = await DataBaseController.fetchUserPreferences(email);
+      var preferencesList = await dbProxy.fetchUserPreferences(email);
 
       if (preferencesList.isNotEmpty) {
         return Preferences(preferences: preferencesList);
@@ -22,10 +26,10 @@ class UserPreferencesController {
   }
 
   /// Atualiza as preferências do usuário utilizando o DataBankController.
-  static Future<void> updateUserPreferences(String email, Preferences preferences) async {
+  Future<void> updateUserPreferences(String email, Preferences preferences) async {
     try {
-      List<String> stringPreferences = DataBaseController.turnPreferencesInString(preferences);
-      await DataBaseController.updateUserPreferences(stringPreferences, email);
+      List<String> stringPreferences = dbProxy.turnPreferencesInString(preferences);
+      await dbProxy.updateUserPreferences(stringPreferences, email);
       log("Preferências atualizadas com sucesso!");
     } catch (e) {
       log("Erro ao atualizar preferências: $e", level: 1000);
@@ -33,7 +37,7 @@ class UserPreferencesController {
   }
 
   /// Adiciona uma nova preferência para o usuário.
-  static Future<void> addPreference(String email, String preference) async {
+  Future<void> addPreference(String email, String preference) async {
     try {
       Preferences? currentPreferences = await getUserPreferences(email);
       if (currentPreferences != null) {
@@ -52,7 +56,7 @@ class UserPreferencesController {
   }
 
   /// Remove uma preferência do usuário.
-  static Future<void> removePreference(String email, String preference) async {
+  Future<void> removePreference(String email, String preference) async {
     try {
       Preferences? currentPreferences = await getUserPreferences(email);
       if (currentPreferences != null) {
