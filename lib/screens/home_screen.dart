@@ -10,7 +10,6 @@ import 'package:mc656finalproject/services/data_base_controller.dart';
 import 'package:mc656finalproject/services/gamification_controller.dart';
 import 'package:mc656finalproject/utils/colors.dart';
 import 'package:provider/provider.dart';
-import 'package:fl_chart/fl_chart.dart';
 
 class HomeScreen extends StatefulWidget {
   final User currentUser;
@@ -96,7 +95,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final challengeController =
         Provider.of<ChallengeController>(context, listen: false);
-    GamificationController.changeDailyChallenges(widget.currentUser.uid, context);
     return Scaffold(
       body: Stack(
         children: [
@@ -183,7 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 width: 10,
                               ),
                               Text(
-                                'Sua melhor sequencia foi ${userStreak?['maxStreak'] ?? '0'}  dias',
+                                'Sua melhor sequencia foi ${userStreak?['maxStreak'] ?? '0'} dias',
                                 style: const TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.w700),
                               )
@@ -229,6 +227,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           if (challengeController
                                   .possibleChallenges.isNotEmpty &&
                               challengeController.currentChallenges.isEmpty) {
+                                print('entrou no randomize');
                             challengeController.randomizeChallenges();
                             setState(() {
                               current_challenges =
@@ -245,7 +244,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => DailyProgressScreen(
-                                  desafios: current_challenges,
+                                  desafios: challengeController.currentChallenges,
                                   currentUser: widget.currentUser,
                                 ),
                               ),

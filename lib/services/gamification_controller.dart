@@ -32,17 +32,6 @@ class GamificationController {
     // fazer o cálculo dos impactos de acordo com os desafios concluidos
   }
 
-  static void changeDailyChallenges(String uid, BuildContext context) {
-    var currentDate = getCurrentDate(uid);
-    var lastLogin = getLastDate(uid);
-    if (currentDate != lastLogin) {
-      final challengeController =
-        Provider.of<ChallengeController>(context, listen: false);
-      challengeController.resetAllChallenges();
-      challengeController.randomizeChallenges();
-      }
-    }
-
   static Future<int> getCurrentStreak(String user) async {
     Map<String, dynamic> streaks = await DataBaseController.fetchUserStreak(user);
     return streaks['currentStreak'];
