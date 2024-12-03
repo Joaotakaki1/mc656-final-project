@@ -44,11 +44,6 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
       tasks[index]["completed"] = true;
       final completedDesafio = widget.desafios.firstWhere((desafio) => desafio.desafio == tasks[index]["name"]);
       challengeController.completedChallenge(completedDesafio);
-
-      // Move a tarefa concluída para o final da lista
-      final completedTask = tasks.removeAt(index);
-      tasks.add(completedTask);
-
       // Verifica se todas as tarefas foram concluídas
       if (tasks.every((task) => task["completed"])) {
         DataBaseController.updateCompletedChallenges(widget.currentUser.uid, true);
@@ -69,56 +64,14 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(
-            task["name"],
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
+          title: Text(task["name"]),
           content: SingleChildScrollView(
             child: ListBody(
               children: [
-                Text(
-                  "ODS: ${task["ods"]}",
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  task["desc"],
-                  style: const TextStyle(fontWeight: FontWeight.normal),
-                ),
-                const SizedBox(height: 16),
-                const Text(
-
-                  "Pessoas Afetadas:",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 4),
-                LinearProgressIndicator(
-                  value: task["pessoas_afetadas"] / 40,
-                  backgroundColor: Colors.grey[300],
-                  color: Colors.blue,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  "${task["pessoas_afetadas"]} / 40",
-                  style: const TextStyle(fontWeight: FontWeight.normal),
-                ),
-                const SizedBox(height: 16),
-                const Text(
-                  "Quantidade de Copos:",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 4),
-                LinearProgressIndicator(
-                  value: task["qnt_copos"] / 40,
-                  backgroundColor: Colors.grey[300],
-                  color: Colors.green,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  "${task["qnt_copos"]} / 40",
-                  style: const TextStyle(fontWeight: FontWeight.normal),
-                ),
+                Text("ODS: ${task["ods"]}"),
+                Text("Descrição: ${task["desc"]}"),
+                Text("Pessoas Afetadas: ${task["pessoas_afetadas"]}"),
+                Text("Quantidade de Copos: ${task["qnt_copos"]}"),
               ],
             ),
           ),
@@ -141,40 +94,64 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
     return completedTasks / tasks.length;
   }
 
- @override
-Widget build(BuildContext context) {
-  final Size screenSize = MediaQuery.of(context).size;
-  final double screenHeight = screenSize.height;
-
-
-  return Scaffold(
-    appBar: AppBar(
-      title: Text('Daily Progress'),
-    ),
-    body: Stack(
-      children: [
-       
-        // Colocando os cards sobre o fundo
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              const SizedBox(height: 20),
-              Expanded(
-                child: Column(
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          // Fundo animado com base no progresso
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOut,
+              height: MediaQuery.of(context).size.height * progress,
+              width: double.infinity,
+              child: BackgroundChallengeScreen(progress: progress),
+            ),
+          ),
+          // Conteúdo principal da tela
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Row(
                   children: [
-                    // Primeiro Card
-                    Expanded(
-                      child: Card(
-                        color: tasks[0]["completed"] ? Colors.grey[300] : Colors.white,
+                    GestureDetector(
+                      child: Image.asset('assets/icons/return.png', width: 40),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    const SizedBox(
+                      width: 45,
+                    ),
+                    const Text(
+                      "Fill it up!",
+                      style: TextStyle(
+                        fontSize: 45,
+                        fontWeight: FontWeight.bold,
+                        color: darkPink,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: tasks.length,
+                    itemBuilder: (context, index) {
+                      final task = tasks[index];
+                      return Card(
+                        color: task["completed"] ? Colors.grey[300] : Colors.white,
                         child: ListTile(
-                          leading: Image.asset('assets/icons/ods_icons/${tasks[0]["ods"]}.png'),
-                          title: Text(tasks[0]["name"]),
+                          leading: Image.asset('${'assets/icons/ods_icons/' + task["ods"]}.png'), // Adiciona a imagem ao lado esquerdo do título
+                          title: Text(task["name"]),
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               ElevatedButton(
-                                onPressed: () => showTaskInfoDialog(context, tasks[0]),
+                                onPressed: () => showTaskInfoDialog(context, task),
                                 child: const Text("Info"),
                               ),
                               const SizedBox(width: 8),
@@ -182,90 +159,21 @@ Widget build(BuildContext context) {
                               ? const Icon(Icons.check, color: Colors.green)
                               :
                               ElevatedButton(
-                                onPressed: () => markTaskAsCompleted(0),
+                                onPressed: () => markTaskAsCompleted(index),
                                 child: const Text("Concluir"),
                               ),
                             ],
                           ),
                         ),
-                      ),
-                    ),
-                    const Spacer(),
-
-                    // Segundo Card
-                    
-                    Expanded(
-                      child: Card(
-                        color: tasks[1]["completed"] ? Colors.grey[300] : Colors.white,
-                        child: ListTile(
-                          leading: Image.asset('assets/icons/ods_icons/${tasks[1]["ods"]}.png'),
-                          title: Text(tasks[1]["name"]),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              ElevatedButton(
-                                onPressed: () => showTaskInfoDialog(context, tasks[1]),
-                                child: const Text("Info"),
-                              ),
-                              const SizedBox(width: 8),
-                              ElevatedButton(
-                                onPressed: () => markTaskAsCompleted(1),
-                                child: const Text("Concluir"),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    const Spacer(),
-
-                    // Terceiro Card
-                    Expanded(
-                      child: Card(
-                        color: tasks[2]["completed"] ? Colors.grey[300] : Colors.white,
-                        child: ListTile(
-                          leading: Image.asset('assets/icons/ods_icons/${tasks[2]["ods"]}.png'),
-                          title: Text(tasks[2]["name"]),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              ElevatedButton(
-                                onPressed: () => showTaskInfoDialog(context, tasks[2]),
-                                child: const Text("Info"),
-                              ),
-                              const SizedBox(width: 8),
-                              ElevatedButton(
-                                onPressed: () => markTaskAsCompleted(2),
-                                child: const Text("Concluir"),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ),
-         // Fundo animado com base no progresso
-        Positioned.fill(
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 500),
-              curve: Curves.easeInOut,
-              height: screenHeight * progress, // Isso faz com que ocupe toda a altura disponível
-              width: double.infinity,  // Isso faz com que ocupe toda a largura disponível
-              child: BackgroundChallengeScreen(progress: progress),
+              ],
             ),
           ),
-        ),
-      ],
-    ),
-  );
+        ],
+      ),
+    );
+  }
 }
-}
-
-
