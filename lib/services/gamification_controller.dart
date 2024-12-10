@@ -17,6 +17,8 @@ class GamificationController {
   int maxStreak = 0;
   String currentDate = '';
   String lastLogin = '';
+  int copos = 0;
+  int pessoas = 0;
 
   void getCurrentDate() {
     currentDate = DateTime.now().toIso8601String().split('T')[0];
@@ -29,7 +31,7 @@ class GamificationController {
   void changeDailyChallenges() {
     if (currentDate != lastLogin) {
       if (concluido) {
-        currentStreak += 3;
+        currentStreak += 1;
         updateUserCurrentStreak();
         if (currentStreak > maxStreak) {
           maxStreak = currentStreak;

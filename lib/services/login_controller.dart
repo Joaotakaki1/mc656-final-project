@@ -17,7 +17,8 @@ class LoginController {
       );
 
       // Guardar a data do login no banco de dados
-      DataBaseController.updateUserLastLogin(userCredential.user?.uid);
+      await DataBaseController.updateUserLastLogin(userCredential.user?.uid);
+      await DataBaseController.updateUserCurrentLogin(userCredential.user?.uid);
       return {
         'success': true,
         'message': 'Login feito com sucesso',
