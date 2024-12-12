@@ -71,8 +71,8 @@ class DataBaseController {
     return desafios;
   }
 
-  static Future<String> fetchUserLastLogin(String uid) async {
-    DocumentSnapshot userDoc = await fetchUserDataBase(uid);
+  static Future<String> fetchUserLastLogin(String? uid) async {
+    DocumentSnapshot userDoc = await fetchUserDataBase(uid!);
     if (userDoc.exists) {
       return userDoc['lastLogin'];
     } else { 
@@ -86,8 +86,8 @@ class DataBaseController {
     await user.update({'lastLogin': userDoc['currentLogin']});
   }
 
-  static Future<String> fetchUserCurrentLogin(String uid) async {
-    DocumentSnapshot userDoc = await fetchUserDataBase(uid);
+  static Future<String> fetchUserCurrentLogin(String? uid) async {
+    DocumentSnapshot userDoc = await fetchUserDataBase(uid!);
     if (userDoc.exists) {
       return userDoc['currentLogin'];
     } else { 
@@ -100,8 +100,8 @@ class DataBaseController {
     await user.update({'currentLogin': DateTime.now().toIso8601String().split('T')[0]});
   }
 
-  static Future<List<String>> fetchUserPreferences(String email) async {
-    DocumentSnapshot userDoc = await fetchUserDataBase(email);
+  static Future<List<String>> fetchUserPreferences(String uid) async {
+    DocumentSnapshot userDoc = await fetchUserDataBase(uid);
     if (userDoc.exists) {
       List<String> preferences = List<String>.from(userDoc['preferences']);
       return preferences;
@@ -186,6 +186,23 @@ class DataBaseController {
     }
   }
 
+  static Future<bool> fetchCompletedChallenges(String uid) async {
+    DocumentSnapshot user = await fetchUserDataBase(uid);
+    if (user.exists) {
+      return user['concluiuDaily'];
+    } else {
+      return false;
+    }
+  }
+
+  static void updateCompletedChallenges(String uid, bool concluiu) async {
+    DocumentSnapshot user = await fetchUserDataBase(uid);
+    if (user.exists) {
+      DocumentReference userDoc = user.reference;
+      await userDoc.update({'concluiuDaily': concluiu});
+    }
+  }
+
   static Future<UserCredential?> registerWithEmailPassword(String email, String password, String username) async {
     FirebaseAuth auth = fetchFireBaseAuth();
     CollectionReference firestore = await fetchUserCollection();
@@ -205,7 +222,8 @@ class DataBaseController {
         'coposSalvos': 0,
         'pessoasImpactadas': 0,
         'lastLogin': '',
-        'currentLogin': DateTime.now().toIso8601String().split('T')[0]
+        'currentLogin': DateTime.now().toIso8601String().split('T')[0],
+        'concluiuDaily': false
       });
       print('Cadastro realizado com sucesso: ${userCredential.user?.uid}');
       return userCredential;
