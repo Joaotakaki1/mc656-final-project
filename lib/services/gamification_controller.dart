@@ -15,11 +15,16 @@ class GamificationController {
   static void milestoneStreak(bool concluiu, String user) async {
     int currentStreak = await getCurrentStreak(user);
     int maxStreak = await getMaxStreak(user);
-    currentStreak += 1;
-    updateUserCurrentStreak(currentStreak, user);
-    if (currentStreak > maxStreak) {
-      maxStreak = currentStreak;
-      updateUserMaxStreak(maxStreak, user);
+    if (concluiu) {
+      currentStreak += 1;
+      updateUserCurrentStreak(currentStreak, user);
+      if (currentStreak > maxStreak) {
+        maxStreak = currentStreak;
+        updateUserMaxStreak(maxStreak, user);
+      }
+    } else if (!concluiu) {
+      currentStreak = 0;
+      updateUserCurrentStreak(currentStreak, user);
     }
   }
 
@@ -36,10 +41,6 @@ class GamificationController {
       challengeController.resetAllChallenges();
       challengeController.randomizeChallenges();
       }
-      // bool concluiu = await DataBaseController.fetchCompletedChallenges(uid);
-      // if (!concluiu) {
-
-      //}
     }
 
   static Future<int> getCurrentStreak(String user) async {

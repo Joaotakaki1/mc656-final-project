@@ -195,7 +195,7 @@ class DataBaseController {
     }
   }
 
-  static void updateCompletedChallenges(String uid, bool concluiu) async {
+  static Future<void> updateCompletedChallenges(String uid, bool concluiu) async {
     DocumentSnapshot user = await fetchUserDataBase(uid);
     if (user.exists) {
       DocumentReference userDoc = user.reference;

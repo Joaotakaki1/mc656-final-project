@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mc656finalproject/services/data_base_controller.dart';
+import 'package:mc656finalproject/services/gamification_controller.dart';
 
 class LoginController {
   LoginController();
@@ -20,12 +21,13 @@ class LoginController {
       await DataBaseController.updateUserLastLogin(userCredential.user?.uid);
       await DataBaseController.updateUserCurrentLogin(userCredential.user?.uid);
       final current = await DataBaseController.fetchUserCurrentLogin(userCredential.user?.uid);
-      print(current);
       final last = await DataBaseController.fetchUserLastLogin(userCredential.user?.uid);
-      print(last);
-      if (current == last) {
-      } else if (current != last) {
-        DataBaseController.updateCompletedChallenges((userCredential.user?.uid)!, false);
+      if (current != last) {
+        bool concluiu = await DataBaseController.fetchCompletedChallenges((userCredential.user?.uid)!);
+        if (!concluiu) {
+          GamificationController.milestoneStreak(concluiu, (userCredential.user?.uid)!);
+        }
+        await DataBaseController.updateCompletedChallenges((userCredential.user?.uid)!, false);
       }
 
       return {
